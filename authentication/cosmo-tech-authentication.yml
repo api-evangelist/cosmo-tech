@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cosmo-tech-dataset-openapi-original.yaml, openapi/cosmo-tech-meta-openapi-original.yaml,
+  openapi/cosmo-tech-organization-openapi-original.yaml, openapi/cosmo-tech-run-openapi-original.yaml,
+  openapi/cosmo-tech-runner-openapi-original.yaml, openapi/cosmo-tech-solution-openapi-original.yaml,
+  openapi/cosmo-tech-workspace-openapi-original.yaml
+summary:
+  types:
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: oAuth2AuthCode
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/authorize
+    tokenUrl: https://example.com/token
+    scopes: 0
+  description: OAuth2 authentication
+  sources:
+  - openapi/cosmo-tech-dataset-openapi-original.yaml
+  - openapi/cosmo-tech-meta-openapi-original.yaml
+  - openapi/cosmo-tech-organization-openapi-original.yaml
+  - openapi/cosmo-tech-run-openapi-original.yaml
+  - openapi/cosmo-tech-runner-openapi-original.yaml
+  - openapi/cosmo-tech-solution-openapi-original.yaml
+  - openapi/cosmo-tech-workspace-openapi-original.yaml
