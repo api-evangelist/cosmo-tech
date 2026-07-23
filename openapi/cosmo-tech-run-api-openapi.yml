@@ -1,0 +1,671 @@
+openapi: 3.0.3
+info:
+  title: Cosmo Tech Manager dataset run API
+  description: Cosmo Tech Dataset Manager API
+  version: 1.0.0-SNAPSHOT
+servers:
+- url: http://localhost:8080
+security:
+- oAuth2AuthCode: []
+tags:
+- name: run
+  description: Run Management
+paths:
+  /organizations/{organization_id}/workspaces/{workspace_id}/runners/{runner_id}/runs/{run_id}:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/workspaceId'
+    - $ref: '#/components/parameters/runnerId'
+    - $ref: '#/components/parameters/runId'
+    get:
+      operationId: getRun
+      tags:
+      - run
+      description: Retrieve detailed information about a specific run.
+      summary: Get the details of a run
+      responses:
+        '200':
+          description: the Run details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Run'
+              examples:
+                Run:
+                  $ref: '#/components/examples/BreweryRun'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Run'
+              examples:
+                Run:
+                  $ref: '#/components/examples/BreweryRun'
+        '404':
+          description: the Run specified is unknown or you don't have access to it
+    delete:
+      operationId: deleteRun
+      tags:
+      - run
+      summary: Delete a run
+      responses:
+        '204':
+          description: Request succeeded
+        '400':
+          description: Bad request
+        '404':
+          description: the Run specified is unknown or you don't have access to it
+  /organizations/{organization_id}/workspaces/{workspace_id}/runners/{runner_id}/runs/{run_id}/status:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/workspaceId'
+    - $ref: '#/components/parameters/runnerId'
+    - $ref: '#/components/parameters/runId'
+    get:
+      operationId: getRunStatus
+      tags:
+      - run
+      description: Retrieve detailed execution status of a run.
+      summary: get the status for the Run
+      responses:
+        '200':
+          description: the run status details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunStatus'
+              examples:
+                Run:
+                  $ref: '#/components/examples/BreweryRunStatus'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunStatus'
+              examples:
+                Run:
+                  $ref: '#/components/examples/BreweryRunStatus'
+  /organizations/{organization_id}/workspaces/{workspace_id}/runners/{runner_id}/runs/{run_id}/logs:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/workspaceId'
+    - $ref: '#/components/parameters/runnerId'
+    - $ref: '#/components/parameters/runId'
+    get:
+      operationId: getRunLogs
+      tags:
+      - run
+      description: Retrieve execution logs for a run as plain text. Logs are aggregated from all containers. May be truncated for long-running simulations.
+      summary: get the logs for the Run
+      responses:
+        '200':
+          description: the run logs details
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                Run:
+                  $ref: '#/components/examples/BreweryRunLogs'
+  /organizations/{organization_id}/workspaces/{workspace_id}/runners/{runner_id}/runs:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/workspaceId'
+    - $ref: '#/components/parameters/runnerId'
+    get:
+      operationId: listRuns
+      parameters:
+      - name: page
+        in: query
+        description: page number to query (first page is at index 0)
+        required: false
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: amount of result by page
+        required: false
+        schema:
+          type: integer
+      tags:
+      - run
+      description: Retrieve a paginated list of all runs for a specific runner.
+      summary: get the list of Runs for the Runner
+      responses:
+        '200':
+          description: the run details list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Run'
+              examples:
+                OneRun:
+                  $ref: '#/components/examples/OneRun'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Run'
+              examples:
+                OneRun:
+                  $ref: '#/components/examples/OneRun'
+components:
+  examples:
+    BreweryRunLogs:
+      summary: Brewery Run logs example
+      description: Brewery Run logs with plain text example
+      value: '[2021-05-18T16:15:29Z] INFO: Starting run execution
+
+        [2021-05-18T16:15:30Z] INFO: Fetching datasets...
+
+        [2021-05-18T16:15:43Z] INFO: Datasets fetched successfully
+
+        [2021-05-18T16:15:43Z] INFO: Applying parameters...
+
+        [2021-05-18T16:15:53Z] INFO: Parameters applied successfully
+
+        [2021-05-18T16:15:53Z] INFO: Validating data...
+
+        [2021-05-18T16:16:03Z] INFO: Data validated successfully
+
+        [2021-05-18T16:16:03Z] INFO: Starting pre-run container...
+
+        [2021-05-18T16:16:25Z] INFO: Pre-run completed
+
+        [2021-05-18T16:16:25Z] INFO: Starting main simulation...
+
+        [2021-05-18T16:16:42Z] INFO: Simulation completed
+
+        [2021-05-18T16:16:42Z] INFO: Starting post-run container...
+
+        [2021-05-18T16:16:57Z] INFO: Post-run completed
+
+        [2021-05-18T16:16:57Z] INFO: Run completed successfully
+
+        '
+    BreweryRunStatus:
+      summary: Brewery status example
+      description: Brewery Runner Run status example
+      value:
+        id: run-bDMr5lM9Vp
+        organizationId: o-gZVQqV8B4pR7
+        workspaceId: w-OGNQqJ7wP0
+        runnerId: r-EEYpWeM0kW
+        workflowId: workflow-a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        workflowName: workflow-brewery-lsczk
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        startTime: '2021-05-18T16:15:29.000Z'
+        endTime: '2021-05-18T16:17:07.000Z'
+        phase: Succeeded
+        progress: 5/5
+        message: null
+        estimatedDuration: 98
+        state: Successful
+        nodes:
+        - id: node-main-1
+          name: workflow-brewery-lsczk
+          containerName: main
+          estimatedDuration: 98
+          hostNodeName: null
+          message: null
+          phase: Succeeded
+          progress: 5/5
+          startTime: '2021-05-18T16:15:29.000Z'
+          endTime: '2021-05-18T16:17:07.000Z'
+        - id: node-apply-params-1
+          name: workflow-brewery-lsczk.applyParametersContainer
+          containerName: applyParametersContainer
+          estimatedDuration: 14
+          hostNodeName: worker-node-1
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:15:29.000Z'
+          endTime: '2021-05-18T16:15:43.000Z'
+        - id: node-validate-data-1
+          name: workflow-brewery-lsczk.validateDataContainer
+          containerName: validateDataContainer
+          estimatedDuration: 10
+          hostNodeName: worker-node-1
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:15:53.000Z'
+          endTime: '2021-05-18T16:16:03.000Z'
+        - id: node-prerun-1
+          name: workflow-brewery-lsczk.preRunContainer
+          containerName: preRunContainer
+          estimatedDuration: 12
+          hostNodeName: worker-node-1
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:16:13.000Z'
+          endTime: '2021-05-18T16:16:25.000Z'
+        - id: node-run-1
+          name: workflow-brewery-lsczk.runContainer
+          containerName: runContainer
+          estimatedDuration: 7
+          hostNodeName: worker-node-2
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:16:35.000Z'
+          endTime: '2021-05-18T16:16:42.000Z'
+        - id: node-postrun-1
+          name: workflow-brewery-lsczk.postRunContainer
+          containerName: postRunContainer
+          estimatedDuration: 12
+          hostNodeName: worker-node-1
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:16:45.000Z'
+          endTime: '2021-05-18T16:16:57.000Z'
+    BreweryRun:
+      summary: Brewery Run example
+      description: Brewery Run example
+      value:
+        id: run-bDMr5lM9Vp
+        state: Running
+        organizationId: o-gZVQqV8B4pR7
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        workflowId: workflow-a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        csmSimulationRun: sim-a2b3c4d5-e6f7-8901-bcde-f12345678901
+        generateName: workflow-brewery-
+        workflowName: workflow-brewery-lsczk
+        workspaceId: w-OGNQqJ7wP0
+        workspaceKey: Brewery
+        runnerId: r-EEYpWeM0kW
+        solutionId: sol-w4Kn79JXKz
+        runTemplateId: hundred
+        computeSize: basic
+        datasetList:
+        - d-1AbCdEfGhIj
+        - d-2XyZaBcDeFg
+        parametersValues:
+        - parameterId: stock
+          varType: int
+          value: '100'
+        - parameterId: restock
+          varType: int
+          value: '50'
+        nodeLabel: basicpool
+    OneRun:
+      summary: Brewery Run list example
+      description: Brewery Run list example
+      value:
+      - id: run-dEfGhIjKlMn
+        state: Successful
+        organizationId: o-gZVQqV8B4pR7
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        workflowId: c3d4e5f6-a7b8-9012-cdef-a34567890123
+        csmSimulationRun: c4d5e6f7-b8a9-0123-defg-b45678901234
+        generateName: workflow-list-
+        workflowName: workflow-list-xyz789
+        workspaceId: w-OGNQqJ7wP0
+        workspaceKey: Brewery
+        runnerId: r-EEYpWeM0kW
+        solutionId: sol-w4Kn79JXKz
+        runTemplateId: hundred
+        computeSize: basic
+        datasetList:
+        - d-1AbCdEfGhIj
+        parametersValues:
+        - parameterId: stock
+          varType: int
+          value: '100'
+        nodeLabel: basicpool
+  parameters:
+    workspaceId:
+      name: workspace_id
+      in: path
+      description: The Workspace identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^w-\w{10,20}
+    runId:
+      name: run_id
+      in: path
+      description: The Run identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^(run|sr)-\w{10,20}
+    runnerId:
+      name: runner_id
+      in: path
+      description: The Runner identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^(r|s)-\w{10,20}
+    organizationId:
+      name: organization_id
+      in: path
+      description: The Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^o-\w{10,20}
+  schemas:
+    ContainerResourceSizing:
+      type: object
+      description: a description object for resource requests and limits (default same configuration as basic sizing)
+      properties:
+        requests:
+          $ref: '#/components/schemas/ContainerResourceSizeInfo'
+        limits:
+          $ref: '#/components/schemas/ContainerResourceSizeInfo'
+      required:
+      - requests
+      - limits
+    RunStatusNode:
+      type: object
+      description: status of a Run Node
+      properties:
+        id:
+          type: string
+          description: the node id
+        name:
+          type: string
+          description: the node unique name
+        containerName:
+          type: string
+          description: the Run container name
+        outboundNodes:
+          type: array
+          readOnly: true
+          description: the list of outbound nodes
+          items:
+            type: string
+        resourcesDuration:
+          $ref: '#/components/schemas/RunResourceRequested'
+        estimatedDuration:
+          type: integer
+          description: estimatedDuration in seconds
+        hostNodeName:
+          type: string
+          description: HostNodeName name of the Kubernetes node on which the Pod is running, if applicable
+        message:
+          type: string
+          description: a human readable message indicating details about why the node is in this condition
+        phase:
+          type: string
+          description: high-level summary of where the node is in its lifecycle
+        progress:
+          type: string
+          description: progress to completion
+        startTime:
+          type: string
+          description: the node start time
+        endTime:
+          type: string
+          description: the node end time
+    ContainerResourceSizeInfo:
+      type: object
+      description: Define cpus and memory needs
+      properties:
+        cpu:
+          type: string
+          description: Define cpu needs
+        memory:
+          type: string
+          description: Define memory needs
+      required:
+      - cpu
+      - memory
+    RunContainer:
+      type: object
+      description: a Run container description
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: the container Id
+        name:
+          type: string
+          description: the container name
+        labels:
+          type: object
+          description: the metadata labels
+          additionalProperties:
+            type: string
+        envVars:
+          type: object
+          description: environment variable map
+          additionalProperties:
+            type: string
+        image:
+          type: string
+          description: the container image URI
+        entrypoint:
+          type: string
+          description: the container entry point
+        runArgs:
+          type: array
+          description: the list of run arguments for the container
+          items:
+            type: string
+        dependencies:
+          type: array
+          description: the list of dependencies container name to run this container
+          items:
+            type: string
+        solutionContainer:
+          type: boolean
+          readOnly: true
+          description: whether or not this container is a Cosmo Tech solution container
+        nodeLabel:
+          type: string
+          description: the node label request
+        runSizing:
+          $ref: '#/components/schemas/ContainerResourceSizing'
+      required:
+      - name
+      - image
+    RunTemplateParameterValue:
+      type: object
+      description: the value of Analysis parameter for a Runner for this Run
+      properties:
+        parameterId:
+          type: string
+          description: the parameter Id
+        varType:
+          type: string
+          readOnly: true
+          description: the parameter value type
+        value:
+          type: string
+          description: the parameter value
+      required:
+      - parameterId
+      - value
+    RunState:
+      type: string
+      readOnly: true
+      description: the Run end-to-end state
+      enum:
+      - Running
+      - Successful
+      - Failed
+      - Unknown
+      - NotStarted
+    RunResourceRequested:
+      type: object
+      description: the memory and CPU requested by the pod
+      properties:
+        cpu:
+          type: integer
+          format: int64
+          description: Define cpu needs
+        memory:
+          type: integer
+          format: int64
+          description: Define memory needs
+    RunStatus:
+      type: object
+      description: a Run status
+      properties:
+        id:
+          type: string
+          description: the Run id
+        organizationId:
+          type: string
+          description: the Organization id
+        workspaceId:
+          type: string
+          description: the Workspace id
+        runnerId:
+          type: string
+          description: the Runner id
+        workflowId:
+          type: string
+          description: the Cosmo Tech compute cluster Argo Workflow Id to search
+        workflowName:
+          type: string
+          description: the Cosmo Tech compute cluster Argo Workflow Name
+        createInfo:
+          description: The timestamp of the Run creation in milliseconds
+          allOf:
+          - $ref: '#/components/schemas/RunEditInfo'
+        startTime:
+          type: string
+          description: the Run start Date Time
+        endTime:
+          type: string
+          description: the Run end Date Time
+        phase:
+          type: string
+          description: high-level summary of where the workflow is in its lifecycle
+        progress:
+          type: string
+          description: progress to completion
+        message:
+          type: string
+          description: a  human readable message indicating details about why the workflow is in this condition
+        estimatedDuration:
+          type: integer
+          description: estimatedDuration in seconds
+        nodes:
+          type: array
+          description: status of Run nodes
+          items:
+            $ref: '#/components/schemas/RunStatusNode'
+        state:
+          $ref: '#/components/schemas/RunState'
+    RunEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+      - timestamp
+      - userId
+    Run:
+      type: object
+      x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
+      description: a Run with only base properties
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: '@org.springframework.data.annotation.Id'
+          readOnly: true
+          description: the Run
+        state:
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Searchable'
+          allOf:
+          - $ref: '#/components/schemas/RunState'
+        organizationId:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: the Organization id
+        createInfo:
+          description: The details of the Run creation
+          allOf:
+          - $ref: '#/components/schemas/RunEditInfo'
+        workflowId:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: the Cosmo Tech compute cluster Argo Workflow Id to search
+        csmSimulationRun:
+          type: string
+          readOnly: true
+          description: the Cosmo Tech Simulation Run Id
+        generateName:
+          type: string
+          description: the base name for workflow name generation
+        workflowName:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: the Cosmo Tech compute cluster Argo Workflow Name
+        workspaceId:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          readOnly: true
+          description: the Workspace Id
+        workspaceKey:
+          type: string
+          readOnly: true
+          description: technical key for resource name convention and version grouping. Must be unique
+        runnerId:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          readOnly: true
+          description: the Runner Id
+        solutionId:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          readOnly: true
+          description: the Solution Id
+        runTemplateId:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          readOnly: true
+          description: the Solution Run Template id
+        computeSize:
+          type: string
+          readOnly: true
+          description: the compute size needed for this Analysis. Standard sizes are basic and highcpu. Default is basic
+        datasetList:
+          type: array
+          readOnly: true
+          description: the list of Dataset Id associated to this Run
+          items:
+            type: string
+        parametersValues:
+          type: array
+          readOnly: true
+          description: the list of Run Template parameters values
+          items:
+            $ref: '#/components/schemas/RunTemplateParameterValue'
+        nodeLabel:
+          type: string
+          readOnly: true
+          description: the node label request
+        containers:
+          type: array
+          description: the containers list. This information is not returned by the API.
+          items:
+            $ref: '#/components/schemas/RunContainer'
+      required:
+      - createInfo
+  securitySchemes:
+    oAuth2AuthCode:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/authorize
+          tokenUrl: https://example.com/token
+          scopes: {}

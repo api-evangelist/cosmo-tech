@@ -1,0 +1,1860 @@
+openapi: 3.0.3
+info:
+  title: Cosmo Tech Manager dataset solution API
+  description: Cosmo Tech Dataset Manager API
+  version: 1.0.0-SNAPSHOT
+servers:
+- url: http://localhost:8080
+security:
+- oAuth2AuthCode: []
+tags:
+- name: solution
+  description: Solution Management
+paths:
+  /organizations/{organization_id}/solutions:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    post:
+      operationId: createSolution
+      tags:
+      - solution
+      description: Create a new solution with optional run templates and parameter definitions.
+      summary: Create a new solution
+      requestBody:
+        description: The Solution to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolutionCreateRequest'
+            examples:
+              BreweryCreate:
+                $ref: '#/components/examples/BreweryCreate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/SolutionCreateRequest'
+            examples:
+              BreweryCreate:
+                $ref: '#/components/examples/BreweryCreate'
+      responses:
+        '201':
+          description: Solution successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solution'
+              examples:
+                Brewery:
+                  $ref: '#/components/examples/Brewery'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Solution'
+              examples:
+                Brewery:
+                  $ref: '#/components/examples/Brewery'
+        '400':
+          description: Bad request
+    get:
+      operationId: listSolutions
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/size'
+      tags:
+      - solution
+      description: Retrieve a paginated list of all solutions in an organization that the user has permission to view.
+      summary: List all Solutions
+      responses:
+        '200':
+          description: List of solutions successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Solution'
+              examples:
+                SolutionList:
+                  $ref: '#/components/examples/SolutionList'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Solution'
+              examples:
+                SolutionList:
+                  $ref: '#/components/examples/SolutionList'
+  /organizations/{organization_id}/solutions/{solution_id}:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    get:
+      operationId: getSolution
+      tags:
+      - solution
+      description: Retrieve detailed information about a solution.
+      summary: Get the details of a solution
+      responses:
+        '200':
+          description: Solution details successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solution'
+              examples:
+                Brewery:
+                  $ref: '#/components/examples/Brewery'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Solution'
+              examples:
+                Brewery:
+                  $ref: '#/components/examples/Brewery'
+        '404':
+          description: Solution not found or insufficient access rights
+    patch:
+      operationId: updateSolution
+      tags:
+      - solution
+      summary: Update a solution
+      requestBody:
+        description: The new Solution details. This endpoint can't be used to update security
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolutionUpdateRequest'
+            examples:
+              BreweryUpdate:
+                $ref: '#/components/examples/BreweryUpdate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/SolutionUpdateRequest'
+            examples:
+              BreweryUpdate:
+                $ref: '#/components/examples/BreweryUpdate'
+      responses:
+        '200':
+          description: Solution successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solution'
+              examples:
+                BreweryUpdated:
+                  $ref: '#/components/examples/BreweryUpdated'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Solution'
+              examples:
+                BreweryUpdated:
+                  $ref: '#/components/examples/BreweryUpdated'
+        '400':
+          description: Bad request - Invalid update parameters
+        '404':
+          description: Solution not found or insufficient access rights
+    delete:
+      operationId: deleteSolution
+      tags:
+      - solution
+      summary: Delete a solution
+      responses:
+        '204':
+          description: Solution successfully deleted
+        '404':
+          description: Solution not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/parameters:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    get:
+      operationId: listSolutionParameters
+      tags:
+      - solution
+      summary: List all solution parameters
+      responses:
+        '200':
+          description: Parameters successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RunTemplateParameter'
+              examples:
+                ParameterList:
+                  $ref: '#/components/examples/ParameterList'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RunTemplateParameter'
+              examples:
+                ParameterList:
+                  $ref: '#/components/examples/ParameterList'
+        '400':
+          description: Bad Request
+        '404':
+          description: Solution not found or insufficient access rights
+    post:
+      operationId: createSolutionParameter
+      tags:
+      - solution
+      summary: Create solution parameter for a solution
+      requestBody:
+        description: Parameter to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunTemplateParameterCreateRequest'
+            examples:
+              ParameterCreate:
+                $ref: '#/components/examples/ParameterCreate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/RunTemplateParameterCreateRequest'
+            examples:
+              ParameterCreate:
+                $ref: '#/components/examples/ParameterCreate'
+      responses:
+        '200':
+          description: Parameters successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameter'
+              examples:
+                ParameterCreate:
+                  $ref: '#/components/examples/ParameterCreate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameter'
+              examples:
+                ParameterCreate:
+                  $ref: '#/components/examples/ParameterCreate'
+        '400':
+          description: Bad request
+        '404':
+          description: Solution not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/parameters/{parameter_id}:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    - $ref: '#/components/parameters/parameterId'
+    get:
+      operationId: getSolutionParameter
+      tags:
+      - solution
+      summary: Get the details of a solution parameter
+      responses:
+        '200':
+          description: Parameters successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameter'
+              examples:
+                ParameterCreate:
+                  $ref: '#/components/examples/ParameterCreate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameter'
+              examples:
+                ParameterCreate:
+                  $ref: '#/components/examples/ParameterCreate'
+        '400':
+          description: Bad Request
+        '404':
+          description: Solution or parameter not found or insufficient access rights
+    patch:
+      operationId: updateSolutionParameter
+      tags:
+      - solution
+      summary: Update solution parameter
+      requestBody:
+        description: Parameter to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunTemplateParameterUpdateRequest'
+            examples:
+              ParameterUpdate:
+                $ref: '#/components/examples/ParameterUpdate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/RunTemplateParameterUpdateRequest'
+            examples:
+              ParameterUpdate:
+                $ref: '#/components/examples/ParameterUpdate'
+      responses:
+        '201':
+          description: Parameters successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameter'
+              examples:
+                ParameterCreate:
+                  $ref: '#/components/examples/ParameterCreate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameter'
+              examples:
+                ParameterCreate:
+                  $ref: '#/components/examples/ParameterCreate'
+        '400':
+          description: Bad request
+        '404':
+          description: Solution or parameter not found or insufficient access rights
+    delete:
+      operationId: deleteSolutionParameter
+      tags:
+      - solution
+      summary: Delete specific parameter from the solution
+      responses:
+        '204':
+          description: Parameter successfully deleted
+        '404':
+          description: Solution or parameter not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/parameterGroups:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    post:
+      operationId: createSolutionParameterGroup
+      tags:
+      - solution
+      summary: Create a solution parameter group
+      requestBody:
+        description: Parameter group to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunTemplateParameterGroupCreateRequest'
+            examples:
+              ParameterGroupCreate:
+                $ref: '#/components/examples/ParameterGroupCreate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/RunTemplateParameterGroupCreateRequest'
+            examples:
+              ParameterGroupCreate:
+                $ref: '#/components/examples/ParameterGroupCreate'
+      responses:
+        '201':
+          description: Parameter group successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameterGroup'
+              examples:
+                ParameterGroupCreate:
+                  $ref: '#/components/examples/ParameterGroupCreate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameterGroup'
+              examples:
+                ParameterGroupCreate:
+                  $ref: '#/components/examples/ParameterGroupCreate'
+        '400':
+          description: Bad request - Invalid parameter group
+        '404':
+          description: Solution not found or insufficient access rights
+    get:
+      operationId: listSolutionParameterGroups
+      tags:
+      - solution
+      summary: List all solution parameter groups
+      responses:
+        '200':
+          description: Parameter groups successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RunTemplateParameterGroup'
+              examples:
+                ParameterGroupList:
+                  $ref: '#/components/examples/ParameterGroupList'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RunTemplateParameterGroup'
+              examples:
+                ParameterGroupList:
+                  $ref: '#/components/examples/ParameterGroupList'
+        '404':
+          description: Solution not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/parameterGroups/{parameter_group_id}:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    - $ref: '#/components/parameters/parameterGroupId'
+    patch:
+      operationId: updateSolutionParameterGroup
+      tags:
+      - solution
+      summary: Update a solution parameter group
+      requestBody:
+        description: Parameter groups to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunTemplateParameterGroupUpdateRequest'
+            examples:
+              ParameterGroupUpdate:
+                $ref: '#/components/examples/ParameterGroupUpdate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/RunTemplateParameterGroupUpdateRequest'
+            examples:
+              ParameterGroupUpdate:
+                $ref: '#/components/examples/ParameterGroupUpdate'
+      responses:
+        '200':
+          description: Parameter groups successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameterGroup'
+              examples:
+                ParameterGroupCreate:
+                  $ref: '#/components/examples/ParameterGroupCreate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameterGroup'
+              examples:
+                ParameterGroupCreate:
+                  $ref: '#/components/examples/ParameterGroupCreate'
+        '400':
+          description: Bad request - Invalid parameter group
+        '404':
+          description: Solution or parameter group not found or insufficient access rights
+    get:
+      operationId: getSolutionParameterGroup
+      tags:
+      - solution
+      summary: Get details of a solution parameter group
+      responses:
+        '200':
+          description: Parameter groups successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameterGroup'
+              examples:
+                ParameterGroupCreate:
+                  $ref: '#/components/examples/ParameterGroupCreate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplateParameterGroup'
+              examples:
+                ParameterGroupCreate:
+                  $ref: '#/components/examples/ParameterGroupCreate'
+        '404':
+          description: Solution or parameter group not found or insufficient access rights
+    delete:
+      operationId: deleteSolutionParameterGroup
+      tags:
+      - solution
+      summary: Delete a parameter group from the solution
+      responses:
+        '204':
+          description: Parameter group successfully deleted
+        '404':
+          description: Solution or parameter group not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/runTemplates:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    get:
+      operationId: listRunTemplates
+      tags:
+      - solution
+      summary: List all solution run templates
+      responses:
+        '200':
+          description: Run templates successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RunTemplate'
+              examples:
+                RunTemplateList:
+                  $ref: '#/components/examples/RunTemplateList'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RunTemplate'
+              examples:
+                RunTemplateList:
+                  $ref: '#/components/examples/RunTemplateList'
+        '404':
+          description: Solution not found or insufficient access rights
+    post:
+      operationId: createSolutionRunTemplate
+      tags:
+      - solution
+      summary: Create a solution run template
+      requestBody:
+        description: Run template to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunTemplateCreateRequest'
+            examples:
+              RunTemplateCreate:
+                $ref: '#/components/examples/RunTemplateCreate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/RunTemplateCreateRequest'
+            examples:
+              RunTemplateCreate:
+                $ref: '#/components/examples/RunTemplateCreate'
+      responses:
+        '201':
+          description: Run template successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplate'
+              examples:
+                RunTemplate:
+                  $ref: '#/components/examples/RunTemplate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplate'
+              examples:
+                RunTemplate:
+                  $ref: '#/components/examples/RunTemplate'
+        '400':
+          description: Bad request - Invalid run template
+        '404':
+          description: Solution not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/runTemplates/{run_template_id}:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    - $ref: '#/components/parameters/runTemplateId'
+    get:
+      operationId: getRunTemplate
+      tags:
+      - solution
+      summary: Retrieve a solution run templates
+      responses:
+        '200':
+          description: Run template successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplate'
+              examples:
+                RunTemplate:
+                  $ref: '#/components/examples/RunTemplate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplate'
+              examples:
+                RunTemplate:
+                  $ref: '#/components/examples/RunTemplate'
+        '404':
+          description: Solution not found or insufficient access rights
+    patch:
+      operationId: updateSolutionRunTemplate
+      tags:
+      - solution
+      summary: Update a specific run template
+      requestBody:
+        description: Run template updates
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunTemplateUpdateRequest'
+            examples:
+              RunTemplateUpdate:
+                $ref: '#/components/examples/RunTemplateUpdate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/RunTemplateUpdateRequest'
+            examples:
+              RunTemplateUpdate:
+                $ref: '#/components/examples/RunTemplateUpdate'
+      responses:
+        '200':
+          description: Run template successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunTemplate'
+              examples:
+                RunTemplate:
+                  $ref: '#/components/examples/RunTemplate'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RunTemplate'
+              examples:
+                RunTemplate:
+                  $ref: '#/components/examples/RunTemplate'
+        '400':
+          description: Bad request - Invalid run template updates
+        '404':
+          description: Solution or run template not found or insufficient access rights
+    delete:
+      operationId: deleteSolutionRunTemplate
+      tags:
+      - solution
+      summary: Delete a specific run template
+      responses:
+        '204':
+          description: Run template successfully deleted
+        '404':
+          description: Solution or run template not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/security:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    get:
+      operationId: getSolutionSecurity
+      tags:
+      - solution
+      summary: Get solution security information
+      responses:
+        '200':
+          description: Solution security information successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SolutionSecurity'
+              examples:
+                SolutionSecurity:
+                  $ref: '#/components/examples/SolutionSecurity'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/SolutionSecurity'
+              examples:
+                SolutionSecurity:
+                  $ref: '#/components/examples/SolutionSecurity'
+        '404':
+          description: Solution not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/security/default:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    patch:
+      operationId: updateSolutionDefaultSecurity
+      tags:
+      - solution
+      summary: Update solution default security
+      requestBody:
+        description: This changes the solution default security. The default security is the role assigned to any person not on the Access Control List. If the default security is None, then nobody outside of the ACL can access the solution.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolutionRole'
+            examples:
+              BrewerySolutionRole:
+                $ref: '#/components/examples/BrewerySolutionRole'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/SolutionRole'
+            examples:
+              BrewerySolutionRole:
+                $ref: '#/components/examples/BrewerySolutionRole'
+      responses:
+        '200':
+          description: Solution default security successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SolutionSecurity'
+              examples:
+                SolutionSecurity:
+                  $ref: '#/components/examples/SolutionSecurity'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/SolutionSecurity'
+              examples:
+                SolutionSecurity:
+                  $ref: '#/components/examples/SolutionSecurity'
+        '404':
+          description: Solution not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/security/users:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    get:
+      operationId: listSolutionSecurityUsers
+      tags:
+      - solution
+      summary: List solution security users
+      responses:
+        '200':
+          description: Solution security users list successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example:
+                - alice@mycompany.com
+                - bob@mycompany.com
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  type: string
+                example:
+                - alice@mycompany.com
+                - bob@mycompany.com
+        '404':
+          description: Solution not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/security/access:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    post:
+      operationId: createSolutionAccessControl
+      tags:
+      - solution
+      description: Grant access to a solution for a user or group.
+      summary: Create solution access control
+      requestBody:
+        description: Access control to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolutionAccessControl'
+            examples:
+              SolutionAccess:
+                $ref: '#/components/examples/BrewerySolutionAccessControl'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/SolutionAccessControl'
+            examples:
+              SolutionAccess:
+                $ref: '#/components/examples/BrewerySolutionAccessControl'
+      responses:
+        '201':
+          description: Solution access control successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SolutionAccessControl'
+              examples:
+                SolutionAccessControl:
+                  $ref: '#/components/examples/BrewerySolutionAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/SolutionAccessControl'
+              examples:
+                SolutionAccessControl:
+                  $ref: '#/components/examples/BrewerySolutionAccessControl'
+        '404':
+          description: Solution not found or insufficient access rights
+  /organizations/{organization_id}/solutions/{solution_id}/security/access/{identity_id}:
+    parameters:
+    - $ref: '#/components/parameters/organizationId'
+    - $ref: '#/components/parameters/solutionId'
+    - name: identity_id
+      in: path
+      description: The User identifier
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getSolutionAccessControl
+      tags:
+      - solution
+      summary: Get solution access control
+      responses:
+        '200':
+          description: Solution access control successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SolutionAccessControl'
+              examples:
+                SolutionAccessControl:
+                  $ref: '#/components/examples/BrewerySolutionAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/SolutionAccessControl'
+              examples:
+                SolutionAccessControl:
+                  $ref: '#/components/examples/BrewerySolutionAccessControl'
+        '404':
+          description: Solution or user not found or insufficient access rights
+    patch:
+      operationId: updateSolutionAccessControl
+      tags:
+      - solution
+      summary: Update solution access control
+      requestBody:
+        description: Access control updates
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolutionRole'
+            examples:
+              BrewerySolutionRole:
+                $ref: '#/components/examples/BrewerySolutionRole'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/SolutionRole'
+            examples:
+              BrewerySolutionRole:
+                $ref: '#/components/examples/BrewerySolutionRole'
+      responses:
+        '200':
+          description: Solution access control successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SolutionAccessControl'
+              examples:
+                SolutionAccessControl:
+                  $ref: '#/components/examples/BrewerySolutionAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/SolutionAccessControl'
+              examples:
+                SolutionAccessControl:
+                  $ref: '#/components/examples/BrewerySolutionAccessControl'
+        '404':
+          description: Solution not found or insufficient access rights
+    delete:
+      operationId: deleteSolutionAccessControl
+      tags:
+      - solution
+      summary: Delete solution access control
+      responses:
+        '204':
+          description: Solution access control successfully deleted
+        '404':
+          description: Solution or user not found or insufficient access rights
+components:
+  examples:
+    RunTemplateUpdate:
+      summary: Run template update example
+      description: Example of updating a run template
+      value:
+        name: Updated Standard Simulation
+        description: Run the updated standard simulation
+        computeSize: large
+    BrewerySolutionRole:
+      summary: Set a Solution Role.
+      description: Set a Role for a user to a solution.
+      value:
+        role: editor
+    Brewery:
+      summary: Brewery Solution
+      description: Brewery Solution example
+      value:
+        id: sol-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery-solution
+        name: Brewery Solution
+        description: A Brewery Supplier Solution Model which simulate stock, production, transport and customer satisfaction
+        repository: cosmotech/brewery_solution
+        alwaysPull: false
+        version: 1.0.0
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        sdkVersion: 12.0.0-40296.1c163396
+        url: https://github.com/Cosmo-Tech/brewery_sample_solution
+        tags:
+        - brewery
+        - optimization
+        parameters:
+        - id: prefix
+          labels:
+            fr: Prefix des noms
+            en: Names prefix
+          varType: string
+        parameterGroups:
+        - id: consumers
+          labels:
+            fr: Consommateurs
+            en: Consumers
+          parameters:
+          - prefix
+        runTemplates:
+        - id: hundred
+          name: Full simulation 100 steps
+          description: Run a full simulation with 100 steps
+          tags:
+          - full
+          - supply
+          computeSize: highcpu
+          parameterGroups:
+          - consumers
+        security:
+          default: none
+          accessControlList:
+          - id: jane.doe@cosmotech.com
+            role: admin
+          - id: john.doe@cosmotech.com
+            role: viewer
+    ParameterGroupCreate:
+      summary: Parameter group create example
+      description: Example of creating a parameter group
+      value:
+        id: inventory
+        description: Inventory parameters
+        labels:
+          en: Inventory
+          fr: Inventaire
+        parameters:
+        - stock_level
+    ParameterUpdate:
+      summary: Parameter update example
+      description: Example of updating a run template parameter
+      value:
+        description: Updated stock level parameter
+        defaultValue: '150'
+        maxValue: '2000'
+    RunTemplateCreate:
+      summary: Run template create example
+      description: Example of creating a run template
+      value:
+        id: standard
+        name: Standard Simulation
+        description: Run the standard simulation
+        tags:
+        - standard
+        - simulation
+        computeSize: medium
+        parameterGroups:
+        - inventory
+    BrewerySolutionAccessControl:
+      summary: Set an access control.
+      description: Set an access control for a user to a solution.
+      value:
+        id: bob.doe@cosmotech.com
+        role: editor
+    ParameterGroupList:
+      summary: Parameter group list example
+      description: Example of parameter groups
+      value:
+      - id: group1
+        description: First parameter group
+        labels:
+          en: Group 1
+          fr: Groupe 1
+        parameters:
+        - param1
+    RunTemplateList:
+      summary: Run template list example
+      description: Example of run templates
+      value:
+      - id: template1
+        name: Template 1
+        description: Example template
+        tags:
+        - example
+        computeSize: small
+        parameterGroups:
+        - group1
+    ParameterGroupUpdate:
+      summary: Parameter group update example
+      description: Example of updating a parameter group
+      value:
+        description: Updated inventory parameters
+        parameters:
+        - stock_level
+        - reorder_point
+    SolutionList:
+      summary: Solution list example
+      description: Example of a solution list
+      value:
+      - id: sol-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery-solution
+        name: Brewery Solution
+        description: A Brewery Supplier Solution Model which simulate stock, production, transport and customer satisfaction
+        repository: cosmotech/brewery_solution
+        alwaysPull: false
+        version: 1.0.0
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        sdkVersion: 12.0.0-40296.1c163396
+        url: https://github.com/Cosmo-Tech/brewery_sample_solution
+        tags:
+        - brewery
+        - optimization
+        parameters:
+        - id: prefix
+          labels:
+            fr: Prefix des noms
+            en: Names prefix
+          varType: string
+        parameterGroups:
+        - id: consumers
+          labels:
+            fr: Consommateurs
+            en: Consumers
+          parameters:
+          - prefix
+        runTemplates:
+        - id: hundred
+          name: Full simulation 100 steps
+          description: Run a full simulation with 100 steps
+          tags:
+          - full
+          - supply
+          computeSize: highcpu
+          parameterGroups:
+          - consumers
+        security:
+          default: none
+          accessControlList:
+          - id: jane.doe@cosmotech.com
+            role: admin
+    RunTemplate:
+      summary: Run template example
+      description: Single run template example
+      value:
+        id: template1
+        name: Template 1
+        description: Example template
+        tags:
+        - example
+        computeSize: small
+        parameterGroups:
+        - group1
+    BreweryCreate:
+      summary: Brewery Solution creation request
+      description: Request example for creating a brewery solution
+      value:
+        key: brewery-solution
+        name: Brewery Solution
+        description: A Brewery Supplier Solution Model which simulate stock, production, transport and customer satisfaction
+        repository: cosmotech/brewery_solution
+        alwaysPull: false
+        version: 1.0.0
+        url: https://github.com/Cosmo-Tech/brewery_sample_solution
+        tags:
+        - brewery
+        - optimization
+        parameters:
+        - id: prefix
+          labels:
+            fr: Prefix des noms
+            en: Names prefix
+          varType: string
+        parameterGroups:
+        - id: consumers
+          labels:
+            fr: Consommateurs
+            en: Consumers
+          parameters:
+          - prefix
+        runTemplates:
+        - id: hundred
+          name: Full simulation 100 steps
+          description: Run a full simulation with 100 steps
+          tags:
+          - full
+          - supply
+          computeSize: highcpu
+          parameterGroups:
+          - consumers
+        security:
+          default: none
+          accessControlList:
+          - id: jane.doe@cosmotech.com
+            role: admin
+    SolutionSecurity:
+      summary: Solution security example
+      description: Example of solution security configuration
+      value:
+        default: none
+        accessControlList:
+        - id: jane.doe@cosmotech.com
+          role: admin
+        - id: john.doe@cosmotech.com
+          role: viewer
+    ParameterCreate:
+      summary: Parameter create example
+      description: Example of creating a run template parameter
+      value:
+        id: stock_level
+        description: Initial stock level
+        labels:
+          en: Stock Level
+          fr: Niveau de stock
+        varType: int
+        defaultValue: '100'
+        minValue: '0'
+        maxValue: '1000'
+    BreweryUpdate:
+      summary: Brewery Solution update
+      description: Brewery Solution update example
+      value:
+        name: Brewery Solution 2024
+        description: Updated brewery solution with enhanced features
+    BreweryUpdated:
+      summary: Updated Brewery Solution
+      description: Brewery Solution after update
+      value:
+        id: sol-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery-solution
+        name: Brewery Solution 2024
+        description: Updated brewery solution with enhanced features
+        repository: cosmotech/brewery_solution
+        alwaysPull: false
+        version: 1.0.0
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621440000000
+          userId: john.doe@cosmotech.com
+        sdkVersion: 12.0.0-40296.1c163396
+        url: https://github.com/Cosmo-Tech/brewery_sample_solution
+        tags:
+        - brewery
+        - optimization
+        parameters:
+        - id: prefix
+          labels:
+            fr: Prefix des noms
+            en: Names prefix
+          varType: string
+        parameterGroups:
+        - id: consumers
+          labels:
+            fr: Consommateurs
+            en: Consumers
+          parameters:
+          - prefix
+        runTemplates:
+        - id: hundred
+          name: Full simulation 100 steps
+          description: Run a full simulation with 100 steps
+          tags:
+          - full
+          - supply
+          computeSize: highcpu
+          parameterGroups:
+          - consumers
+        security:
+          default: none
+          accessControlList:
+          - id: jane.doe@cosmotech.com
+            role: admin
+          - id: john.doe@cosmotech.com
+            role: viewer
+    ParameterList:
+      summary: Parameter list example
+      description: Example of run template parameters
+      value:
+      - id: prefix
+        description: Names prefix parameter
+        labels:
+          en: Parameter 1
+          fr: Paramètre 1
+        varType: string
+        defaultValue: default
+  parameters:
+    runTemplateId:
+      name: run_template_id
+      in: path
+      description: The Run Template identifier
+      required: true
+      schema:
+        type: string
+    parameterId:
+      name: parameter_id
+      in: path
+      description: The solution parameter identifier
+      required: true
+      schema:
+        type: string
+    size:
+      name: size
+      in: query
+      description: Amount of result by page
+      required: false
+      schema:
+        type: integer
+    organizationId:
+      name: organization_id
+      in: path
+      description: the Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^o-\w{10,20}
+    solutionId:
+      name: solution_id
+      in: path
+      description: the Solution identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^sol-\w{10,20}
+    page:
+      name: page
+      in: query
+      description: Page number to query (first page is at index 0)
+      required: false
+      schema:
+        type: integer
+    parameterGroupId:
+      name: parameter_group_id
+      in: path
+      description: The parameter group identifier
+      required: true
+      schema:
+        type: string
+        x-size-message: cannot be empty
+  schemas:
+    RunTemplateUpdateRequest:
+      type: object
+      description: A Solution Run Template Create Request
+      properties:
+        name:
+          type: string
+          description: The Run Template name
+          minLength: 1
+          x-size-message: cannot be empty
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        description:
+          type: string
+          description: The Run Template description
+        tags:
+          type: array
+          description: The list of Run Template tags
+          items:
+            type: string
+        computeSize:
+          type: string
+          description: The compute size needed for this Run Template
+        runSizing:
+          $ref: '#/components/schemas/RunTemplateResourceSizing'
+        parameterGroups:
+          type: array
+          description: The ordered list of parameters groups for the Run Template
+          items:
+            type: string
+            description: A Run Template Group Parameter id
+        executionTimeout:
+          type: integer
+          description: An optional duration in seconds in which a workflow is allowed to run
+    SolutionCreateRequest:
+      type: object
+      description: Request object for creating a new solution
+      properties:
+        key:
+          type: string
+          description: Technical key for resource name convention and version grouping. Must be unique
+          minLength: 1
+          x-size-message: cannot be empty
+          example: brewery-solution
+        name:
+          type: string
+          description: Solution name. This name is displayed in the sample webApp
+          minLength: 1
+          x-size-message: cannot be empty
+          example: Brewery Solution
+        description:
+          type: string
+          description: The Solution description
+          example: A solution for brewery management and optimization
+        repository:
+          type: string
+          description: The registry repository containing the image
+          minLength: 1
+          x-size-message: cannot be empty
+          example: cosmotech/brewery_solution
+        version:
+          type: string
+          description: The Solution version MAJOR.MINOR.PATCH
+          minLength: 1
+          x-size-message: cannot be empty
+          example: 1.0.0
+        alwaysPull:
+          type: boolean
+          description: Set to true if the runtemplate wants to always pull the image
+          default: false
+        tags:
+          type: array
+          description: The list of tags
+          items:
+            type: string
+          example:
+          - brewery
+          - optimization
+        parameters:
+          type: array
+          description: The list of Run Template Parameters
+          default: []
+          items:
+            $ref: '#/components/schemas/RunTemplateParameterCreateRequest'
+        parameterGroups:
+          type: array
+          description: The list of parameters groups for the Run Templates
+          default: []
+          items:
+            $ref: '#/components/schemas/RunTemplateParameterGroupCreateRequest'
+        runTemplates:
+          type: array
+          default: []
+          description: List of Run Templates
+          items:
+            $ref: '#/components/schemas/RunTemplateCreateRequest'
+        url:
+          type: string
+          description: An optional URL link to solution page
+          example: https://github.com/Cosmo-Tech/brewery-solution
+        security:
+          $ref: '#/components/schemas/SolutionSecurity'
+      required:
+      - key
+      - name
+      - repository
+      - version
+    SolutionSecurity:
+      type: object
+      description: The Solution security information
+      properties:
+        default:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The role by default
+          example: none
+        accessControlList:
+          type: array
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The list which can access this Solution with detailed access control information
+          items:
+            $ref: '#/components/schemas/SolutionAccessControl'
+      required:
+      - default
+      - accessControlList
+    RunTemplateParameterUpdateRequest:
+      type: object
+      description: A Run Template Parameter for update parameter
+      properties:
+        description:
+          type: string
+          description: The parameter description
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        varType:
+          type: string
+          description: The variable type for the parameter. Basic types or special type %DATASETID%
+          minLength: 1
+          x-size-message: cannot be empty
+        defaultValue:
+          type: string
+          description: The default value for this parameter
+        minValue:
+          type: string
+          description: The minimum value for this parameter
+        maxValue:
+          type: string
+          description: The maximum value for this parameter
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+    Solution:
+      type: object
+      x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
+      description: A version of a Solution
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: '@org.springframework.data.annotation.Id'
+          description: The Solution version unique identifier
+          pattern: ^sol-\w{10,20}
+          example: sol-123456aBcDeF
+        organizationId:
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          type: string
+          description: The Organization unique identifier
+          pattern: ^o-\w{10,20}
+          example: o-123456aBcDeF
+        key:
+          type: string
+          description: The Solution key which groups Solution versions
+          minLength: 1
+          x-size-message: cannot be empty
+          example: brewery-solution
+        name:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Searchable'
+          description: The Solution name
+          minLength: 1
+          x-size-message: cannot be empty
+          example: Brewery Solution
+        description:
+          type: string
+          description: The Solution description
+          example: A solution for brewery management and optimization
+        repository:
+          type: string
+          description: The registry repository containing the image
+          minLength: 1
+          x-size-message: cannot be empty
+          example: cosmotech/brewery_solution
+        alwaysPull:
+          type: boolean
+          description: Set to true if the runtemplate wants to always pull the image
+          default: false
+        version:
+          type: string
+          description: The Solution version MAJOR.MINOR.PATCH. Must be aligned with an existing repository tag
+          minLength: 1
+          x-size-message: cannot be empty
+          example: 1.0.0
+        createInfo:
+          description: The details of the Solution creation
+          allOf:
+          - $ref: '#/components/schemas/SolutionEditInfo'
+        updateInfo:
+          description: The details of the Solution last update
+          allOf:
+          - $ref: '#/components/schemas/SolutionEditInfo'
+        sdkVersion:
+          type: string
+          description: The full SDK version used to build this solution, if available
+          example: 12.0.0-40296.1c163396
+        url:
+          type: string
+          description: An optional URL link to solution page
+          example: https://github.com/Cosmo-Tech/brewery-solution
+        tags:
+          type: array
+          description: The list of tags
+          items:
+            type: string
+          example:
+          - brewery
+          - optimization
+        parameters:
+          type: array
+          description: The list of Run Template Parameters
+          items:
+            $ref: '#/components/schemas/RunTemplateParameter'
+        parameterGroups:
+          type: array
+          description: The list of parameters groups for the Run Templates
+          items:
+            $ref: '#/components/schemas/RunTemplateParameterGroup'
+        runTemplates:
+          type: array
+          default: []
+          description: List of Run Templates
+          items:
+            $ref: '#/components/schemas/RunTemplate'
+        security:
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          allOf:
+          - $ref: '#/components/schemas/SolutionSecurity'
+      required:
+      - id
+      - organizationId
+      - key
+      - name
+      - repository
+      - version
+      - createInfo
+      - updateInfo
+      - parameters
+      - parameterGroups
+      - runTemplates
+      - security
+    SolutionEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+      - timestamp
+      - userId
+    ResourceSizeInfo:
+      type: object
+      description: "Define CPUs and memory needs.\nValues must follow the Kubernetes resource requirements/limits syntax: \nSee https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes\n"
+      properties:
+        cpu:
+          type: string
+          description: Define cpu needs
+        memory:
+          type: string
+          description: Define memory needs
+      required:
+      - cpu
+      - memory
+    SolutionRole:
+      type: object
+      description: The Solution Role
+      properties:
+        role:
+          type: string
+          description: The Solution Role
+          example: editor
+      required:
+      - role
+    SolutionUpdateRequest:
+      type: object
+      description: Request object for updating a solution
+      properties:
+        key:
+          type: string
+          description: Technical key for resource name convention and version grouping. Must be unique
+          minLength: 1
+          x-size-message: cannot be empty
+          example: brewery-solution
+        name:
+          type: string
+          description: The Solution name
+          minLength: 1
+          x-size-message: cannot be empty
+          example: Brewery Solution
+        description:
+          type: string
+          description: The Solution description
+          example: A solution for brewery management and optimization
+        repository:
+          type: string
+          description: The registry repository containing the image
+          minLength: 1
+          x-size-message: cannot be empty
+          example: cosmotech/brewery_solution
+        alwaysPull:
+          type: boolean
+          description: Set to true if the runtemplate wants to always pull the image
+        version:
+          type: string
+          description: The Solution version MAJOR.MINOR.PATCH. Must be aligned with an existing repository tag
+          minLength: 1
+          x-size-message: cannot be empty
+          example: 1.0.0
+        url:
+          type: string
+          description: An optional URL link to solution page
+          example: https://github.com/Cosmo-Tech/brewery-solution
+        tags:
+          type: array
+          description: The list of tags
+          items:
+            type: string
+          example:
+          - brewery
+          - optimization
+        parameters:
+          type: array
+          description: The list of Run Template Parameters
+          items:
+            $ref: '#/components/schemas/RunTemplateParameterCreateRequest'
+        parameterGroups:
+          type: array
+          description: The list of parameters groups for the Run Templates
+          items:
+            $ref: '#/components/schemas/RunTemplateParameterGroupCreateRequest'
+        runTemplates:
+          type: array
+          description: List of Run Templates
+          items:
+            $ref: '#/components/schemas/RunTemplateCreateRequest'
+    SolutionAccessControl:
+      type: object
+      description: A Solution access control item
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The identity id
+          example: user@company.com
+        role:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The assigned role
+          example: editor
+      required:
+      - id
+      - role
+    RunTemplateCreateRequest:
+      type: object
+      description: A Solution Run Template Create Request
+      properties:
+        id:
+          type: string
+          description: The Solution Run Template id
+          minLength: 1
+          x-size-message: cannot be empty
+          example: template-123
+        name:
+          type: string
+          description: The Run Template name
+          minLength: 1
+          x-size-message: cannot be empty
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        description:
+          type: string
+          description: The Run Template description
+        tags:
+          type: array
+          description: The list of Run Template tags
+          items:
+            type: string
+        computeSize:
+          type: string
+          description: The compute size needed for this Run Template
+        runSizing:
+          $ref: '#/components/schemas/RunTemplateResourceSizing'
+        parameterGroups:
+          type: array
+          default: []
+          description: The ordered list of parameters groups for the Run Template
+          items:
+            type: string
+            description: A Run Template Group Parameter id
+        executionTimeout:
+          type: integer
+          description: An optional duration in seconds in which a workflow is allowed to run
+      required:
+      - id
+    RunTemplateParameterGroupCreateRequest:
+      type: object
+      description: A Parameter Group Create Request for a Run Template
+      properties:
+        id:
+          type: string
+          description: The Parameter Group id
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+          description: A description of the parameter group
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        parameters:
+          type: array
+          description: An ordered list of Run Template Parameters
+          default: []
+          items:
+            type: string
+            description: A Run Template Parameter id
+      required:
+      - id
+    RunTemplateParameter:
+      type: object
+      description: A Run Template Parameter
+      properties:
+        id:
+          type: string
+          description: The Parameter id
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+          description: The parameter description
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        varType:
+          type: string
+          description: The variable type for the parameter. Basic types or special type %DATASETID%
+          minLength: 1
+          x-size-message: cannot be empty
+        defaultValue:
+          type: string
+          description: The default value for this parameter
+        minValue:
+          type: string
+          description: The minimum value for this parameter
+        maxValue:
+          type: string
+          description: The maximum value for this parameter
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+      required:
+      - id
+      - varType
+    RunTemplateParameterGroupUpdateRequest:
+      type: object
+      description: A Parameter Group Update Request for a Run Template
+      properties:
+        description:
+          type: string
+          description: A description of the parameter group
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        parameters:
+          type: array
+          description: An ordered list of Run Template Parameters
+          items:
+            type: string
+            description: A Run Template Parameter id
+    RunTemplate:
+      type: object
+      description: A Solution Run Template
+      properties:
+        id:
+          type: string
+          description: The Solution Run Template id
+          minLength: 1
+          x-size-message: cannot be empty
+          example: template-123
+        name:
+          type: string
+          description: The Run Template name
+          minLength: 1
+          x-size-message: cannot be empty
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        description:
+          type: string
+          description: The Run Template description
+        tags:
+          type: array
+          description: The list of Run Template tags
+          items:
+            type: string
+        computeSize:
+          type: string
+          description: The compute size needed for this Run Template
+        runSizing:
+          $ref: '#/components/schemas/RunTemplateResourceSizing'
+        parameterGroups:
+          type: array
+          description: The ordered list of parameters groups for the Run Template
+          items:
+            type: string
+            description: A Run Template Group Parameter id
+        executionTimeout:
+          type: integer
+          description: An optional duration in seconds in which a workflow is allowed to run
+      required:
+      - id
+      - parameterGroups
+    RunTemplateParameterGroup:
+      type: object
+      description: A Parameter Group for a Run Template
+      properties:
+        id:
+          type: string
+          description: The Parameter Group id
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+          description: A description of the parameter group
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        parameters:
+          type: array
+          description: An ordered list of Run Template Parameters
+          items:
+            type: string
+            description: A Run Template Parameter id
+      required:
+      - id
+      - parameters
+    RunTemplateParameterCreateRequest:
+      type: object
+      description: A Run Template Parameter for creation
+      properties:
+        id:
+          type: string
+          description: The Parameter id
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+          description: The parameter description
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        varType:
+          type: string
+          description: The variable type for the parameter. Basic types or special type %DATASETID%
+          minLength: 1
+          x-size-message: cannot be empty
+        defaultValue:
+          type: string
+          description: The default value for this parameter
+        minValue:
+          type: string
+          description: The minimum value for this parameter
+        maxValue:
+          type: string
+          description: The maximum value for this parameter
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+      required:
+      - id
+      - varType
+    TranslatedLabels:
+      type: object
+      description: A translated label with key as ISO 639-1 code
+      additionalProperties:
+        type: string
+    RunTemplateResourceSizing:
+      type: object
+      description: "A description object for resource requests and limits\nValues must follow the Kubernetes resource requirements/limits syntax: \nSee https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes\n"
+      properties:
+        requests:
+          $ref: '#/components/schemas/ResourceSizeInfo'
+        limits:
+          $ref: '#/components/schemas/ResourceSizeInfo'
+      required:
+      - requests
+      - limits
+  securitySchemes:
+    oAuth2AuthCode:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/authorize
+          tokenUrl: https://example.com/token
+          scopes: {}
