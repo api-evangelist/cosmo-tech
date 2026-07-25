@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: https://github.com/Cosmo-Tech/cosmotech-api/releases
+versioning:
+  scheme: semantic-major
+  current: 5.0.1
+  latest_prerelease: 5.1.0-rc2
+  docs: https://github.com/Cosmo-Tech/cosmotech-api/releases
+  note: >-
+    The open-source Cosmo Tech Cloud Platform API is released as GitHub releases
+    with SemVer tags. Stable line is 5.x (5.0.1); on-prem builds are tagged
+    separately (e.g. 4.2.4-onprem). Individual service specs carry their own
+    info.version (e.g. 1.0.0 / 1.0.0-SNAPSHOT).
+deprecation:
+  policy_documented: false
+  note: No formal deprecation policy or RFC 8594 Sunset/Deprecation header support documented.
+sla:
+  documented: false
+status_page:
+  found: false
+  note: No public status page located.
+deprecated_operations: []

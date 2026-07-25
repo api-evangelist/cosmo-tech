@@ -1,0 +1,838 @@
+openapi: 3.0.3
+
+info:
+  title: "Cosmo Tech Organization Manager API"
+  description: "Cosmo Tech Organization Manager API"
+  version: "1.0.0"
+
+security:
+  - oAuth2AuthCode: []
+
+tags:
+- name: organization
+  description: Organization Management
+
+paths:
+  /organizations:
+    post:
+      operationId: createOrganization
+      tags:
+        - organization
+      description: "Create a new organization."
+      summary: Create a new organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationCreateRequest'
+            examples:
+              NewOrganizationIn:
+                $ref: '#/components/examples/NewOrganizationIn'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/OrganizationCreateRequest'
+            examples:
+              NewOrganizationIn:
+                $ref: '#/components/examples/NewOrganizationIn'
+      responses:
+        "201":
+          description: The Organization details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+              examples:
+                CosmoOrganization:
+                  $ref: '#/components/examples/CosmoOrganization'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Organization'
+              examples:
+                CosmoOrganization:
+                  $ref: '#/components/examples/CosmoOrganization'
+        "400":
+          description: Bad request
+    get:
+      operationId: listOrganizations
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/size'
+      tags:
+        - organization
+      description: "Retrieve a paginated list of all organizations the authenticated user has permission to view. Use 'page' and 'size' query parameters for pagination."
+      summary: List all Organizations
+      responses:
+        "200":
+          description: The list of Organizations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+              examples:
+                TwoOrganizations:
+                  $ref: '#/components/examples/TwoOrganizations'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+              examples:
+                TwoOrganizations:
+                  $ref: '#/components/examples/TwoOrganizations'
+
+  /organizations/{organization_id}:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    get:
+      operationId: getOrganization
+      tags:
+        - organization
+      description: "Retrieve detailed information about an organization."
+      summary: Get the details of an Organization
+      responses:
+        "200":
+          description: The Organization details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+              examples:
+                CosmoOrganization:
+                  $ref: '#/components/examples/CosmoOrganization'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Organization'
+              examples:
+                CosmoOrganization:
+                  $ref: '#/components/examples/CosmoOrganization'
+        "404":
+          description: The Organization specified is unknown or you don't have access to it
+    patch:
+      operationId: updateOrganization
+      tags:
+        - organization
+      summary: Update an Organization
+      requestBody:
+        description: The new Organization details. This endpoint can't be used to update security
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationUpdateRequest'
+            examples:
+              ChangeOrganizationName:
+                $ref: '#/components/examples/ChangeOrganizationName'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/OrganizationUpdateRequest'
+            examples:
+              ChangeOrganizationName:
+                $ref: '#/components/examples/ChangeOrganizationName'
+      responses:
+        "200":
+          description: The organization details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+              examples:
+                UpdatedOrganization:
+                  $ref: '#/components/examples/UpdatedOrganization'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Organization'
+              examples:
+                UpdatedOrganization:
+                  $ref: '#/components/examples/UpdatedOrganization'
+        "400":
+          description: Bad request
+        "404":
+          description: The Organization specified is unknown or you don't have access to it
+    delete:
+      operationId: deleteOrganization
+      tags:
+        - organization
+      description: "Permanently delete an organization. This operation cannot be undone."
+      summary: Delete an organization
+      responses:
+        "204":
+          description: Request succeeded
+        "404":
+          description: The Organization specified is unknown or you don't have access to it
+
+  /organizations/permissions:
+    get:
+      operationId: listPermissions
+      tags:
+        - organization
+      summary: Get all permissions per components
+      responses:
+        "200":
+          description: The security permission list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ComponentRolePermissions'
+              examples:
+                permissions:
+                  $ref: '#/components/examples/Permissions'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ComponentRolePermissions'
+              examples:
+                permissions:
+                  $ref: '#/components/examples/Permissions'
+
+  /organizations/{organization_id}/permissions/{role}:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - name: role
+        in: path
+        description: The Role
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getOrganizationPermissions
+      tags:
+        - organization
+      summary: Get the Organization permissions by given role
+      responses:
+        "200":
+          description: The Organization security permission list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              example:
+                $ref: '#/components/examples/OrganizationRolePermissions'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  type: string
+              example:
+                $ref: '#/components/examples/OrganizationRolePermissions'
+
+  /organizations/{organization_id}/security:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    get:
+      operationId: getOrganizationSecurity
+      tags:
+        - organization
+      summary: Get the Organization security information
+      responses:
+        "200":
+          description: The Organization security
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSecurity'
+              examples:
+                OrganizationSecurity:
+                  $ref: '#/components/examples/OrganizationSecurity'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OrganizationSecurity'
+              examples:
+                OrganizationSecurity:
+                  $ref: '#/components/examples/OrganizationSecurity'
+        "404":
+          description: The Organization specified is unknown or you don't have access to it
+
+  /organizations/{organization_id}/security/default:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    patch:
+      operationId: updateOrganizationDefaultSecurity
+      tags:
+        - organization
+      summary: Update the Organization default security
+      requestBody:
+        description: This change the organization default security.
+                    The default security is the role assigned to any person not on the Access Control List.
+                    If the default security is None, then nobody outside of the ACL can access the organization.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRole'
+            examples:
+              DefaultRole:
+                $ref: '#/components/examples/DefaultRole'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/OrganizationRole'
+            examples:
+              DefaultRole:
+                $ref: '#/components/examples/DefaultRole'
+      responses:
+        "201":
+          description: The Organization default visibility
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSecurity'
+              examples:
+                UpdatedSecurity:
+                  $ref: '#/components/examples/UpdatedSecurity'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OrganizationSecurity'
+              examples:
+                UpdatedSecurity:
+                  $ref: '#/components/examples/UpdatedSecurity'
+        "404":
+          description: The Organization specified is unknown or you don't have access to it
+
+  /organizations/{organization_id}/security/access:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    post:
+      operationId: createOrganizationAccessControl
+      tags:
+        - organization
+      description: "Grant access to an organization for a user or group."
+      summary: Add a control access to the Organization
+      requestBody:
+        description: The new Organization security access to add.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationAccessControl'
+            examples:
+              OrganizationAccess:
+                $ref: '#/components/examples/OrganizationAccess'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/OrganizationAccessControl'
+            examples:
+              OrganizationAccess:
+                $ref: '#/components/examples/OrganizationAccess'
+      responses:
+        "201":
+          description: The Organization access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationAccessControl'
+              examples:
+                OrganizationAccessControl:
+                  $ref: '#/components/examples/OrganizationAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OrganizationAccessControl'
+              examples:
+                OrganizationAccessControl:
+                  $ref: '#/components/examples/OrganizationAccessControl'
+        "404":
+          description: The Organization specified is unknown or you don't have access to it
+
+  /organizations/{organization_id}/security/access/{identity_id}:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - name: identity_id
+        in: path
+        description: The User identifier
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getOrganizationAccessControl
+      tags:
+        - organization
+      summary: Get a control access for the Organization
+      responses:
+        "200":
+          description: The Organization access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationAccessControl'
+              examples:
+                OrganizationAccessControl:
+                  $ref: '#/components/examples/OrganizationAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OrganizationAccessControl'
+              examples:
+                OrganizationAccessControl:
+                  $ref: '#/components/examples/OrganizationAccessControl'
+        "404":
+          description: The Organization or user specified is unknown or you don't have access to it
+    patch:
+      operationId: updateOrganizationAccessControl
+      tags:
+        - organization
+      summary: Update the specified access to User for an Organization
+      requestBody:
+        description: The new Organization Access Control
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRole'
+            examples:
+              UpdateRole:
+                $ref: '#/components/examples/UpdateRole'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/OrganizationRole'
+            examples:
+              UpdateRole:
+                $ref: '#/components/examples/UpdateRole'
+      responses:
+        "200":
+          description: The Organization access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationAccessControl'
+              examples:
+                UpdatedAccessControl:
+                  $ref: '#/components/examples/UpdatedAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OrganizationAccessControl'
+              examples:
+                UpdatedAccessControl:
+                  $ref: '#/components/examples/UpdatedAccessControl'
+        "404":
+          description: The Organization specified is unknown or you don't have access to it
+    delete:
+      operationId: deleteOrganizationAccessControl
+      tags:
+        - organization
+      summary: Remove the specified access from the given Organization
+      responses:
+        "204":
+          description: Request succeeded
+        "404":
+          description: The Organization or the user specified is unknown or you don't have access to them
+
+  /organizations/{organization_id}/security/users:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    get:
+      operationId: listOrganizationSecurityUsers
+      tags:
+        - organization
+      summary: Get the Organization security users list
+      responses:
+        "200":
+          description: The Organization security users list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example:
+                  - "alice@cosmotech.com"
+                  - "bob@cosmotech.com"
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  type: string
+                example:
+                  - "alice@cosmotech.com"
+                  - "bob@cosmotech.com"
+        "404":
+          description: The Organization specified is unknown or you don't have access to it
+
+components:
+  securitySchemes:
+    oAuth2AuthCode:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://example.com/authorize"
+          tokenUrl: "https://example.com/token"
+          scopes: {}
+  parameters:
+    organizationId:
+      name: organization_id
+      in: path
+      description: The Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: '^o-\w{10,20}'
+    page:
+      name: page
+      in: query
+      description: Page number to query (first page is at index 0)
+      required: false
+      schema:
+        type: integer
+    size:
+      name: size
+      in: query
+      description: Amount of result by page
+      required: false
+      schema:
+        type: integer
+  schemas:
+    # Base Organization object that includes all information
+    Organization:
+      type: object
+      x-class-extra-annotation: "@com.redis.om.spring.annotations.Document"
+      description: An Organization
+      properties:
+        id:
+          x-field-extra-annotation: "@org.springframework.data.annotation.Id"
+          type: string
+          readOnly: true
+          description: The Organization unique identifier
+        name:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Searchable"
+          description: The Organization name
+        createInfo:
+          description: The details of the Organization creation
+          allOf:
+            - $ref: '#/components/schemas/OrganizationEditInfo'
+        updateInfo:
+          description: The details of the Organization last update
+          allOf:
+            - $ref: '#/components/schemas/OrganizationEditInfo'
+        security:
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          allOf:
+            - $ref: '#/components/schemas/OrganizationSecurity'
+      required:
+        - id
+        - name
+        - createInfo
+        - updateInfo
+        - security
+
+    # CRUD Operation Schemas
+    OrganizationCreateRequest:
+      type: object
+      description: Request object for creating a new organization
+      properties:
+        name:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Searchable"
+          description: The Organization name
+          minLength: 1
+          x-size-message: "cannot be empty"
+        security:
+          $ref: '#/components/schemas/OrganizationSecurity'
+      required:
+        - name
+
+    OrganizationUpdateRequest:
+      type: object
+      description: Request object for updating an organization
+      properties:
+        name:
+          type: string
+          description: The Organization name
+          minLength: 1
+          x-size-message: "cannot be empty"
+
+    # Security Operation Schemas
+    OrganizationSecurity:
+      type: object
+      description: Response object for organization security information
+      properties:
+        default:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          description: The role by default
+        accessControlList:
+          type: array
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          description: The list which can access this Organization with detailed access control information
+          items:
+            $ref: '#/components/schemas/OrganizationAccessControl'
+      required:
+        - default
+        - accessControlList
+
+    OrganizationAccessControl:
+      type: object
+      description: Response object for organization access control
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          description: The identity id
+        role:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          description: A role
+      required:
+        - id
+        - role
+
+    OrganizationRole:
+      type: object
+      description: The Organization Role
+      properties:
+        role:
+          type: string
+          description: The Organization Role
+      required:
+        - role
+
+    ComponentRolePermissions:
+      type: object
+      description: A RBAC by component
+      properties:
+        component:
+          type: string
+        roles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+      required:
+        - component
+        - roles
+
+    OrganizationEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+        - timestamp
+        - userId
+
+  examples:
+    NewOrganizationIn:
+      summary: Create a new organization
+      description: Create a new organization with security settings
+      value:
+        name: "Digital Twin Solutions"
+        security:
+          default: "viewer"
+          accessControlList:
+            - id: "admin@cosmotech.com"
+              role: "admin"
+            - id: "editor@cosmotech.com"
+              role: "editor"
+
+    CosmoOrganization:
+      summary: Organization response example
+      description: Example of an organization response with full details
+      value:
+        id: "o-gZVQqV8B4pR7"
+        name: "Digital Twin Solutions"
+        createInfo:
+          timestamp: 1713096000000
+          userId: "john.doe@cosmotech.com"
+        updateInfo:
+          timestamp: 1713096000000
+          userId: "john.doe@cosmotech.com"
+        security:
+          default: "viewer"
+          accessControlList:
+            - id: "admin@cosmotech.com"
+              role: "admin"
+            - id: "editor@cosmotech.com"
+              role: "editor"
+
+    ChangeOrganizationName:
+      summary: Change Name of Organization
+      description: Change the name of an organization
+      value:
+        name: "Digital Twin Solutions"
+
+    UpdatedOrganization:
+      summary: Updated organization example
+      description: Example of an organization after update
+      value:
+        id: "o-gZVQqV8B4pR7"
+        name: "Updated Digital Twin Solutions"
+        createInfo:
+          timestamp: 1713096000000
+          userId: "john.doe@cosmotech.com"
+        updateInfo:
+          timestamp: 1713182400000
+          userId: "john.doe@cosmotech.com"
+        security:
+          default: "viewer"
+          accessControlList:
+            - id: "admin@cosmotech.com"
+              role: "admin"
+            - id: "editor@cosmotech.com"
+              role: "editor"
+
+    TwoOrganizations:
+      summary: Multiple organizations example
+      description: Example of multiple organizations in a list
+      value:
+        - id: "o-gZVQqV8B4pR7"
+          name: "Digital Twin Solutions"
+          createInfo:
+            timestamp: 1713096000000
+            userId: "john.doe@cosmotech.com"
+          updateInfo:
+            timestamp: 1713096000000
+            userId: "john.doe@cosmotech.com"
+          security:
+            default: "viewer"
+            accessControlList:
+              - id: "admin@cosmotech.com"
+                role: "admin"
+        - id: "o-hWzRbW9C5qS8"
+          name: "Supply Chain Analytics"
+          createInfo:
+            timestamp: 1712923200000
+            userId: "john.doe@cosmotech.com"
+          updateInfo:
+            timestamp: 1713009600000
+            userId: "john.doe@cosmotech.com"
+          security:
+            default: "viewer"
+            accessControlList:
+              - id: "admin@cosmotech.com"
+                role: "admin"
+
+    OrganizationRolePermissions:
+      summary: List of permissions for a role
+      description: Example of permissions for a given role
+      value:
+        - "read"
+        - "read_security"
+        - "create_children"
+
+    OrganizationSecurity:
+      summary: Organization security example
+      description: Example of organization security settings
+      value:
+        default: "viewer"
+        accessControlList:
+          - id: "admin@cosmotech.com"
+            role: "admin"
+          - id: "editor@cosmotech.com"
+            role: "editor"
+
+    OrganizationAccess:
+      summary: Organization access control example
+      description: Example of adding a new access control
+      value:
+        id: "new.user@cosmotech.com"
+        role: "editor"
+
+    OrganizationAccessControl:
+      summary: Organization access control response
+      description: Example of access control response
+      value:
+        id: "user@cosmotech.com"
+        role: "editor"
+
+    DefaultRole:
+      summary: Update default role
+      description: Example of updating the default role
+      value:
+        role: "viewer"
+
+    UpdateRole:
+      summary: Update user role
+      description: Example of updating a user's role
+      value:
+        role: "editor"
+
+    UpdatedAccessControl:
+      summary: Updated access control
+      description: Example of updated access control
+      value:
+        id: "user@cosmotech.com"
+        role: "editor"
+
+    UpdatedSecurity:
+      summary: Updated security settings
+      description: Example of updated security settings
+      value:
+        default: "viewer"
+        accessControlList:
+          - id: "admin@cosmotech.com"
+            role: "admin"
+          - id: "editor@cosmotech.com"
+            role: "editor"
+
+    Permissions:
+      summary: Component permissions
+      description: Example of component role permissions
+      value:
+        - component: "organization"
+          roles:
+            none: []
+            viewer:
+              - "read"
+              - "read_security"
+            editor:
+              - "read"
+              - "read_security"
+              - "write"
+            admin:
+              - "read"
+              - "read_security"
+              - "write"
+              - "write_security"
+              - "delete"
+        - component: "workspace"
+          roles:
+            none: []
+            viewer:
+              - "read"
+              - "read_security"
+            editor:
+              - "read"
+              - "read_security"
+              - "write"
+            admin:
+              - "read"
+              - "read_security"
+              - "write"
+              - "write_security"
+              - "delete"
+        - component: "runner"
+          roles:
+            none: []
+            viewer:
+              - "read"
+              - "read_security"
+            editor:
+              - "read"
+              - "read_security"
+              - "launch"
+              - "write"
+            validator:
+              - "read"
+              - "read_security"
+              - "launch"
+              - "write"
+              - "validate"
+            admin:
+              - "read"
+              - "read_security"
+              - "launch"
+              - "write"
+              - "validate"
+              - "write_security"
+              - "delete"

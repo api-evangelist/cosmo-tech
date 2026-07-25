@@ -1,0 +1,12 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/ (operationIds verified against the Cosmo Tech Cloud Platform API specs)
+skills:
+  - file: cosmo-tech-provision-workspace.md
+    name: Provision a Cosmo Tech organization and workspace
+    api: openapi/cosmo-tech-organization-openapi-original.yaml
+    operations: [createOrganization, createWorkspace, createSolution, createDataset, createOrganizationAccessControl]
+  - file: cosmo-tech-run-simulation.md
+    name: Run a Cosmo Tech simulation
+    api: openapi/cosmo-tech-runner-openapi-original.yaml
+    operations: [createRunner, startRun, getRunStatus, getRunLogs, getRun, listRuns, stopRun]

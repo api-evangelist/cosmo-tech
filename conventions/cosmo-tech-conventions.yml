@@ -1,0 +1,57 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/ (7 Cosmo Tech Cloud Platform API service specs) + github.com/Cosmo-Tech/cosmotech-api
+note: >-
+  Cross-cutting request/response semantics for the open-source Cosmo Tech Cloud
+  Platform API, derived from the OpenAPI and the repository docs. No idempotency
+  contract is documented or present in the spec, so no Idempotency pointer is emitted.
+authentication:
+  style: oauth2
+  scheme_name: oAuth2AuthCode
+  flow: authorizationCode
+  identity_provider: Keycloak
+  note: >-
+    The platform authenticates via OAuth2 / OpenID Connect using Keycloak
+    (application-keycloak profile is active by default). The authorization/token
+    URLs in the published spec are placeholders (example.com) and are resolved
+    per deployment tenant.
+  cross_ref: authentication/cosmo-tech-authentication.yml
+authorization:
+  model: rbac
+  note: >-
+    Fine-grained RBAC per resource (organization, workspace, solution, dataset,
+    runner) via /security, /security/default and /security/access endpoints with
+    roles and ComponentRolePermissions.
+idempotency:
+  supported: false
+  note: No idempotency key header or parameter is documented or present in the OpenAPI.
+pagination:
+  style: page-number
+  params:
+    - name: page
+      in: query
+      description: Zero/one-based page index (page-number pagination).
+    - name: size
+      in: query
+      description: Page size / number of items per page.
+  also_seen:
+    - name: limit
+    - name: offset
+  note: >-
+    List endpoints (listOrganizations, listWorkspaces, listSolutions,
+    listDatasets, listRunners, listRuns) accept page + size query parameters;
+    a few endpoints also expose limit/offset.
+versioning:
+  cross_ref: lifecycle/cosmo-tech-lifecycle.yml
+  scheme: semantic-major
+  note: Platform released as major versions (current 5.x); see lifecycle artifact.
+errors:
+  envelope: status-only
+  format: openapi
+  note: >-
+    Standard HTTP status codes (400/403/404/422) without an application/problem+json
+    body; no RFC 9457 problem-details schema is declared.
+  cross_ref: errors/cosmo-tech-problem-types.yml
+rate_limiting:
+  documented: false
+  note: No rate-limit headers or policy documented in the open-source API.

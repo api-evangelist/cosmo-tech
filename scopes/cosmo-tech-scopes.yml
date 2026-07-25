@@ -1,0 +1,57 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cosmo-tech-dataset-openapi-original.yaml, openapi/cosmo-tech-meta-openapi-original.yaml,
+  openapi/cosmo-tech-organization-openapi-original.yaml, openapi/cosmo-tech-run-openapi-original.yaml,
+  openapi/cosmo-tech-runner-openapi-original.yaml, openapi/cosmo-tech-solution-openapi-original.yaml,
+  openapi/cosmo-tech-workspace-openapi-original.yaml
+schemes:
+- name: oAuth2AuthCode
+  source: openapi/cosmo-tech-dataset-openapi-original.yaml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/authorize
+    tokenUrl: https://example.com/token
+  description: OAuth2 authentication
+- name: oAuth2AuthCode
+  source: openapi/cosmo-tech-meta-openapi-original.yaml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/authorize
+    tokenUrl: https://example.com/token
+  description: OAuth2 authentication
+- name: oAuth2AuthCode
+  source: openapi/cosmo-tech-organization-openapi-original.yaml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/authorize
+    tokenUrl: https://example.com/token
+  description: OAuth2 authentication
+- name: oAuth2AuthCode
+  source: openapi/cosmo-tech-run-openapi-original.yaml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/authorize
+    tokenUrl: https://example.com/token
+  description: OAuth2 authentication
+- name: oAuth2AuthCode
+  source: openapi/cosmo-tech-runner-openapi-original.yaml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/authorize
+    tokenUrl: https://example.com/token
+  description: OAuth2 authentication
+- name: oAuth2AuthCode
+  source: openapi/cosmo-tech-solution-openapi-original.yaml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/authorize
+    tokenUrl: https://example.com/token
+  description: OAuth2 authentication
+- name: oAuth2AuthCode
+  source: openapi/cosmo-tech-workspace-openapi-original.yaml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/authorize
+    tokenUrl: https://example.com/token
+  description: OAuth2 authentication
+scopes: []

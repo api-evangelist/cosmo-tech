@@ -1,0 +1,54 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/ 4xx/5xx responses
+format: openapi
+envelope: Status-only responses; the open-source cosmotech-api returns standard HTTP
+  status codes without an application/problem+json body (no RFC 9457 schema declared
+  in spec).
+problems:
+- status: 400
+  title: Bad request
+  descriptions:
+  - Bad Request
+  - Bad request
+  - Bad request - Data cannot be retrieved from provided information
+  - Bad request - Dataset part cannot be created
+  - Bad request - Invalid parameter group
+  - Bad request - Invalid run template
+  example_operations:
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#createDataset
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#createDatasetPart
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#queryData
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#replaceDatasetPart
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#searchDatasetParts
+- status: 403
+  title: Insufficient permissions
+  descriptions:
+  - Insufficient permissions on organization, workspace or dataset
+  example_operations:
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#createDataset
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#createDatasetPart
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#deleteDataset
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#deleteDatasetPart
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#downloadDatasetPart
+- status: 404
+  title: Resource not found
+  descriptions:
+  - Dataset part specified is not found
+  - Dataset specified is not found
+  - Dataset specified is not found or you don't have access to it
+  - Organization or workspace or dataset specified is not found
+  - Organization, workspace or dataset specified is not found
+  - Organization, workspace specified is not found
+  example_operations:
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#createDataset
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#createDatasetAccessControl
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#createDatasetPart
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#deleteDataset
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#deleteDatasetAccessControl
+- status: 422
+  title: Unprocessable entity
+  descriptions:
+  - Targeted dataset do not support requests
+  example_operations:
+  - openapi/cosmo-tech-dataset-openapi-original.yaml#queryData

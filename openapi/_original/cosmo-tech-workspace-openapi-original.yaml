@@ -1,0 +1,1067 @@
+openapi: 3.0.3
+
+info:
+  title: ""
+  version: ""
+
+security:
+  - oAuth2AuthCode: []
+
+tags:
+- name: workspace
+  description: Workspace Management
+
+paths:
+  /organizations/{organization_id}/workspaces:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    post:
+      operationId: createWorkspace
+      tags:
+        - workspace
+      description: "Create a new workspace."
+      summary: Create a new workspace
+      requestBody:
+        description: The Workspace to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCreateRequest'
+            examples:
+              BreweryWorkspaceCreate:
+                $ref: '#/components/examples/BreweryWorkspaceCreate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCreateRequest'
+            examples:
+              BreweryWorkspaceCreate:
+                $ref: '#/components/examples/BreweryWorkspaceCreate'
+      responses:
+        "201":
+          description: The workspace details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+              examples:
+                BreweryWorkspace:
+                  $ref: '#/components/examples/BreweryWorkspace'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+              examples:
+                BreweryWorkspace:
+                  $ref: '#/components/examples/BreweryWorkspace'
+        "400":
+          description: Bad request
+    get:
+      operationId: listWorkspaces
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/size'
+      tags:
+        - workspace
+      description: "Retrieve a paginated list of all workspaces in an organization that the user has permission to view."
+      summary: List all Workspaces
+      responses:
+        "200":
+          description: The workspace details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workspace'
+              examples:
+                WorkspaceList:
+                  $ref: '#/components/examples/WorkspaceList'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workspace'
+              examples:
+                WorkspaceList:
+                  $ref: '#/components/examples/WorkspaceList'
+  /organizations/{organization_id}/workspaces/{workspace_id}:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+    get:
+      operationId: getWorkspace
+      tags:
+        - workspace
+      description: "Retrieve detailed information about a workspace."
+      summary: Get the details of a workspace
+      responses:
+        "200":
+          description: The Workspace details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+              examples:
+                BreweryWorkspace:
+                  $ref: '#/components/examples/BreweryWorkspace'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+              examples:
+                BreweryWorkspace:
+                  $ref: '#/components/examples/BreweryWorkspace'
+        "404":
+          description: The Workspace specified is unknown or you don't have access to it
+    patch:
+      operationId: updateWorkspace
+      tags:
+        - workspace
+      summary: Update a workspace
+      requestBody:
+        description: The new Workspace details. This endpoint can't be used to update security
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceUpdateRequest'
+            examples:
+              BreweryWorkspaceUpdate:
+                $ref: '#/components/examples/BreweryWorkspaceUpdate'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/WorkspaceUpdateRequest'
+            examples:
+              BreweryWorkspaceUpdate:
+                $ref: '#/components/examples/BreweryWorkspaceUpdate'
+      responses:
+        "200":
+          description: The workspace details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+              examples:
+                BreweryWorkspaceUpdated:
+                  $ref: '#/components/examples/BreweryWorkspaceUpdated'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+              examples:
+                BreweryWorkspaceUpdated:
+                  $ref: '#/components/examples/BreweryWorkspaceUpdated'
+        "400":
+          description: Bad request
+        "404":
+          description: The Workspace specified is unknown or you don't have access to it
+    delete:
+      operationId: deleteWorkspace
+      tags:
+        - workspace
+      description: "Permanently delete a workspace."
+      summary: Delete a workspace
+      responses:
+        "204":
+          description: The workspace details
+        "400":
+          description: Bad request
+        "404":
+          description: The Workspace specified is unknown or you don't have access to it
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/files:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+    post:
+      operationId: createWorkspaceFile
+      tags:
+        - workspace
+      description: "Upload a file to workspace storage. Use 'destination' to specify path, 'overwrite' to replace existing files."
+      summary: Upload a file for the Workspace
+      requestBody:
+        description: The file to upload
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WorkspaceFileUpload'
+            examples:
+              use_file_name_as_is:
+                summary: Use the file name as is as destination
+                value:
+                  file: "Lorem Ipsum Dolor Sit Amet"
+              upload_to_workspace_root_under_a_different_file_name:
+                summary: Upload to the Workspace root folder, but rename the target file
+                value:
+                  destination: "my_file_renamed.txt"
+                  file: "Lorem Ipsum Dolor Sit Amet"
+              upload_to_a_folder:
+                summary: |
+                  Upload to a sub-folder.
+                  Destination may or may not start with a '/', but must end with '/' to be treated as a directory.
+                  Final file path will always be relative to the Workspace root location.
+                value:
+                  destination: "path/to/a/directory/"
+                  file: "Lorem Ipsum Dolor Sit Amet"
+              upload_to_a_specific_folder_and_under_a_different_file_name:
+                summary: |
+                  Upload to a sub-folder.
+                  Destination may or may not start with a '/', but must not end with '/'.
+                  Final file path will always be relative to the Workspace root location.
+                value:
+                  destination: "/path/to/a/directory/my_file_renamed.txt"
+                  file: "Lorem Ipsum Dolor Sit Amet"
+      responses:
+        "201":
+          description: The file resource details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceFile'
+              examples:
+                WorkspaceFile:
+                  $ref: '#/components/examples/WorkspaceFile'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkspaceFile'
+              examples:
+                WorkspaceFile:
+                  $ref: '#/components/examples/WorkspaceFile'
+        "400":
+          description: Bad request
+    get:
+      operationId: listWorkspaceFiles
+      tags:
+        - workspace
+      summary: List all Workspace files
+      responses:
+        "200":
+          description: The workspace files
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkspaceFile'
+              examples:
+                WorkspaceFileList:
+                  $ref: '#/components/examples/WorkspaceFileList'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkspaceFile'
+              examples:
+                WorkspaceFileList:
+                  $ref: '#/components/examples/WorkspaceFileList'
+        "404":
+          description: The Workspace specified is unknown or you don't have access to it
+    delete:
+      operationId: deleteWorkspaceFiles
+      tags:
+        - workspace
+      summary: Delete all Workspace files
+      responses:
+        "204":
+          description: Request succeeded
+        "404":
+          description: The Workspace specified is unknown or you don't have access to them
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/files/download:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+      - name: file_name
+        in: query
+        description: The file name
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getWorkspaceFile
+      tags:
+        - workspace
+      description: "Download a specific file from workspace storage. Returns file as binary stream."
+      summary: Download the Workspace File specified
+      responses:
+        "200":
+          description: The workspace file as a resource
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: The Workspace file specified is unknown or you don't have access to it
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/files/delete:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+      - name: file_name
+        in: query
+        description: The file name
+        required: true
+        schema:
+          type: string
+    delete:
+      operationId: deleteWorkspaceFile
+      tags:
+        - workspace
+      summary: Delete a workspace file
+      responses:
+        "204":
+          description: Request succeeded
+        "404":
+          description: The Workspace or the file specified is unknown or you don't have access to them
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/permissions/{role}:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+      - name: role
+        in: path
+        description: The Role
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: listWorkspaceRolePermissions
+      tags:
+        - workspace
+      summary: Get the Workspace permission by given role
+      responses:
+        "200":
+          description: The Workspace security permission list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspacePermissionsList'
+              examples:
+                WorkspacePermissions:
+                  $ref: '#/components/examples/WorkspacePermissions'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkspacePermissionsList'
+              examples:
+                WorkspacePermissions:
+                  $ref: '#/components/examples/WorkspacePermissions'
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/security:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+    get:
+      operationId: getWorkspaceSecurity
+      tags:
+        - workspace
+      summary: Get the Workspace security information
+      responses:
+        "200":
+          description: The Workspace security
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceSecurity'
+              examples:
+                BreweryWorkspaceSecurity:
+                  $ref: '#/components/examples/BreweryWorkspaceSecurity'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkspaceSecurity'
+              examples:
+                BreweryWorkspaceSecurity:
+                  $ref: '#/components/examples/BreweryWorkspaceSecurity'
+        "404":
+          description: The Workspace specified is unknown or you don't have access to it
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/security/default:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+    patch:
+      operationId: updateWorkspaceDefaultSecurity
+      tags:
+        - workspace
+      summary: Update the Workspace default security
+      requestBody:
+        description: This change the workspace default security.
+          The default security is the role assigned to any person not on the Access Control List.
+          If the default security is None, then nobody outside of the ACL can access the workspace.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceRole'
+            examples:
+              BreweryWorkspaceRole:
+                $ref: '#/components/examples/BreweryWorkspaceRole'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/WorkspaceRole'
+            examples:
+              BreweryWorkspaceRole:
+                $ref: '#/components/examples/BreweryWorkspaceRole'
+      responses:
+        "201":
+          description: The Workspace default visibility
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceSecurity'
+              examples:
+                BreweryWorkspaceSecurity:
+                  $ref: '#/components/examples/BreweryDefaultSecurityRoleWriter'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkspaceSecurity'
+              examples:
+                BreweryWorkspaceSecurity:
+                  $ref: '#/components/examples/BreweryDefaultSecurityRoleWriter'
+        "404":
+          description: The Workspace specified is unknown or you don't have access to it
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/security/access:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+    post:
+      operationId: createWorkspaceAccessControl
+      tags:
+        - workspace
+      description: "Grant access to a workspace for a user or group."
+      summary: Add a control access to the Workspace
+      requestBody:
+        description: The new Workspace security access to add.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceAccessControl'
+            examples:
+              BreweryWorkspaceAccessControl:
+                $ref: '#/components/examples/BreweryWorkspaceAccessControl'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/WorkspaceAccessControl'
+            examples:
+              BreweryWorkspaceAccessControl:
+                $ref: '#/components/examples/BreweryWorkspaceAccessControl'
+      responses:
+        "201":
+          description: The Workspace access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceAccessControl'
+              examples:
+                BreweryWorkspaceAccessControl:
+                  $ref: '#/components/examples/BreweryWorkspaceAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkspaceAccessControl'
+              examples:
+                BreweryWorkspaceAccessControl:
+                  $ref: '#/components/examples/BreweryWorkspaceAccessControl'
+        "404":
+          description: The Workspace specified is unknown or you don't have access to it
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/security/access/{identity_id}:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+      - name: identity_id
+        in: path
+        description: The User identifier
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getWorkspaceAccessControl
+      tags:
+        - workspace
+      summary: Get a control access for the Workspace
+      responses:
+        "200":
+          description: The Workspace access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceAccessControl'
+              examples:
+                BreweryWorkspaceAccessControl:
+                  $ref: '#/components/examples/BreweryWorkspaceAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkspaceAccessControl'
+              examples:
+                BreweryWorkspaceAccessControl:
+                  $ref: '#/components/examples/BreweryWorkspaceAccessControl'
+        "404":
+          description: The Workspace or user specified is unknown or you don't have access to it
+    patch:
+      operationId: updateWorkspaceAccessControl
+      tags:
+        - workspace
+      summary: Update the specified access to User for a Workspace
+      requestBody:
+        description: The new Workspace Access Control
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceRole'
+            examples:
+              BreweryWorkspaceRole:
+                $ref: '#/components/examples/BreweryWorkspaceRole'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/WorkspaceRole'
+            examples:
+              BreweryWorkspaceRole:
+                $ref: '#/components/examples/BreweryWorkspaceRole'
+      responses:
+        "200":
+          description: The Workspace access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceAccessControl'
+              examples:
+                BreweryWorkspaceAccessControl:
+                  $ref: '#/components/examples/BreweryWorkspaceAccessControl'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkspaceAccessControl'
+              examples:
+                BreweryWorkspaceAccessControl:
+                  $ref: '#/components/examples/BreweryWorkspaceAccessControl'
+        "404":
+          description: The Workspace specified is unknown or you don't have access to it
+    delete:
+      operationId: deleteWorkspaceAccessControl
+      tags:
+        - workspace
+      description: "Remove a user's access to a workspace. Cannot remove the last administrator."
+      summary: Remove the specified access from the given Workspace
+      responses:
+        "204":
+          description: Request succeeded
+        "404":
+          description: The Workspace or the user specified is unknown or you don't have access to them
+
+  /organizations/{organization_id}/workspaces/{workspace_id}/security/users:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/workspaceId'
+    get:
+      operationId: listWorkspaceSecurityUsers
+      tags:
+        - workspace
+      summary: Get the Workspace security users list
+      responses:
+        "200":
+          description: The Workspace security users list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceUsersList'
+              examples:
+                WorkspaceUsers:
+                  $ref: '#/components/examples/WorkspaceUsers'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WorkspaceUsersList'
+              examples:
+                WorkspaceUsers:
+                  $ref: '#/components/examples/WorkspaceUsers'
+        "404":
+          description: The Workspace or the User specified is unknown or you don't have access to them
+
+components:
+  securitySchemes:
+    oAuth2AuthCode:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://example.com/authorize"
+          tokenUrl: "https://example.com/token"
+          scopes: {}
+  parameters:
+    organizationId:
+      name: organization_id
+      in: path
+      description: The Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: '^o-\w{10,20}'
+    workspaceId:
+      name: workspace_id
+      in: path
+      description: The Workspace identifier
+      required: true
+      schema:
+        type: string
+        pattern: '^w-\w{10,20}'
+    page:
+      name: page
+      in: query
+      description: Page number to query (first page is at index 0)
+      required: false
+      schema:
+        type: integer
+    size:
+      name: size
+      in: query
+      description: Amount of result by page
+      required: false
+      schema:
+        type: integer
+  schemas:
+    # Base Workspace object that includes all information
+    Workspace:
+      type: object
+      x-class-extra-annotation: "@com.redis.om.spring.annotations.Document"
+      description: A Workspace
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: "@org.springframework.data.annotation.Id"
+          readOnly: true
+          description: Workspace unique identifier generated by the API
+          pattern: '^w-\w{10,20}'
+          example: "w-0123456789ab"
+        organizationId:
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          type: string
+          readOnly: true
+          description: Organization unique identifier under which the workspace resides
+          pattern: '^o-\w{10,20}'
+          example: "o-0123456789ab"
+        key:
+          type: string
+          description: Technical key for resource name convention and version grouping. Must be unique
+          minLength: 1
+          x-size-message: "cannot be empty"
+          example: "MyKey"
+        name:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Searchable"
+          description: Workspace name. This name is display in the sample webApp
+          minLength: 1
+          x-size-message: "cannot be empty"
+          example: "FranceOffice"
+        description:
+          type: string
+          description: The Workspace description
+        version:
+          type: string
+          description: The Workspace version MAJOR.MINOR.PATCH.
+          example: "1.0.0"
+        tags:
+          type: array
+          description: The list of tags
+          items:
+            type: string
+        createInfo:
+          description: The details of the Workspace creation
+          allOf:
+            - $ref: '#/components/schemas/WorkspaceEditInfo'
+        updateInfo:
+          description: The details of the Workspace last update
+          allOf:
+            - $ref: '#/components/schemas/WorkspaceEditInfo'
+        solution:
+          $ref: '#/components/schemas/WorkspaceSolution'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        security:
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          allOf:
+            - $ref: '#/components/schemas/WorkspaceSecurity'
+      required:
+        - id
+        - organizationId
+        - key
+        - name
+        - createInfo
+        - updateInfo
+        - solution
+        - security
+
+    # CRUD Operation Schemas
+    WorkspaceCreateRequest:
+      type: object
+      description: Request object for creating a new workspace
+      properties:
+        key:
+          type: string
+          description: Technical key for resource name convention and version grouping. Must be unique
+          minLength: 1
+          x-size-message: "cannot be empty"
+        name:
+          type: string
+          description: Workspace name. This name is displayed in the sample webApp
+          example: "FranceOffice"
+          minLength: 1
+          x-size-message: "cannot be empty"
+        description:
+          type: string
+          description: The Workspace description
+        version:
+          type: string
+          description: The Workspace version MAJOR.MINOR.PATCH.
+          example: "1.0.0"
+        tags:
+          type: array
+          description: The list of tags
+          items:
+            type: string
+        solution:
+          $ref: '#/components/schemas/WorkspaceSolution'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        security:
+          $ref: '#/components/schemas/WorkspaceSecurity'
+      required:
+        - key
+        - name
+        - solution
+
+    WorkspaceUpdateRequest:
+      type: object
+      description: Request object for updating a workspace
+      properties:
+        key:
+          type: string
+          description: Technical key for resource name convention and version grouping. Must be unique
+          minLength: 1
+          x-size-message: "cannot be empty"
+        name:
+          type: string
+          description: Workspace name
+          minLength: 1
+          x-size-message: "cannot be empty"
+        description:
+          type: string
+          description: The Workspace description
+        tags:
+          type: array
+          description: The list of tags
+          items:
+            type: string
+        solution:
+          $ref: '#/components/schemas/WorkspaceSolution'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+
+    # File Operation Schemas
+    WorkspaceFileUpload:
+      type: object
+      description: Request object for uploading a file to a workspace
+      properties:
+        overwrite:
+          type: boolean
+          default: false
+          description: Whether to overwrite an existing file
+        destination:
+          type: string
+          description: |
+            Destination path. Must end with a '/' if specifying a folder.
+            Note that paths may or may not start with a '/', but they are always treated
+            as relative to the Workspace root location.
+          example: "path/to/a/directory/"
+        file:
+          type: string
+          format: binary
+          description: The file to upload
+      required:
+        - file
+
+    WorkspaceSecurity:
+      type: object
+      description: The workspace security information
+      properties:
+        default:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          description: The role by default
+        accessControlList:
+          type: array
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          description: The list which can access this Workspace with detailed access control information
+          items:
+            $ref: '#/components/schemas/WorkspaceAccessControl'
+      required:
+        - default
+        - accessControlList
+    WorkspaceAccessControl:
+      type: object
+      description: A Workspace access control item
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          description: The identity id
+        role:
+          type: string
+          x-field-extra-annotation: "@com.redis.om.spring.annotations.Indexed"
+          description: A role
+      required:
+        - id
+        - role
+    WorkspaceRole:
+      type: object
+      description: The Workspace Role
+      properties:
+        role:
+          type: string
+          description: The Workspace Role
+      required:
+        - role
+    WorkspaceFile:
+      type: object
+      description: A Workspace File resource
+      properties:
+        fileName:
+          type: string
+          description: The Workspace File name
+      required:
+        - fileName
+    WorkspaceSolution:
+      type: object
+      description: The Workspace Solution configuration
+      properties:
+        solutionId:
+          type: string
+          description: The Solution Id attached to this workspace
+          pattern: '^sol-\w{10,20}'
+        datasetId:
+          type: string
+          description: |
+            The Dataset Id attached to this workspace.
+            This dataset will be used to store default values for Solution parameters with file's varType.
+          pattern: '^d-\w{10,20}'
+        defaultParameterValues:
+          type: object
+          description: A map of parameterId/value to set default values for Solution parameters with simple varType (int, string, ...)
+          additionalProperties:
+            type: string
+      required:
+      - solutionId
+
+    # List Response Schemas
+    WorkspacePermissionsList:
+      type: array
+      description: List of permissions for a workspace role
+      items:
+        type: string
+      example:
+        - "read"
+        - "read_security"
+        - "create_children"
+
+    WorkspaceUsersList:
+      type: array
+      description: List of users with access to the workspace
+      items:
+        type: string
+      example:
+        - alice@mycompany.com
+        - bob@mycompany.com
+
+    WorkspaceEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+        - timestamp
+        - userId
+
+  examples:
+    BreweryWorkspace:
+      summary: Brewery Workspace
+      description: Brewery Workspace example
+      value:
+        id: w-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery
+        name: Brewery Analysis
+        description: Brewery analysis for stock, production, transport and customer satisfaction
+        version: 1.0.0
+        tags:
+          - Brewery
+        solution:
+          solutionId: sol-feo16eua48o
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList:
+            - id: alice.doe@cosmotech.com
+              role: admin
+    BreweryWorkspaceCreate:
+      summary: Brewery Workspace Create input parameters example
+      description: Example of required parameters for creating a workspace
+      value:
+        key: brewery
+        name: Brewery Analysis
+        description: Brewery analysis for stock, production, transport and customer satisfaction
+        version: 1.0.0
+        tags:
+          - Brewery
+        solution:
+          solutionId: sol-feo16eua48o
+        security:
+          default: viewer
+          accessControlList:
+            - id: alice.doe@cosmotech.com
+              role: admin
+    WorkspaceList:
+      summary: Workspace list
+      description: Example list of workspaces with required fields
+      value:
+        - id: w-1AbCdEfGhIj
+          organizationId: o-gZVQqV8B4pR7
+          key: brewery
+          name: Brewery Analysis
+          description: Brewery analysis for stock, production, transport and customer satisfaction
+          version: 1.0.0
+          tags:
+            - Brewery
+          solution:
+            solutionId: sol-feo16eua48o
+          createInfo:
+            timestamp: 1621353329000
+            userId: john.doe@cosmotech.com
+          updateInfo:
+            timestamp: 1621353329000
+            userId: john.doe@cosmotech.com
+          security:
+            default: viewer
+            accessControlList:
+              - id: alice.doe@cosmotech.com
+                role: admin
+        - id: w-2XyZaBcDeFg
+          organizationId: o-gZVQqV8B4pR7
+          key: breweryPlus
+          name: Brewery Analysis Plus
+          description: Brewery analysis for stock, production, transport and customer satisfaction with a plus
+          version: 1.0.0
+          tags:
+            - Brewery
+          solution:
+            solutionId: sol-ojd96oz14pz
+          createInfo:
+            timestamp: 1621353329000
+            userId: bob.doe@cosmotech.com
+          updateInfo:
+            timestamp: 1621353329000
+            userId: bob.doe@cosmotech.com
+          security:
+            default: viewer
+            accessControlList:
+              - id: bob.doe@cosmotech.com
+                role: admin
+    BreweryWorkspaceUpdate:
+      summary: Update the Brewery Workspace
+      description: Update the Brewery Workspace by changing its name
+      value:
+        name: Brewery Analysis 2021
+    BreweryWorkspaceUpdated:
+      summary: Updated Brewery Workspace
+      description: Example of updated workspace with required fields
+      value:
+        id: w-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery
+        name: Brewery Analysis 2021
+        description: Brewery analysis for stock, production, transport and customer satisfaction
+        version: 1.0.0
+        tags:
+          - Brewery
+        solution:
+          solutionId: sol-feo16eua48o
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621440000000
+          userId: john.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList:
+            - id: alice.doe@cosmotech.com
+              role: admin
+    BreweryWorkspaceSecurity:
+      summary: Brewery Workspace security
+      description: Brewery Workspace security example
+      value:
+        default: viewer
+        accessControlList:
+          - id: alice.doe@cosmotech.com
+            role: editor
+    BreweryWorkspaceAccessControl:
+      summary: Set an access control.
+      description: Set an access control for a user to a workspace.
+      value:
+        id: bob.doe@cosmotech.com
+        role: editor
+    BreweryWorkspaceRole:
+      summary: Set a Workspace Role.
+      description: Set a Role for a user to a workspace.
+      value:
+        role: editor
+    BreweryDefaultSecurityRoleWriter:
+      summary: Brewery Workspace Writer default security
+      description: Brewery Workspace example with updated default security
+      value:
+        default: editor
+        accessControlList:
+          - id: alice.doe@cosmotech.com
+            role: admin
+    WorkspaceFile:
+      summary: Workspace file example
+      description: Workspace file uploaded return example
+      value:
+        fileName: myData.csv
+    WorkspaceFileList:
+      summary: Workspace files example
+      description: Workspace files example
+      value:
+        - fileName: myData.csv
+        - fileName: myData2.csv
+        - fileName: myData3.csv
+    WorkspacePermissions:
+      summary: Workspace permissions example
+      description: Example of workspace role permissions
+      value:
+        - read
+        - read_security
+        - create_children
+        - write
+        - delete
+    WorkspaceUsers:
+      summary: Workspace users list example
+      description: Example of users with access to the workspace
+      value:
+        - alice.doe@cosmotech.com
+        - bob.doe@cosmotech.com
+        - charlie.smith@cosmotech.com

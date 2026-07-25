@@ -1,0 +1,12 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Cosmo Tech organization API
+  version: 1.0.0
+extends: openapi/cosmo-tech-organization-openapi-original.yaml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-18'
+    x-api-provider: Cosmo Tech
+    x-auth: oauth2-keycloak
+    x-pagination: page-and-size

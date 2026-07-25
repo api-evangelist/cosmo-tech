@@ -1,0 +1,30 @@
+generated: '2026-07-18'
+method: searched
+source: https://github.com/Cosmo-Tech/cosmotech-api/releases
+scheme: semver
+current: 5.0.1
+note: >-
+  Recent GitHub releases of the open-source Cosmo Tech Cloud Platform API. On-prem
+  builds are tagged separately from the SaaS 5.x line. Recent window only.
+entries:
+  - version: 5.1.0-rc2
+    date: '2026-07'
+    prerelease: true
+  - version: 5.1.0-rc1
+    date: '2026-07-01'
+    prerelease: true
+  - version: 4.2.4-onprem
+    date: '2026-06-30'
+    prerelease: false
+    highlights: On-prem maintenance build.
+  - version: 4.2.3-onprem
+    date: '2026-06-09'
+    prerelease: false
+  - version: 5.0.1
+    date: '2026-03-26'
+    prerelease: false
+    highlights: Current stable release.
+  - version: 5.0.0
+    date: '2026-02-23'
+    prerelease: false
+    highlights: Major 5.0 platform release.

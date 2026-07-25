@@ -1,0 +1,30 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/ (7 Cosmo Tech Cloud Platform API service specs) + github.com/Cosmo-Tech/cosmotech-api
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: components.securitySchemes declares an oauth2 authorizationCode scheme (oAuth2AuthCode).
+  - id: oidc
+    conforms: true
+    evidence: Platform authenticates via Keycloak (OpenID Connect) — application-keycloak profile active by default.
+  - id: openapi-3.0
+    conforms: true
+    evidence: All service specs are OpenAPI 3.0.3.
+  - id: rbac
+    conforms: true
+    evidence: Per-resource role-based access control via /security, /security/default and /security/access endpoints.
+  - id: pagination
+    conforms: true
+    evidence: List operations expose page + size query parameters.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Error responses are status-only; no application/problem+json body declared.
+  - id: idempotency
+    conforms: false
+    evidence: No idempotency key header/parameter documented or present.
+compliance_note: >-
+  Cosmo Tech operates a public Trust Center at https://trust.cosmotech.com/. The
+  page is a JavaScript-rendered portal whose named certifications could not be
+  verified verbatim from the enrichment host, so no specific certification names
+  (SOC 2 / ISO 27001 / etc.) are asserted here and no Compliance pointer is emitted.

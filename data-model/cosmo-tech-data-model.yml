@@ -1,0 +1,75 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/ (resource path hierarchy + $ref id fields across 7 service specs)
+note: >-
+  Entity graph derived from the Cosmo Tech Cloud Platform API resource nesting
+  (organizations -> workspaces -> runners -> runs, plus solutions and datasets)
+  and the id-reference fields (organization_id, workspace_id, solution_id,
+  runner_id, run_id, dataset_id) that appear on each nested path.
+entities:
+  - name: Organization
+    root: true
+    id_field: organization_id
+    spec: openapi/cosmo-tech-organization-openapi-original.yaml
+    description: Top-level tenant container; owns workspaces and solutions and carries RBAC security.
+  - name: Solution
+    id_field: solution_id
+    spec: openapi/cosmo-tech-solution-openapi-original.yaml
+    description: A packaged simulation solution with parameters, parameter groups and run templates.
+  - name: Workspace
+    id_field: workspace_id
+    spec: openapi/cosmo-tech-workspace-openapi-original.yaml
+    description: A working area inside an organization holding files, datasets and runners.
+  - name: Dataset
+    id_field: dataset_id
+    spec: openapi/cosmo-tech-dataset-openapi-original.yaml
+    description: Managed data (with dataset parts) attached to a workspace and consumed by runners.
+  - name: Runner
+    id_field: runner_id
+    spec: openapi/cosmo-tech-runner-openapi-original.yaml
+    description: An execution configuration binding a solution + run template + datasets; starts and stops runs.
+  - name: Run
+    id_field: run_id
+    spec: openapi/cosmo-tech-run-openapi-original.yaml
+    description: A single execution of a runner, with status and logs.
+relationships:
+  - from: Workspace
+    to: Organization
+    kind: belongs_to
+    via: organization_id
+  - from: Solution
+    to: Organization
+    kind: belongs_to
+    via: organization_id
+  - from: Organization
+    to: Workspace
+    kind: has_many
+    via: organization_id
+  - from: Organization
+    to: Solution
+    kind: has_many
+    via: organization_id
+  - from: Dataset
+    to: Workspace
+    kind: belongs_to
+    via: workspace_id
+  - from: Workspace
+    to: Dataset
+    kind: has_many
+    via: workspace_id
+  - from: Runner
+    to: Workspace
+    kind: belongs_to
+    via: workspace_id
+  - from: Runner
+    to: Solution
+    kind: has_one
+    via: solution_id
+  - from: Run
+    to: Runner
+    kind: belongs_to
+    via: runner_id
+  - from: Runner
+    to: Run
+    kind: has_many
+    via: runner_id

@@ -1,0 +1,26 @@
+{
+  "provider": "cosmo-tech",
+  "sources": [
+    "cosmo-tech-dataset-api-openapi.yml",
+    "cosmo-tech-meta-api-openapi.yml",
+    "cosmo-tech-organization-api-openapi.yml",
+    "cosmo-tech-run-api-openapi.yml",
+    "cosmo-tech-runner-api-openapi.yml",
+    "cosmo-tech-solution-api-openapi.yml",
+    "cosmo-tech-workspace-api-openapi.yml"
+  ],
+  "outputs": [
+    "cosmo-tech-dataset-api-openapi.yml",
+    "cosmo-tech-meta-api-openapi.yml",
+    "cosmo-tech-organization-api-openapi.yml",
+    "cosmo-tech-run-api-openapi.yml",
+    "cosmo-tech-runner-api-openapi.yml",
+    "cosmo-tech-solution-api-openapi.yml",
+    "cosmo-tech-workspace-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

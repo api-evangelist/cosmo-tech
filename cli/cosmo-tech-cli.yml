@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: https://github.com/Cosmo-Tech/Babylon + https://github.com/Cosmo-Tech/run-orchestrator
+clis:
+  - name: Babylon
+    description: General CLI linking all services used in conjunction with the Cosmo Tech Platform.
+    language: python
+    license: MIT
+    repo: https://github.com/Cosmo-Tech/Babylon
+    install:
+      - method: source
+        command: git clone https://github.com/Cosmo-Tech/Babylon
+    note: >-
+      Command surface not enumerated verbatim here (not published as a stable
+      reference); the binary is catalogued in packages/cosmo-tech-packages.yml.
+  - name: csm-orc (run-orchestrator)
+    description: Orchestration suite / runner for Cosmo Tech Run Templates.
+    language: python
+    repo: https://github.com/Cosmo-Tech/run-orchestrator
+    docs: https://cosmo-tech.github.io/run-orchestrator/
+    install:
+      - method: pip
+        command: pip install cosmotech-run-orchestrator

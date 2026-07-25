@@ -1,8 +1,26 @@
 aid: cosmo-tech
 name: Cosmo Tech
-description: Cosmo Tech is a company surfaced as a portfolio company of insight-partners and added to
-  the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+description: >-
+  Cosmo Tech is a predictive and prescriptive AI-simulation (digital twin) platform for industry,
+  based in Lyon, France and backed by Insight Partners. Its open-source Cosmo Tech Cloud Platform API
+  (Kotlin, MIT) lets teams model organizations, workspaces, solutions, datasets, runners and runs, then
+  configure and execute large-scale what-if simulations across supply chains, asset investment planning
+  and enterprise operations. The API is modular across seven service specs (organization, workspace,
+  solution, dataset, runner, run, meta), authenticates via OAuth2 / OpenID Connect (Keycloak), and ships
+  auto-generated TypeScript and Python clients plus the Babylon CLI.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://avatars.githubusercontent.com/u/9283409?v=4
 url: https://raw.githubusercontent.com/api-evangelist/cosmo-tech/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -12,15 +30,146 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- Simulation
+- Digital Twin
+- Artificial Intelligence
+- Supply Chain
+- Predictive Analytics
+- Industrial
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: cosmo-tech:cosmo-tech-dataset-api
+  name: Cosmo Tech dataset API
+  description: Dataset Management
+  humanURL: https://github.com/Cosmo-Tech/cosmotech-api
+  baseURL: https://dev.api.cosmotech.com
+  tags:
+  - dataset
+  properties:
+  - type: OpenAPI
+    url: openapi/cosmo-tech-dataset-api-openapi.yml
+- aid: cosmo-tech:cosmo-tech-meta-api
+  name: Cosmo Tech meta API
+  description: Meta Management
+  humanURL: https://github.com/Cosmo-Tech/cosmotech-api
+  baseURL: https://dev.api.cosmotech.com
+  tags:
+  - meta
+  properties:
+  - type: OpenAPI
+    url: openapi/cosmo-tech-meta-api-openapi.yml
+- aid: cosmo-tech:cosmo-tech-organization-api
+  name: Cosmo Tech organization API
+  description: Organization Management
+  humanURL: https://github.com/Cosmo-Tech/cosmotech-api
+  baseURL: https://dev.api.cosmotech.com
+  tags:
+  - organization
+  properties:
+  - type: OpenAPI
+    url: openapi/cosmo-tech-organization-api-openapi.yml
+- aid: cosmo-tech:cosmo-tech-run-api
+  name: Cosmo Tech run API
+  description: Run Management
+  humanURL: https://github.com/Cosmo-Tech/cosmotech-api
+  baseURL: https://dev.api.cosmotech.com
+  tags:
+  - run
+  properties:
+  - type: OpenAPI
+    url: openapi/cosmo-tech-run-api-openapi.yml
+- aid: cosmo-tech:cosmo-tech-runner-api
+  name: Cosmo Tech runner API
+  description: Runner Management
+  humanURL: https://github.com/Cosmo-Tech/cosmotech-api
+  baseURL: https://dev.api.cosmotech.com
+  tags:
+  - runner
+  properties:
+  - type: OpenAPI
+    url: openapi/cosmo-tech-runner-api-openapi.yml
+- aid: cosmo-tech:cosmo-tech-solution-api
+  name: Cosmo Tech solution API
+  description: Solution Management
+  humanURL: https://github.com/Cosmo-Tech/cosmotech-api
+  baseURL: https://dev.api.cosmotech.com
+  tags:
+  - solution
+  properties:
+  - type: OpenAPI
+    url: openapi/cosmo-tech-solution-api-openapi.yml
+- aid: cosmo-tech:cosmo-tech-workspace-api
+  name: Cosmo Tech workspace API
+  description: Workspace Management
+  humanURL: https://github.com/Cosmo-Tech/cosmotech-api
+  baseURL: https://dev.api.cosmotech.com
+  tags:
+  - workspace
+  properties:
+  - type: OpenAPI
+    url: openapi/cosmo-tech-workspace-api-openapi.yml
 common:
 - type: Website
   url: https://cosmotech.com/
+- type: DeveloperPortal
+  url: https://portal.cosmotech.com/
+- type: Documentation
+  url: https://github.com/Cosmo-Tech/cosmotech-api
+- type: APIReference
+  url: https://dev.api.cosmotech.com/
+- type: GitHubOrganization
+  url: https://github.com/Cosmo-Tech
+- type: Login
+  url: https://portal.cosmotech.com/
+- type: Support
+  url: https://cosmotech.com/solutions/contact-us/
+- type: TermsOfService
+  url: https://cosmotech.com/legal-information/
+- type: PrivacyPolicy
+  url: https://cosmotech.com/privacy-policy/
+- type: TrustCenter
+  url: https://trust.cosmotech.com/
+- type: Packages
+  url: packages/cosmo-tech-packages.yml
+- type: SDKs
+  url: packages/cosmo-tech-packages.yml
+- type: CLI
+  url: cli/cosmo-tech-cli.yml
+- type: MCPServer
+  url: mcp/cosmo-tech-mcp.yml
+- type: LLMsTxt
+  url: llms/cosmo-tech-llms.txt
+- type: Authentication
+  url: authentication/cosmo-tech-authentication.yml
+- type: OAuthScopes
+  url: scopes/cosmo-tech-scopes.yml
+- type: AgenticAccess
+  url: agentic-access/cosmo-tech-agentic-access.yml
+- type: Conventions
+  url: conventions/cosmo-tech-conventions.yml
+- type: ErrorCatalog
+  url: errors/cosmo-tech-problem-types.yml
+- type: DataModel
+  url: data-model/cosmo-tech-data-model.yml
+- type: Conformance
+  url: conformance/cosmo-tech-conformance.yml
+- type: Lifecycle
+  url: lifecycle/cosmo-tech-lifecycle.yml
+- type: ChangeLog
+  url: changelog/cosmo-tech-changelog.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/cosmo-tech-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

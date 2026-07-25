@@ -1,0 +1,319 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: openapi/ (7 Cosmo Tech Cloud Platform API service specs)
+note: No official Cosmo Tech MCP server found (searched GitHub org, npm @modelcontextprotocol,
+  MCP registries). Tool list derived one-per-operation from the open-source cosmotech-api
+  OpenAPI as a candidate.
+server:
+  name: cosmo-tech
+  transport: http
+tools:
+- name: createDataset
+  description: Create a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#createDataset
+- name: listDatasets
+  description: Retrieve a list of defined Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#listDatasets
+- name: searchDatasets
+  description: Search Datasets by tags
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#searchDatasets
+- name: getDataset
+  description: Retrieve a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#getDataset
+- name: updateDataset
+  description: Update a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#updateDataset
+- name: deleteDataset
+  description: Delete a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#deleteDataset
+- name: updateDatasetDefaultSecurity
+  description: Set the Dataset default security
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#updateDatasetDefaultSecurity
+- name: createDatasetAccessControl
+  description: Add a control access to the Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#createDatasetAccessControl
+- name: getDatasetAccessControl
+  description: Get a control access for the Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#getDatasetAccessControl
+- name: updateDatasetAccessControl
+  description: Update the specified access to User for a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#updateDatasetAccessControl
+- name: deleteDatasetAccessControl
+  description: Remove the specified access from the given Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#deleteDatasetAccessControl
+- name: listDatasetSecurityUsers
+  description: Get the Dataset security users list
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#listDatasetSecurityUsers
+- name: createDatasetPart
+  description: Create a data part of a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#createDatasetPart
+- name: listDatasetParts
+  description: Retrieve all dataset parts of a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#listDatasetParts
+- name: getDatasetPart
+  description: Retrieve a data part of a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#getDatasetPart
+- name: replaceDatasetPart
+  description: Replace existing dataset parts of a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#replaceDatasetPart
+- name: updateDatasetPart
+  description: Update existing dataset parts information of a Dataset
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#updateDatasetPart
+- name: deleteDatasetPart
+  description: Delete a Dataset part
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#deleteDatasetPart
+- name: queryData
+  description: 'Query data of a Dataset part.
+
+    This endpoint is only available for dataset parts that support queries (type ==
+    DB).
+
+    '
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#queryData
+- name: downloadDatasetPart
+  description: Download data from a dataset part
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#downloadDatasetPart
+- name: searchDatasetParts
+  description: Search Dataset parts by tags
+  source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#searchDatasetParts
+- name: about
+  description: Get various information about the API
+  source_operation: openapi/cosmo-tech-meta-openapi-original.yaml#about
+- name: createOrganization
+  description: Create a new organization
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#createOrganization
+- name: listOrganizations
+  description: List all Organizations
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#listOrganizations
+- name: getOrganization
+  description: Get the details of an Organization
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#getOrganization
+- name: updateOrganization
+  description: Update an Organization
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#updateOrganization
+- name: deleteOrganization
+  description: Delete an organization
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#deleteOrganization
+- name: listPermissions
+  description: Get all permissions per components
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#listPermissions
+- name: getOrganizationPermissions
+  description: Get the Organization permissions by given role
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#getOrganizationPermissions
+- name: getOrganizationSecurity
+  description: Get the Organization security information
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#getOrganizationSecurity
+- name: updateOrganizationDefaultSecurity
+  description: Update the Organization default security
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#updateOrganizationDefaultSecurity
+- name: createOrganizationAccessControl
+  description: Add a control access to the Organization
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#createOrganizationAccessControl
+- name: getOrganizationAccessControl
+  description: Get a control access for the Organization
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#getOrganizationAccessControl
+- name: updateOrganizationAccessControl
+  description: Update the specified access to User for an Organization
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#updateOrganizationAccessControl
+- name: deleteOrganizationAccessControl
+  description: Remove the specified access from the given Organization
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#deleteOrganizationAccessControl
+- name: listOrganizationSecurityUsers
+  description: Get the Organization security users list
+  source_operation: openapi/cosmo-tech-organization-openapi-original.yaml#listOrganizationSecurityUsers
+- name: getRun
+  description: Get the details of a run
+  source_operation: openapi/cosmo-tech-run-openapi-original.yaml#getRun
+- name: deleteRun
+  description: Delete a run
+  source_operation: openapi/cosmo-tech-run-openapi-original.yaml#deleteRun
+- name: getRunStatus
+  description: get the status for the Run
+  source_operation: openapi/cosmo-tech-run-openapi-original.yaml#getRunStatus
+- name: getRunLogs
+  description: get the logs for the Run
+  source_operation: openapi/cosmo-tech-run-openapi-original.yaml#getRunLogs
+- name: listRuns
+  description: get the list of Runs for the Runner
+  source_operation: openapi/cosmo-tech-run-openapi-original.yaml#listRuns
+- name: createRunner
+  description: Create a new Runner
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#createRunner
+- name: listRunners
+  description: List all Runners
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#listRunners
+- name: getRunner
+  description: Get the details of a runner
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#getRunner
+- name: updateRunner
+  description: Update a runner
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#updateRunner
+- name: deleteRunner
+  description: Delete a runner
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#deleteRunner
+- name: startRun
+  description: Start a run with runner parameters
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#startRun
+- name: stopRun
+  description: Stop the last run
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#stopRun
+- name: listRunnerPermissions
+  description: Get the Runner permission by given role
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#listRunnerPermissions
+- name: getRunnerSecurity
+  description: Get the Runner security information
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#getRunnerSecurity
+- name: updateRunnerDefaultSecurity
+  description: Set the Runner default security
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#updateRunnerDefaultSecurity
+- name: createRunnerAccessControl
+  description: Add a control access to the Runner
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#createRunnerAccessControl
+- name: getRunnerAccessControl
+  description: Get a control access for the Runner
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#getRunnerAccessControl
+- name: updateRunnerAccessControl
+  description: Update the specified access to User for a Runner
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#updateRunnerAccessControl
+- name: deleteRunnerAccessControl
+  description: Remove the specified access from the given Runner
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#deleteRunnerAccessControl
+- name: listRunnerSecurityUsers
+  description: Get the Runner security users list
+  source_operation: openapi/cosmo-tech-runner-openapi-original.yaml#listRunnerSecurityUsers
+- name: createSolution
+  description: Create a new solution
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#createSolution
+- name: listSolutions
+  description: List all Solutions
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#listSolutions
+- name: getSolution
+  description: Get the details of a solution
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#getSolution
+- name: updateSolution
+  description: Update a solution
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#updateSolution
+- name: deleteSolution
+  description: Delete a solution
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#deleteSolution
+- name: listSolutionParameters
+  description: List all solution parameters
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#listSolutionParameters
+- name: createSolutionParameter
+  description: Create solution parameter for a solution
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#createSolutionParameter
+- name: getSolutionParameter
+  description: Get the details of a solution parameter
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#getSolutionParameter
+- name: updateSolutionParameter
+  description: Update solution parameter
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#updateSolutionParameter
+- name: deleteSolutionParameter
+  description: Delete specific parameter from the solution
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#deleteSolutionParameter
+- name: createSolutionParameterGroup
+  description: Create a solution parameter group
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#createSolutionParameterGroup
+- name: listSolutionParameterGroups
+  description: List all solution parameter groups
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#listSolutionParameterGroups
+- name: updateSolutionParameterGroup
+  description: Update a solution parameter group
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#updateSolutionParameterGroup
+- name: getSolutionParameterGroup
+  description: Get details of a solution parameter group
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#getSolutionParameterGroup
+- name: deleteSolutionParameterGroup
+  description: Delete a parameter group from the solution
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#deleteSolutionParameterGroup
+- name: listRunTemplates
+  description: List all solution run templates
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#listRunTemplates
+- name: createSolutionRunTemplate
+  description: Create a solution run template
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#createSolutionRunTemplate
+- name: getRunTemplate
+  description: Retrieve a solution run templates
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#getRunTemplate
+- name: updateSolutionRunTemplate
+  description: Update a specific run template
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#updateSolutionRunTemplate
+- name: deleteSolutionRunTemplate
+  description: Delete a specific run template
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#deleteSolutionRunTemplate
+- name: getSolutionSecurity
+  description: Get solution security information
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#getSolutionSecurity
+- name: updateSolutionDefaultSecurity
+  description: Update solution default security
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#updateSolutionDefaultSecurity
+- name: listSolutionSecurityUsers
+  description: List solution security users
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#listSolutionSecurityUsers
+- name: createSolutionAccessControl
+  description: Create solution access control
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#createSolutionAccessControl
+- name: getSolutionAccessControl
+  description: Get solution access control
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#getSolutionAccessControl
+- name: updateSolutionAccessControl
+  description: Update solution access control
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#updateSolutionAccessControl
+- name: deleteSolutionAccessControl
+  description: Delete solution access control
+  source_operation: openapi/cosmo-tech-solution-openapi-original.yaml#deleteSolutionAccessControl
+- name: createWorkspace
+  description: Create a new workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#createWorkspace
+- name: listWorkspaces
+  description: List all Workspaces
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#listWorkspaces
+- name: getWorkspace
+  description: Get the details of a workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#getWorkspace
+- name: updateWorkspace
+  description: Update a workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#updateWorkspace
+- name: deleteWorkspace
+  description: Delete a workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#deleteWorkspace
+- name: createWorkspaceFile
+  description: Upload a file for the Workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#createWorkspaceFile
+- name: listWorkspaceFiles
+  description: List all Workspace files
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#listWorkspaceFiles
+- name: deleteWorkspaceFiles
+  description: Delete all Workspace files
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#deleteWorkspaceFiles
+- name: getWorkspaceFile
+  description: Download the Workspace File specified
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#getWorkspaceFile
+- name: deleteWorkspaceFile
+  description: Delete a workspace file
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#deleteWorkspaceFile
+- name: listWorkspaceRolePermissions
+  description: Get the Workspace permission by given role
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#listWorkspaceRolePermissions
+- name: getWorkspaceSecurity
+  description: Get the Workspace security information
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#getWorkspaceSecurity
+- name: updateWorkspaceDefaultSecurity
+  description: Update the Workspace default security
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#updateWorkspaceDefaultSecurity
+- name: createWorkspaceAccessControl
+  description: Add a control access to the Workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#createWorkspaceAccessControl
+- name: getWorkspaceAccessControl
+  description: Get a control access for the Workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#getWorkspaceAccessControl
+- name: updateWorkspaceAccessControl
+  description: Update the specified access to User for a Workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#updateWorkspaceAccessControl
+- name: deleteWorkspaceAccessControl
+  description: Remove the specified access from the given Workspace
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#deleteWorkspaceAccessControl
+- name: listWorkspaceSecurityUsers
+  description: Get the Workspace security users list
+  source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#listWorkspaceSecurityUsers

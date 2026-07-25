@@ -1,0 +1,56 @@
+generated: '2026-07-18'
+method: searched
+source: >-
+  npm registry, PyPI, and github.com/Cosmo-Tech (auto-generated clients synced from
+  the cosmotech-api OpenAPI on every main-branch change).
+packages:
+  - language: javascript
+    registry: npm
+    name: "@cosmotech/api"
+    url: https://www.npmjs.com/package/@cosmotech/api
+    install: npm install @cosmotech/api
+    version: 3.2.0
+    official: true
+    kind: sdk
+    note: Auto-generated TypeScript client for the Cosmo Tech Cloud Platform API (repo cosmotech-api-typescript-client).
+  - language: python
+    registry: pypi
+    name: cosmotech-api
+    url: https://pypi.org/project/cosmotech-api/
+    install: pip install cosmotech-api
+    version: 5.0.1
+    official: true
+    kind: sdk
+    note: Auto-generated Python client for the Cosmo Tech Platform API (repo cosmotech-api-python-client).
+  - language: python
+    registry: pypi
+    name: cosmotech-run-orchestrator
+    url: https://pypi.org/project/cosmotech-run-orchestrator/
+    install: pip install cosmotech-run-orchestrator
+    version: 2.1.1
+    official: true
+    kind: library
+    source: https://github.com/Cosmo-Tech/run-orchestrator
+    note: Orchestration suite for Cosmo Tech Run Templates.
+  - language: python
+    registry: pypi
+    name: CosmoTech-Acceleration-Library
+    url: https://pypi.org/project/CosmoTech-Acceleration-Library/
+    install: pip install CosmoTech-Acceleration-Library
+    version: 2.3.1
+    official: true
+    kind: library
+    source: https://github.com/Cosmo-Tech/CosmoTech-Acceleration-Library
+    note: Acceleration libraries for CosmoTech cloud-based solution development.
+  - language: python
+    registry: github
+    name: Babylon
+    url: https://github.com/Cosmo-Tech/Babylon
+    official: true
+    kind: cli
+    note: >-
+      General CLI linking all services used with the Cosmo Tech Platform (MIT).
+      Distributed via the GitHub repo, not the PyPI "babylon" name (that PyPI entry
+      is an unrelated name-reservation placeholder). See cli/cosmo-tech-cli.yml.
+notes:
+  - The PyPI package "babylon" is a placeholder (homepage example.com) and is NOT the Cosmo Tech Babylon CLI; excluded.
