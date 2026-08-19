@@ -1,0 +1,821 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cosmo Tech Manager dataset solution API",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://example.com/authorize",
+      "accessTokenUrl": "https://example.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "solution",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Solutions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to query (first page is at index 0)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Amount of result by page"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of all solutions in an organization that the user has permission to view."
+        },
+        {
+          "info": {
+            "name": "Create a new solution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new solution with optional run templates and parameter definitions."
+        },
+        {
+          "info": {
+            "name": "Get the details of a solution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information about a solution."
+        },
+        {
+          "info": {
+            "name": "Update a solution",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a solution"
+        },
+        {
+          "info": {
+            "name": "Delete a solution",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ]
+          },
+          "docs": "Delete a solution"
+        },
+        {
+          "info": {
+            "name": "List all solution parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameters",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ]
+          },
+          "docs": "List all solution parameters"
+        },
+        {
+          "info": {
+            "name": "Create solution parameter for a solution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameters",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create solution parameter for a solution"
+        },
+        {
+          "info": {
+            "name": "Get the details of a solution parameter",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameters/:parameter_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "parameter_id",
+                "value": "",
+                "type": "path",
+                "description": "The solution parameter identifier"
+              }
+            ]
+          },
+          "docs": "Get the details of a solution parameter"
+        },
+        {
+          "info": {
+            "name": "Update solution parameter",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameters/:parameter_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "parameter_id",
+                "value": "",
+                "type": "path",
+                "description": "The solution parameter identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update solution parameter"
+        },
+        {
+          "info": {
+            "name": "Delete specific parameter from the solution",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameters/:parameter_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "parameter_id",
+                "value": "",
+                "type": "path",
+                "description": "The solution parameter identifier"
+              }
+            ]
+          },
+          "docs": "Delete specific parameter from the solution"
+        },
+        {
+          "info": {
+            "name": "List all solution parameter groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameterGroups",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ]
+          },
+          "docs": "List all solution parameter groups"
+        },
+        {
+          "info": {
+            "name": "Create a solution parameter group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameterGroups",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a solution parameter group"
+        },
+        {
+          "info": {
+            "name": "Get details of a solution parameter group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameterGroups/:parameter_group_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "parameter_group_id",
+                "value": "",
+                "type": "path",
+                "description": "The parameter group identifier"
+              }
+            ]
+          },
+          "docs": "Get details of a solution parameter group"
+        },
+        {
+          "info": {
+            "name": "Update a solution parameter group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameterGroups/:parameter_group_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "parameter_group_id",
+                "value": "",
+                "type": "path",
+                "description": "The parameter group identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a solution parameter group"
+        },
+        {
+          "info": {
+            "name": "Delete a parameter group from the solution",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/parameterGroups/:parameter_group_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "parameter_group_id",
+                "value": "",
+                "type": "path",
+                "description": "The parameter group identifier"
+              }
+            ]
+          },
+          "docs": "Delete a parameter group from the solution"
+        },
+        {
+          "info": {
+            "name": "List all solution run templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/runTemplates",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ]
+          },
+          "docs": "List all solution run templates"
+        },
+        {
+          "info": {
+            "name": "Create a solution run template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/runTemplates",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a solution run template"
+        },
+        {
+          "info": {
+            "name": "Retrieve a solution run templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/runTemplates/:run_template_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "run_template_id",
+                "value": "",
+                "type": "path",
+                "description": "The Run Template identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve a solution run templates"
+        },
+        {
+          "info": {
+            "name": "Update a specific run template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/runTemplates/:run_template_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "run_template_id",
+                "value": "",
+                "type": "path",
+                "description": "The Run Template identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a specific run template"
+        },
+        {
+          "info": {
+            "name": "Delete a specific run template",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/runTemplates/:run_template_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "run_template_id",
+                "value": "",
+                "type": "path",
+                "description": "The Run Template identifier"
+              }
+            ]
+          },
+          "docs": "Delete a specific run template"
+        },
+        {
+          "info": {
+            "name": "Get solution security information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/security",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ]
+          },
+          "docs": "Get solution security information"
+        },
+        {
+          "info": {
+            "name": "Update solution default security",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/security/default",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update solution default security"
+        },
+        {
+          "info": {
+            "name": "List solution security users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/security/users",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ]
+          },
+          "docs": "List solution security users"
+        },
+        {
+          "info": {
+            "name": "Create solution access control",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/security/access",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Grant access to a solution for a user or group."
+        },
+        {
+          "info": {
+            "name": "Get solution access control",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ]
+          },
+          "docs": "Get solution access control"
+        },
+        {
+          "info": {
+            "name": "Update solution access control",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update solution access control"
+        },
+        {
+          "info": {
+            "name": "Delete solution access control",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/solutions/:solution_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "solution_id",
+                "value": "",
+                "type": "path",
+                "description": "the Solution identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ]
+          },
+          "docs": "Delete solution access control"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

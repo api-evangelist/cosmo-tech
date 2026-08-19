@@ -1,0 +1,330 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cosmo Tech Manager dataset organization API",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://example.com/authorize",
+      "accessTokenUrl": "https://example.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "organization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to query (first page is at index 0)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Amount of result by page"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of all organizations the authenticated user has permission to view. Use 'page' and 'size' query parameters for pagination."
+        },
+        {
+          "info": {
+            "name": "Create a new organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new organization."
+        },
+        {
+          "info": {
+            "name": "Get the details of an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information about an organization."
+        },
+        {
+          "info": {
+            "name": "Update an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an Organization"
+        },
+        {
+          "info": {
+            "name": "Delete an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              }
+            ]
+          },
+          "docs": "Permanently delete an organization. This operation cannot be undone."
+        },
+        {
+          "info": {
+            "name": "Get all permissions per components",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/permissions"
+          },
+          "docs": "Get all permissions per components"
+        },
+        {
+          "info": {
+            "name": "Get the Organization permissions by given role",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/permissions/:role",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "role",
+                "value": "",
+                "type": "path",
+                "description": "The Role"
+              }
+            ]
+          },
+          "docs": "Get the Organization permissions by given role"
+        },
+        {
+          "info": {
+            "name": "Get the Organization security information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/security",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              }
+            ]
+          },
+          "docs": "Get the Organization security information"
+        },
+        {
+          "info": {
+            "name": "Update the Organization default security",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/security/default",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the Organization default security"
+        },
+        {
+          "info": {
+            "name": "Add a control access to the Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/security/access",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Grant access to an organization for a user or group."
+        },
+        {
+          "info": {
+            "name": "Get a control access for the Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ]
+          },
+          "docs": "Get a control access for the Organization"
+        },
+        {
+          "info": {
+            "name": "Update the specified access to User for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the specified access to User for an Organization"
+        },
+        {
+          "info": {
+            "name": "Remove the specified access from the given Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ]
+          },
+          "docs": "Remove the specified access from the given Organization"
+        },
+        {
+          "info": {
+            "name": "Get the Organization security users list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/security/users",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              }
+            ]
+          },
+          "docs": "Get the Organization security users list"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

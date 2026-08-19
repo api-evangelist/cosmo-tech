@@ -1,0 +1,540 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cosmo Tech Manager dataset workspace API",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://example.com/authorize",
+      "accessTokenUrl": "https://example.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "workspace",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Workspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to query (first page is at index 0)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Amount of result by page"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of all workspaces in an organization that the user has permission to view."
+        },
+        {
+          "info": {
+            "name": "Create a new workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new workspace."
+        },
+        {
+          "info": {
+            "name": "Get the details of a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information about a workspace."
+        },
+        {
+          "info": {
+            "name": "Update a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a workspace"
+        },
+        {
+          "info": {
+            "name": "Delete a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ]
+          },
+          "docs": "Permanently delete a workspace."
+        },
+        {
+          "info": {
+            "name": "List all Workspace files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/files",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ]
+          },
+          "docs": "List all Workspace files"
+        },
+        {
+          "info": {
+            "name": "Upload a file for the Workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/files",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a file to workspace storage. Use 'destination' to specify path, 'overwrite' to replace existing files."
+        },
+        {
+          "info": {
+            "name": "Delete all Workspace files",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/files",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ]
+          },
+          "docs": "Delete all Workspace files"
+        },
+        {
+          "info": {
+            "name": "Download the Workspace File specified",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/files/download",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "file_name",
+                "value": "",
+                "type": "query",
+                "description": "The file name"
+              }
+            ]
+          },
+          "docs": "Download a specific file from workspace storage. Returns file as binary stream."
+        },
+        {
+          "info": {
+            "name": "Delete a workspace file",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/files/delete",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "file_name",
+                "value": "",
+                "type": "query",
+                "description": "The file name"
+              }
+            ]
+          },
+          "docs": "Delete a workspace file"
+        },
+        {
+          "info": {
+            "name": "Get the Workspace permission by given role",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/permissions/:role",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "role",
+                "value": "",
+                "type": "path",
+                "description": "The Role"
+              }
+            ]
+          },
+          "docs": "Get the Workspace permission by given role"
+        },
+        {
+          "info": {
+            "name": "Get the Workspace security information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/security",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ]
+          },
+          "docs": "Get the Workspace security information"
+        },
+        {
+          "info": {
+            "name": "Update the Workspace default security",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/security/default",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the Workspace default security"
+        },
+        {
+          "info": {
+            "name": "Add a control access to the Workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/security/access",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Grant access to a workspace for a user or group."
+        },
+        {
+          "info": {
+            "name": "Get a control access for the Workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ]
+          },
+          "docs": "Get a control access for the Workspace"
+        },
+        {
+          "info": {
+            "name": "Update the specified access to User for a Workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the specified access to User for a Workspace"
+        },
+        {
+          "info": {
+            "name": "Remove the specified access from the given Workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The User identifier"
+              }
+            ]
+          },
+          "docs": "Remove a user's access to a workspace. Cannot remove the last administrator."
+        },
+        {
+          "info": {
+            "name": "Get the Workspace security users list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/security/users",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              }
+            ]
+          },
+          "docs": "Get the Workspace security users list"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

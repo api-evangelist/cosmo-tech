@@ -2,9 +2,8 @@ generated: '2026-07-18'
 method: derived
 status: candidate
 source: openapi/ (7 Cosmo Tech Cloud Platform API service specs)
-note: No official Cosmo Tech MCP server found (searched GitHub org, npm @modelcontextprotocol,
-  MCP registries). Tool list derived one-per-operation from the open-source cosmotech-api
-  OpenAPI as a candidate.
+note: No official Cosmo Tech MCP server found (searched GitHub org, npm @modelcontextprotocol, MCP registries).
+  Tool list derived one-per-operation from the open-source cosmotech-api OpenAPI as a candidate.
 server:
   name: cosmo-tech
   transport: http
@@ -66,8 +65,7 @@ tools:
 - name: queryData
   description: 'Query data of a Dataset part.
 
-    This endpoint is only available for dataset parts that support queries (type ==
-    DB).
+    This endpoint is only available for dataset parts that support queries (type == DB).
 
     '
   source_operation: openapi/cosmo-tech-dataset-openapi-original.yaml#queryData
@@ -317,3 +315,9 @@ tools:
 - name: listWorkspaceSecurityUsers
   description: Get the Workspace security users list
   source_operation: openapi/cosmo-tech-workspace-openapi-original.yaml#listWorkspaceSecurityUsers
+deployment:
+  mode: none
+  verified: derived
+  tools: 101
+  checked: '2026-08-12'
+  source: catalog MCP census

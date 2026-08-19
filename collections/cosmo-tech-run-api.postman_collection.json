@@ -1,0 +1,1021 @@
+{
+  "item": [
+    {
+      "id": "e3072abe-5f57-46e5-96c2-0a730e516aa9",
+      "name": "run",
+      "description": {
+        "content": "Run Management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3631f357-f342-45fc-86fc-4db5d71d1a34",
+          "name": "Get the details of a run",
+          "request": {
+            "name": "Get the details of a run",
+            "description": {
+              "content": "Retrieve detailed information about a specific run.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations",
+                ":organization_id",
+                "workspaces",
+                ":workspace_id",
+                "runners",
+                ":runner_id",
+                "runs",
+                ":run_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "organization_id",
+                  "description": "(Required) The Organization identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) The Workspace identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "runner_id",
+                  "description": "(Required) The Runner identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "run_id",
+                  "description": "(Required) The Run identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "848a6931-8933-4664-9ca2-338d2fa443bc",
+              "name": "the Run details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id",
+                    "workspaces",
+                    ":workspace_id",
+                    "runners",
+                    ":runner_id",
+                    "runs",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The Organization identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) The Workspace identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "runner_id",
+                      "description": "(Required) The Runner identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "run_id",
+                      "description": "(Required) The Run identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"run-bDMr5lM9Vp\",\n  \"state\": \"Running\",\n  \"organizationId\": \"o-gZVQqV8B4pR7\",\n  \"createInfo\": {\n    \"timestamp\": 1621353329000,\n    \"userId\": \"john.doe@cosmotech.com\"\n  },\n  \"workflowId\": \"workflow-a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n  \"csmSimulationRun\": \"sim-a2b3c4d5-e6f7-8901-bcde-f12345678901\",\n  \"generateName\": \"workflow-brewery-\",\n  \"workflowName\": \"workflow-brewery-lsczk\",\n  \"workspaceId\": \"w-OGNQqJ7wP0\",\n  \"workspaceKey\": \"Brewery\",\n  \"runnerId\": \"r-EEYpWeM0kW\",\n  \"solutionId\": \"sol-w4Kn79JXKz\",\n  \"runTemplateId\": \"hundred\",\n  \"computeSize\": \"basic\",\n  \"datasetList\": [\n    \"d-1AbCdEfGhIj\",\n    \"d-2XyZaBcDeFg\"\n  ],\n  \"parametersValues\": [\n    {\n      \"parameterId\": \"stock\",\n      \"varType\": \"int\",\n      \"value\": \"100\"\n    },\n    {\n      \"parameterId\": \"restock\",\n      \"varType\": \"int\",\n      \"value\": \"50\"\n    }\n  ],\n  \"nodeLabel\": \"basicpool\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11cd3b91-e9bc-473b-8f62-39e53f2c18cb",
+              "name": "the Run specified is unknown or you don't have access to it",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id",
+                    "workspaces",
+                    ":workspace_id",
+                    "runners",
+                    ":runner_id",
+                    "runs",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The Organization identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) The Workspace identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "runner_id",
+                      "description": "(Required) The Runner identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "run_id",
+                      "description": "(Required) The Run identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c8dfc030-363d-4e85-88bc-7c13c679f810",
+          "name": "Delete a run",
+          "request": {
+            "name": "Delete a run",
+            "description": {},
+            "url": {
+              "path": [
+                "organizations",
+                ":organization_id",
+                "workspaces",
+                ":workspace_id",
+                "runners",
+                ":runner_id",
+                "runs",
+                ":run_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "organization_id",
+                  "description": "(Required) The Organization identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) The Workspace identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "runner_id",
+                  "description": "(Required) The Runner identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "run_id",
+                  "description": "(Required) The Run identifier"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c7dfaf31-e54b-4bbe-a699-d34711483907",
+              "name": "Request succeeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id",
+                    "workspaces",
+                    ":workspace_id",
+                    "runners",
+                    ":runner_id",
+                    "runs",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The Organization identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) The Workspace identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "runner_id",
+                      "description": "(Required) The Runner identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "run_id",
+                      "description": "(Required) The Run identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "00a6c3e9-3688-405a-9d2c-cf501abd70dd",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id",
+                    "workspaces",
+                    ":workspace_id",
+                    "runners",
+                    ":runner_id",
+                    "runs",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The Organization identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) The Workspace identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "runner_id",
+                      "description": "(Required) The Runner identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "run_id",
+                      "description": "(Required) The Run identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "27dab91a-f26f-49c9-8b88-53e7f89a9e8c",
+              "name": "the Run specified is unknown or you don't have access to it",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id",
+                    "workspaces",
+                    ":workspace_id",
+                    "runners",
+                    ":runner_id",
+                    "runs",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The Organization identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) The Workspace identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "runner_id",
+                      "description": "(Required) The Runner identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "run_id",
+                      "description": "(Required) The Run identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3b7b8da0-d6dc-452e-9f70-34f9e18fa993",
+          "name": "get the status for the Run",
+          "request": {
+            "name": "get the status for the Run",
+            "description": {
+              "content": "Retrieve detailed execution status of a run.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations",
+                ":organization_id",
+                "workspaces",
+                ":workspace_id",
+                "runners",
+                ":runner_id",
+                "runs",
+                ":run_id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "organization_id",
+                  "description": "(Required) The Organization identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) The Workspace identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "runner_id",
+                  "description": "(Required) The Runner identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "run_id",
+                  "description": "(Required) The Run identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffe70262-e4da-45e6-9c6a-9aba3e99e83c",
+              "name": "the run status details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id",
+                    "workspaces",
+                    ":workspace_id",
+                    "runners",
+                    ":runner_id",
+                    "runs",
+                    ":run_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The Organization identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) The Workspace identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "runner_id",
+                      "description": "(Required) The Runner identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "run_id",
+                      "description": "(Required) The Run identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"run-bDMr5lM9Vp\",\n  \"organizationId\": \"o-gZVQqV8B4pR7\",\n  \"workspaceId\": \"w-OGNQqJ7wP0\",\n  \"runnerId\": \"r-EEYpWeM0kW\",\n  \"workflowId\": \"workflow-a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n  \"workflowName\": \"workflow-brewery-lsczk\",\n  \"createInfo\": {\n    \"timestamp\": 1621353329000,\n    \"userId\": \"john.doe@cosmotech.com\"\n  },\n  \"startTime\": \"2021-05-18T16:15:29.000Z\",\n  \"endTime\": \"2021-05-18T16:17:07.000Z\",\n  \"phase\": \"Succeeded\",\n  \"progress\": \"5/5\",\n  \"message\": null,\n  \"estimatedDuration\": 98,\n  \"state\": \"Successful\",\n  \"nodes\": [\n    {\n      \"id\": \"node-main-1\",\n      \"name\": \"workflow-brewery-lsczk\",\n      \"containerName\": \"main\",\n      \"estimatedDuration\": 98,\n      \"hostNodeName\": null,\n      \"message\": null,\n      \"phase\": \"Succeeded\",\n      \"progress\": \"5/5\",\n      \"startTime\": \"2021-05-18T16:15:29.000Z\",\n      \"endTime\": \"2021-05-18T16:17:07.000Z\"\n    },\n    {\n      \"id\": \"node-apply-params-1\",\n      \"name\": \"workflow-brewery-lsczk.applyParametersContainer\",\n      \"containerName\": \"applyParametersContainer\",\n      \"estimatedDuration\": 14,\n      \"hostNodeName\": \"worker-node-1\",\n      \"message\": null,\n      \"phase\": \"Succeeded\",\n      \"progress\": \"1/1\",\n      \"startTime\": \"2021-05-18T16:15:29.000Z\",\n      \"endTime\": \"2021-05-18T16:15:43.000Z\"\n    },\n    {\n      \"id\": \"node-validate-data-1\",\n      \"name\": \"workflow-brewery-lsczk.validateDataContainer\",\n      \"containerName\": \"validateDataContainer\",\n      \"estimatedDuration\": 10,\n      \"hostNodeName\": \"worker-node-1\",\n      \"message\": null,\n      \"phase\": \"Succeeded\",\n      \"progress\": \"1/1\",\n      \"startTime\": \"2021-05-18T16:15:53.000Z\",\n      \"endTime\": \"2021-05-18T16:16:03.000Z\"\n    },\n    {\n      \"id\": \"node-prerun-1\",\n      \"name\": \"workflow-brewery-lsczk.preRunContainer\",\n      \"containerName\": \"preRunContainer\",\n      \"estimatedDuration\": 12,\n      \"hostNodeName\": \"worker-node-1\",\n      \"message\": null,\n      \"phase\": \"Succeeded\",\n      \"progress\": \"1/1\",\n      \"startTime\": \"2021-05-18T16:16:13.000Z\",\n      \"endTime\": \"2021-05-18T16:16:25.000Z\"\n    },\n    {\n      \"id\": \"node-run-1\",\n      \"name\": \"workflow-brewery-lsczk.runContainer\",\n      \"containerName\": \"runContainer\",\n      \"estimatedDuration\": 7,\n      \"hostNodeName\": \"worker-node-2\",\n      \"message\": null,\n      \"phase\": \"Succeeded\",\n      \"progress\": \"1/1\",\n      \"startTime\": \"2021-05-18T16:16:35.000Z\",\n      \"endTime\": \"2021-05-18T16:16:42.000Z\"\n    },\n    {\n      \"id\": \"node-postrun-1\",\n      \"name\": \"workflow-brewery-lsczk.postRunContainer\",\n      \"containerName\": \"postRunContainer\",\n      \"estimatedDuration\": 12,\n      \"hostNodeName\": \"worker-node-1\",\n      \"message\": null,\n      \"phase\": \"Succeeded\",\n      \"progress\": \"1/1\",\n      \"startTime\": \"2021-05-18T16:16:45.000Z\",\n      \"endTime\": \"2021-05-18T16:16:57.000Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "984e8ff5-bf70-41ae-9518-ad82aef6b38c",
+          "name": "get the logs for the Run",
+          "request": {
+            "name": "get the logs for the Run",
+            "description": {
+              "content": "Retrieve execution logs for a run as plain text. Logs are aggregated from all containers. May be truncated for long-running simulations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations",
+                ":organization_id",
+                "workspaces",
+                ":workspace_id",
+                "runners",
+                ":runner_id",
+                "runs",
+                ":run_id",
+                "logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "organization_id",
+                  "description": "(Required) The Organization identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) The Workspace identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "runner_id",
+                  "description": "(Required) The Runner identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "run_id",
+                  "description": "(Required) The Run identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "29a18d77-693d-46b2-aa6a-572b1d419dea",
+              "name": "the run logs details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id",
+                    "workspaces",
+                    ":workspace_id",
+                    "runners",
+                    ":runner_id",
+                    "runs",
+                    ":run_id",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The Organization identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) The Workspace identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "runner_id",
+                      "description": "(Required) The Runner identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "run_id",
+                      "description": "(Required) The Run identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "[2021-05-18T16:15:29Z] INFO: Starting run execution\n[2021-05-18T16:15:30Z] INFO: Fetching datasets...\n[2021-05-18T16:15:43Z] INFO: Datasets fetched successfully\n[2021-05-18T16:15:43Z] INFO: Applying parameters...\n[2021-05-18T16:15:53Z] INFO: Parameters applied successfully\n[2021-05-18T16:15:53Z] INFO: Validating data...\n[2021-05-18T16:16:03Z] INFO: Data validated successfully\n[2021-05-18T16:16:03Z] INFO: Starting pre-run container...\n[2021-05-18T16:16:25Z] INFO: Pre-run completed\n[2021-05-18T16:16:25Z] INFO: Starting main simulation...\n[2021-05-18T16:16:42Z] INFO: Simulation completed\n[2021-05-18T16:16:42Z] INFO: Starting post-run container...\n[2021-05-18T16:16:57Z] INFO: Post-run completed\n[2021-05-18T16:16:57Z] INFO: Run completed successfully\n",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "34d16b22-ed85-43d9-b5fb-4de26f5fbee7",
+          "name": "get the list of Runs for the Runner",
+          "request": {
+            "name": "get the list of Runs for the Runner",
+            "description": {
+              "content": "Retrieve a paginated list of all runs for a specific runner.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations",
+                ":organization_id",
+                "workspaces",
+                ":workspace_id",
+                "runners",
+                ":runner_id",
+                "runs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "page number to query (first page is at index 0)"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "<integer>",
+                  "description": "amount of result by page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "organization_id",
+                  "description": "(Required) The Organization identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workspace_id",
+                  "description": "(Required) The Workspace identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "runner_id",
+                  "description": "(Required) The Runner identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7799e484-1468-4841-981c-13fa6a77fc74",
+              "name": "the run details list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id",
+                    "workspaces",
+                    ":workspace_id",
+                    "runners",
+                    ":runner_id",
+                    "runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The Organization identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workspace_id",
+                      "description": "(Required) The Workspace identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "runner_id",
+                      "description": "(Required) The Runner identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"run-dEfGhIjKlMn\",\n    \"state\": \"Successful\",\n    \"organizationId\": \"o-gZVQqV8B4pR7\",\n    \"createInfo\": {\n      \"timestamp\": 1621353329000,\n      \"userId\": \"john.doe@cosmotech.com\"\n    },\n    \"workflowId\": \"c3d4e5f6-a7b8-9012-cdef-a34567890123\",\n    \"csmSimulationRun\": \"c4d5e6f7-b8a9-0123-defg-b45678901234\",\n    \"generateName\": \"workflow-list-\",\n    \"workflowName\": \"workflow-list-xyz789\",\n    \"workspaceId\": \"w-OGNQqJ7wP0\",\n    \"workspaceKey\": \"Brewery\",\n    \"runnerId\": \"r-EEYpWeM0kW\",\n    \"solutionId\": \"sol-w4Kn79JXKz\",\n    \"runTemplateId\": \"hundred\",\n    \"computeSize\": \"basic\",\n    \"datasetList\": [\n      \"d-1AbCdEfGhIj\"\n    ],\n    \"parametersValues\": [\n      {\n        \"parameterId\": \"stock\",\n        \"varType\": \"int\",\n        \"value\": \"100\"\n      }\n    ],\n    \"nodeLabel\": \"basicpool\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8080",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://example.com/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://example.com/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "806df836-fcb4-4e43-a50d-a45252fa111b",
+    "name": "Cosmo Tech Manager dataset run API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cosmo Tech Dataset Manager API",
+      "type": "text/plain"
+    }
+  }
+}

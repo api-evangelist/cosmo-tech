@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cosmo Tech Manager dataset run API",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://example.com/authorize",
+      "accessTokenUrl": "https://example.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "run",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the details of a run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/runners/:runner_id/runs/:run_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "runner_id",
+                "value": "",
+                "type": "path",
+                "description": "The Runner identifier"
+              },
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The Run identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information about a specific run."
+        },
+        {
+          "info": {
+            "name": "Delete a run",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/runners/:runner_id/runs/:run_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "runner_id",
+                "value": "",
+                "type": "path",
+                "description": "The Runner identifier"
+              },
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The Run identifier"
+              }
+            ]
+          },
+          "docs": "Delete a run"
+        },
+        {
+          "info": {
+            "name": "get the status for the Run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/runners/:runner_id/runs/:run_id/status",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "runner_id",
+                "value": "",
+                "type": "path",
+                "description": "The Runner identifier"
+              },
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The Run identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve detailed execution status of a run."
+        },
+        {
+          "info": {
+            "name": "get the logs for the Run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/runners/:runner_id/runs/:run_id/logs",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "runner_id",
+                "value": "",
+                "type": "path",
+                "description": "The Runner identifier"
+              },
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The Run identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve execution logs for a run as plain text. Logs are aggregated from all containers. May be truncated for long-running simulations."
+        },
+        {
+          "info": {
+            "name": "get the list of Runs for the Runner",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/runners/:runner_id/runs",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "The Workspace identifier"
+              },
+              {
+                "name": "runner_id",
+                "value": "",
+                "type": "path",
+                "description": "The Runner identifier"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "page number to query (first page is at index 0)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "amount of result by page"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of all runs for a specific runner."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

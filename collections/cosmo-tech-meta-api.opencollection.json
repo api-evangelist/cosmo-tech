@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cosmo Tech Manager dataset meta API",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://example.com/authorize",
+      "accessTokenUrl": "https://example.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "meta",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get various information about the API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/about"
+          },
+          "docs": "Retrieve API version information and build details."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

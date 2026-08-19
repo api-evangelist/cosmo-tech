@@ -1,0 +1,909 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cosmo Tech Manager dataset API",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://example.com/authorize",
+      "accessTokenUrl": "https://example.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "dataset",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a list of defined Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to query (first page is at index 0)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Amount of result by page"
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of all datasets in the specified workspace. Supports pagination via 'page' and 'size' query parameters. Returns datasets based on user permissions."
+        },
+        {
+          "info": {
+            "name": "Create a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "files",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "datasetCreateRequest",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create a new dataset in the workspace. The dataset is initialized with specified parts (can be empty). The dataset can also be populated through dataset parts."
+        },
+        {
+          "info": {
+            "name": "Search Datasets by tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/search",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to query (first page is at index 0)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Amount of result by page"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search Datasets by tags"
+        },
+        {
+          "info": {
+            "name": "Retrieve a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve complete information about a specific dataset including dataset parts."
+        },
+        {
+          "info": {
+            "name": "Update a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "files",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "datasetUpdateRequest",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Update dataset information and return the updated dataset."
+        },
+        {
+          "info": {
+            "name": "Delete a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              }
+            ]
+          },
+          "docs": "Permanently delete a dataset and all its data parts. This operation cannot be undone."
+        },
+        {
+          "info": {
+            "name": "Set the Dataset default security",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/security/default",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set the Dataset default security"
+        },
+        {
+          "info": {
+            "name": "Add a control access to the Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/security/access",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a control access to the Dataset"
+        },
+        {
+          "info": {
+            "name": "Get a control access for the Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "the User identifier"
+              }
+            ]
+          },
+          "docs": "Get a control access for the Dataset"
+        },
+        {
+          "info": {
+            "name": "Update the specified access to User for a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "the User identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the specified access to User for a Dataset"
+        },
+        {
+          "info": {
+            "name": "Remove the specified access from the given Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/security/access/:identity_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "the User identifier"
+              }
+            ]
+          },
+          "docs": "Remove a user or group's access to a dataset. Cannot remove the last administrator - at least one admin must remain."
+        },
+        {
+          "info": {
+            "name": "Get the Dataset security users list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/security/users",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              }
+            ]
+          },
+          "docs": "Get the Dataset security users list"
+        },
+        {
+          "info": {
+            "name": "Retrieve all dataset parts of a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to query (first page is at index 0)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Amount of result by page"
+              }
+            ]
+          },
+          "docs": "Retrieve all data parts associated with a dataset."
+        },
+        {
+          "info": {
+            "name": "Create a data part of a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "datasetPartCreateRequest",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create a new data part within a dataset. Specify type as 'File' for file storage or 'DB' for database storage. Returns the created part."
+        },
+        {
+          "info": {
+            "name": "Retrieve a data part of a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts/:dataset_part_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "dataset_part_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset part identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve a data part of a Dataset"
+        },
+        {
+          "info": {
+            "name": "Replace existing dataset parts of a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts/:dataset_part_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "dataset_part_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset part identifier"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "datasetPartUpdateRequest",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Replace existing dataset parts of a Dataset"
+        },
+        {
+          "info": {
+            "name": "Update existing dataset parts information of a Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts/:dataset_part_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "dataset_part_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset part identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update existing dataset parts information of a Dataset"
+        },
+        {
+          "info": {
+            "name": "Delete a Dataset part",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts/:dataset_part_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "dataset_part_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset part identifier"
+              }
+            ]
+          },
+          "docs": "Delete a dataset part"
+        },
+        {
+          "info": {
+            "name": "Query data of a Dataset part.\nThis endpoint is only available for dataset parts that support queries (type == DB).\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts/:dataset_part_id/query",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "dataset_part_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset part identifier"
+              },
+              {
+                "name": "selects",
+                "value": "",
+                "type": "query",
+                "description": "Column names that should be part of the response data.\nYou can specify a column name like:\n - id\n - stock\n - quantity\n - ...\nIf you want to select only distinct columns, add a * at the end of the column name (e.g. stock*).\n"
+              },
+              {
+                "name": "sums",
+                "value": "",
+                "type": "query",
+                "description": "Column names to sum by.\nIf you want to sum only distinct columns, add a * at the end of the column name (e.g. stock*).\n"
+              },
+              {
+                "name": "avgs",
+                "value": "",
+                "type": "query",
+                "description": "Column names to average by.\nIf you want to apply 'average' only on distinct columns, add a * at the end of the column name (e.g. stock*).\n"
+              },
+              {
+                "name": "counts",
+                "value": "",
+                "type": "query",
+                "description": "Column names to count by.\nIf you want to count only distinct columns, add a * at the end of the column name (e.g. stock*).\n"
+              },
+              {
+                "name": "mins",
+                "value": "",
+                "type": "query",
+                "description": "Column names to min by.\nIf you want to apply 'min' only on distinct columns, add a * at the end of the column name (e.g. stock*).\n"
+              },
+              {
+                "name": "maxs",
+                "value": "",
+                "type": "query",
+                "description": "Column names to max by.\nIf you want to apply 'max' only on distinct columns, add a * at the end of the column name (e.g. stock*).\n"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The query offset"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The query limit"
+              },
+              {
+                "name": "groupBys",
+                "value": "",
+                "type": "query",
+                "description": "Column names to group by"
+              },
+              {
+                "name": "orderBys",
+                "value": "",
+                "type": "query",
+                "description": "Column names to order by.\nDefault order is ascending.\nIf you want to specify 'descending' order, add a '!' at the beginning of the column name (e.g. !stock).\n"
+              }
+            ]
+          },
+          "docs": "Execute a query against a dataset part. Results are returned as plain-text CSV. Only available for parts with type=DB."
+        },
+        {
+          "info": {
+            "name": "Download data from a dataset part",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts/:dataset_part_id/download",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "dataset_part_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset part identifier"
+              }
+            ]
+          },
+          "docs": "Download the file content from a dataset part. Returns the file as an application/octet-stream."
+        },
+        {
+          "info": {
+            "name": "Search Dataset parts by tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8080/organizations/:organization_id/workspaces/:workspace_id/datasets/:dataset_id/parts/search",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "the Organization identifier"
+              },
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path",
+                "description": "the Workspace identifier"
+              },
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "the Dataset identifier"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to query (first page is at index 0)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Amount of result by page"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search Dataset parts by tags"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
