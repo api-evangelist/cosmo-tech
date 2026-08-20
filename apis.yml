@@ -51,6 +51,8 @@ apis:
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
   tags:
+  - Dataset
+  tags_raw:
   - dataset
   properties:
   - type: OpenAPI
@@ -61,6 +63,8 @@ apis:
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
   tags:
+  - Meta
+  tags_raw:
   - meta
   properties:
   - type: OpenAPI
@@ -71,6 +75,8 @@ apis:
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
   tags:
+  - Organization
+  tags_raw:
   - organization
   properties:
   - type: OpenAPI
@@ -81,6 +87,8 @@ apis:
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
   tags:
+  - Run
+  tags_raw:
   - run
   properties:
   - type: OpenAPI
@@ -101,6 +109,8 @@ apis:
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
   tags:
+  - Solution
+  tags_raw:
   - solution
   properties:
   - type: OpenAPI
@@ -111,6 +121,8 @@ apis:
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
   tags:
+  - Workspace
+  tags_raw:
   - workspace
   properties:
   - type: OpenAPI
