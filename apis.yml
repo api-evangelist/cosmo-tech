@@ -99,7 +99,7 @@ apis:
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
   tags:
-  - run
+  - Run
   tags_raw:
   - run
   properties:
