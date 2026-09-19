@@ -63,7 +63,7 @@ apis:
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
   tags:
-  - Dataset
+  - Datasets
   tags_raw:
   - dataset
   properties:
