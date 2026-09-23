@@ -1,13 +1,13 @@
 {
   "provider": "cosmo-tech",
   "sources": [
-    "cosmo-tech-dataset-api-openapi.yml",
-    "cosmo-tech-meta-api-openapi.yml",
-    "cosmo-tech-organization-api-openapi.yml",
-    "cosmo-tech-run-api-openapi.yml",
-    "cosmo-tech-runner-api-openapi.yml",
-    "cosmo-tech-solution-api-openapi.yml",
-    "cosmo-tech-workspace-api-openapi.yml"
+    "_original/cosmo-tech-dataset-openapi-original.yaml",
+    "_original/cosmo-tech-meta-openapi-original.yaml",
+    "_original/cosmo-tech-organization-openapi-original.yaml",
+    "_original/cosmo-tech-run-openapi-original.yaml",
+    "_original/cosmo-tech-runner-openapi-original.yaml",
+    "_original/cosmo-tech-solution-openapi-original.yaml",
+    "_original/cosmo-tech-workspace-openapi-original.yaml"
   ],
   "outputs": [
     "cosmo-tech-dataset-api-openapi.yml",
@@ -20,7 +20,34 @@
   ],
   "archived": [],
   "errors": [],
-  "warnings": [],
-  "notes": [],
-  "skipped": []
+  "warnings": [
+    "cosmo-tech-meta-openapi-original.yaml: info.title missing",
+    "cosmo-tech-meta-openapi-original.yaml: info.version missing",
+    "cosmo-tech-run-openapi-original.yaml: info.title missing",
+    "cosmo-tech-run-openapi-original.yaml: info.version missing",
+    "cosmo-tech-runner-openapi-original.yaml: info.title missing",
+    "cosmo-tech-runner-openapi-original.yaml: info.version missing",
+    "cosmo-tech-workspace-openapi-original.yaml: info.title missing",
+    "cosmo-tech-workspace-openapi-original.yaml: info.version missing"
+  ],
+  "notes": [
+    "sourced from openapi/_original/ (7 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cosmo-tech-dataset-openapi-original.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "cosmo-tech-meta-openapi-original.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "cosmo-tech-organization-openapi-original.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "cosmo-tech-run-openapi-original.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "cosmo-tech-runner-openapi-original.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "cosmo-tech-solution-openapi-original.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "cosmo-tech-workspace-openapi-original.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "cosmo-tech-dataset-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cosmo-tech-meta-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cosmo-tech-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cosmo-tech-run-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cosmo-tech-runner-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cosmo-tech-solution-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cosmo-tech-workspace-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

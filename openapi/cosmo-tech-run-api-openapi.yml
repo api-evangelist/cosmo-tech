@@ -1,14 +1,12 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Cosmo Tech Manager dataset run API
-  description: Cosmo Tech Dataset Manager API
-  version: 1.0.0-SNAPSHOT
-servers:
-- url: http://localhost:8080
+  title: Cosmo Tech Run API
+  version: ''
+  description: Run Management
 security:
 - oAuth2AuthCode: []
 tags:
-- name: run
+- name: Run
   description: Run Management
 paths:
   /organizations/{organization_id}/workspaces/{workspace_id}/runners/{runner_id}/runs/{run_id}:
@@ -20,7 +18,7 @@ paths:
     get:
       operationId: getRun
       tags:
-      - run
+      - Run
       description: Retrieve detailed information about a specific run.
       summary: Get the details of a run
       responses:
@@ -44,7 +42,7 @@ paths:
     delete:
       operationId: deleteRun
       tags:
-      - run
+      - Run
       summary: Delete a run
       responses:
         '204':
@@ -62,7 +60,7 @@ paths:
     get:
       operationId: getRunStatus
       tags:
-      - run
+      - Run
       description: Retrieve detailed execution status of a run.
       summary: get the status for the Run
       responses:
@@ -90,7 +88,7 @@ paths:
     get:
       operationId: getRunLogs
       tags:
-      - run
+      - Run
       description: Retrieve execution logs for a run as plain text. Logs are aggregated from all containers. May be truncated for long-running simulations.
       summary: get the logs for the Run
       responses:
@@ -124,7 +122,7 @@ paths:
         schema:
           type: integer
       tags:
-      - run
+      - Run
       description: Retrieve a paginated list of all runs for a specific runner.
       summary: get the list of Runs for the Runner
       responses:
@@ -148,195 +146,7 @@ paths:
                 OneRun:
                   $ref: '#/components/examples/OneRun'
 components:
-  examples:
-    BreweryRunLogs:
-      summary: Brewery Run logs example
-      description: Brewery Run logs with plain text example
-      value: '[2021-05-18T16:15:29Z] INFO: Starting run execution
-
-        [2021-05-18T16:15:30Z] INFO: Fetching datasets...
-
-        [2021-05-18T16:15:43Z] INFO: Datasets fetched successfully
-
-        [2021-05-18T16:15:43Z] INFO: Applying parameters...
-
-        [2021-05-18T16:15:53Z] INFO: Parameters applied successfully
-
-        [2021-05-18T16:15:53Z] INFO: Validating data...
-
-        [2021-05-18T16:16:03Z] INFO: Data validated successfully
-
-        [2021-05-18T16:16:03Z] INFO: Starting pre-run container...
-
-        [2021-05-18T16:16:25Z] INFO: Pre-run completed
-
-        [2021-05-18T16:16:25Z] INFO: Starting main simulation...
-
-        [2021-05-18T16:16:42Z] INFO: Simulation completed
-
-        [2021-05-18T16:16:42Z] INFO: Starting post-run container...
-
-        [2021-05-18T16:16:57Z] INFO: Post-run completed
-
-        [2021-05-18T16:16:57Z] INFO: Run completed successfully
-
-        '
-    BreweryRunStatus:
-      summary: Brewery status example
-      description: Brewery Runner Run status example
-      value:
-        id: run-bDMr5lM9Vp
-        organizationId: o-gZVQqV8B4pR7
-        workspaceId: w-OGNQqJ7wP0
-        runnerId: r-EEYpWeM0kW
-        workflowId: workflow-a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        workflowName: workflow-brewery-lsczk
-        createInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        startTime: '2021-05-18T16:15:29.000Z'
-        endTime: '2021-05-18T16:17:07.000Z'
-        phase: Succeeded
-        progress: 5/5
-        message: null
-        estimatedDuration: 98
-        state: Successful
-        nodes:
-        - id: node-main-1
-          name: workflow-brewery-lsczk
-          containerName: main
-          estimatedDuration: 98
-          hostNodeName: null
-          message: null
-          phase: Succeeded
-          progress: 5/5
-          startTime: '2021-05-18T16:15:29.000Z'
-          endTime: '2021-05-18T16:17:07.000Z'
-        - id: node-apply-params-1
-          name: workflow-brewery-lsczk.applyParametersContainer
-          containerName: applyParametersContainer
-          estimatedDuration: 14
-          hostNodeName: worker-node-1
-          message: null
-          phase: Succeeded
-          progress: 1/1
-          startTime: '2021-05-18T16:15:29.000Z'
-          endTime: '2021-05-18T16:15:43.000Z'
-        - id: node-validate-data-1
-          name: workflow-brewery-lsczk.validateDataContainer
-          containerName: validateDataContainer
-          estimatedDuration: 10
-          hostNodeName: worker-node-1
-          message: null
-          phase: Succeeded
-          progress: 1/1
-          startTime: '2021-05-18T16:15:53.000Z'
-          endTime: '2021-05-18T16:16:03.000Z'
-        - id: node-prerun-1
-          name: workflow-brewery-lsczk.preRunContainer
-          containerName: preRunContainer
-          estimatedDuration: 12
-          hostNodeName: worker-node-1
-          message: null
-          phase: Succeeded
-          progress: 1/1
-          startTime: '2021-05-18T16:16:13.000Z'
-          endTime: '2021-05-18T16:16:25.000Z'
-        - id: node-run-1
-          name: workflow-brewery-lsczk.runContainer
-          containerName: runContainer
-          estimatedDuration: 7
-          hostNodeName: worker-node-2
-          message: null
-          phase: Succeeded
-          progress: 1/1
-          startTime: '2021-05-18T16:16:35.000Z'
-          endTime: '2021-05-18T16:16:42.000Z'
-        - id: node-postrun-1
-          name: workflow-brewery-lsczk.postRunContainer
-          containerName: postRunContainer
-          estimatedDuration: 12
-          hostNodeName: worker-node-1
-          message: null
-          phase: Succeeded
-          progress: 1/1
-          startTime: '2021-05-18T16:16:45.000Z'
-          endTime: '2021-05-18T16:16:57.000Z'
-    BreweryRun:
-      summary: Brewery Run example
-      description: Brewery Run example
-      value:
-        id: run-bDMr5lM9Vp
-        state: Running
-        organizationId: o-gZVQqV8B4pR7
-        createInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        workflowId: workflow-a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        csmSimulationRun: sim-a2b3c4d5-e6f7-8901-bcde-f12345678901
-        generateName: workflow-brewery-
-        workflowName: workflow-brewery-lsczk
-        workspaceId: w-OGNQqJ7wP0
-        workspaceKey: Brewery
-        runnerId: r-EEYpWeM0kW
-        solutionId: sol-w4Kn79JXKz
-        runTemplateId: hundred
-        computeSize: basic
-        datasetList:
-        - d-1AbCdEfGhIj
-        - d-2XyZaBcDeFg
-        parametersValues:
-        - parameterId: stock
-          varType: int
-          value: '100'
-        - parameterId: restock
-          varType: int
-          value: '50'
-        nodeLabel: basicpool
-    OneRun:
-      summary: Brewery Run list example
-      description: Brewery Run list example
-      value:
-      - id: run-dEfGhIjKlMn
-        state: Successful
-        organizationId: o-gZVQqV8B4pR7
-        createInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        workflowId: c3d4e5f6-a7b8-9012-cdef-a34567890123
-        csmSimulationRun: c4d5e6f7-b8a9-0123-defg-b45678901234
-        generateName: workflow-list-
-        workflowName: workflow-list-xyz789
-        workspaceId: w-OGNQqJ7wP0
-        workspaceKey: Brewery
-        runnerId: r-EEYpWeM0kW
-        solutionId: sol-w4Kn79JXKz
-        runTemplateId: hundred
-        computeSize: basic
-        datasetList:
-        - d-1AbCdEfGhIj
-        parametersValues:
-        - parameterId: stock
-          varType: int
-          value: '100'
-        nodeLabel: basicpool
   parameters:
-    workspaceId:
-      name: workspace_id
-      in: path
-      description: The Workspace identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^w-\w{10,20}
-    runId:
-      name: run_id
-      in: path
-      description: The Run identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^(run|sr)-\w{10,20}
     runnerId:
       name: runner_id
       in: path
@@ -345,6 +155,22 @@ components:
       schema:
         type: string
         pattern: ^(r|s)-\w{10,20}
+    runId:
+      name: run_id
+      in: path
+      description: The Run identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^(run|sr)-\w{10,20}
+    workspaceId:
+      name: workspace_id
+      in: path
+      description: The Workspace identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^w-\w{10,20}
     organizationId:
       name: organization_id
       in: path
@@ -354,17 +180,70 @@ components:
         type: string
         pattern: ^o-\w{10,20}
   schemas:
-    ContainerResourceSizing:
+    RunEditInfo:
       type: object
-      description: a description object for resource requests and limits (default same configuration as basic sizing)
       properties:
-        requests:
-          $ref: '#/components/schemas/ContainerResourceSizeInfo'
-        limits:
-          $ref: '#/components/schemas/ContainerResourceSizeInfo'
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
       required:
-      - requests
-      - limits
+      - timestamp
+      - userId
+    RunStatus:
+      type: object
+      description: a Run status
+      properties:
+        id:
+          type: string
+          description: the Run id
+        organizationId:
+          type: string
+          description: the Organization id
+        workspaceId:
+          type: string
+          description: the Workspace id
+        runnerId:
+          type: string
+          description: the Runner id
+        workflowId:
+          type: string
+          description: the Cosmo Tech compute cluster Argo Workflow Id to search
+        workflowName:
+          type: string
+          description: the Cosmo Tech compute cluster Argo Workflow Name
+        createInfo:
+          description: The timestamp of the Run creation in milliseconds
+          allOf:
+          - $ref: '#/components/schemas/RunEditInfo'
+        startTime:
+          type: string
+          description: the Run start Date Time
+        endTime:
+          type: string
+          description: the Run end Date Time
+        phase:
+          type: string
+          description: high-level summary of where the workflow is in its lifecycle
+        progress:
+          type: string
+          description: progress to completion
+        message:
+          type: string
+          description: a  human readable message indicating details about why the workflow is in this condition
+        estimatedDuration:
+          type: integer
+          description: estimatedDuration in seconds
+        nodes:
+          type: array
+          description: status of Run nodes
+          items:
+            $ref: '#/components/schemas/RunStatusNode'
+        state:
+          $ref: '#/components/schemas/RunState'
     RunStatusNode:
       type: object
       description: status of a Run Node
@@ -420,6 +299,18 @@ components:
       required:
       - cpu
       - memory
+    RunResourceRequested:
+      type: object
+      description: the memory and CPU requested by the pod
+      properties:
+        cpu:
+          type: integer
+          format: int64
+          description: Define cpu needs
+        memory:
+          type: integer
+          format: int64
+          description: Define memory needs
     RunContainer:
       type: object
       description: a Run container description
@@ -486,92 +377,17 @@ components:
       required:
       - parameterId
       - value
-    RunState:
-      type: string
-      readOnly: true
-      description: the Run end-to-end state
-      enum:
-      - Running
-      - Successful
-      - Failed
-      - Unknown
-      - NotStarted
-    RunResourceRequested:
+    ContainerResourceSizing:
       type: object
-      description: the memory and CPU requested by the pod
+      description: a description object for resource requests and limits (default same configuration as basic sizing)
       properties:
-        cpu:
-          type: integer
-          format: int64
-          description: Define cpu needs
-        memory:
-          type: integer
-          format: int64
-          description: Define memory needs
-    RunStatus:
-      type: object
-      description: a Run status
-      properties:
-        id:
-          type: string
-          description: the Run id
-        organizationId:
-          type: string
-          description: the Organization id
-        workspaceId:
-          type: string
-          description: the Workspace id
-        runnerId:
-          type: string
-          description: the Runner id
-        workflowId:
-          type: string
-          description: the Cosmo Tech compute cluster Argo Workflow Id to search
-        workflowName:
-          type: string
-          description: the Cosmo Tech compute cluster Argo Workflow Name
-        createInfo:
-          description: The timestamp of the Run creation in milliseconds
-          allOf:
-          - $ref: '#/components/schemas/RunEditInfo'
-        startTime:
-          type: string
-          description: the Run start Date Time
-        endTime:
-          type: string
-          description: the Run end Date Time
-        phase:
-          type: string
-          description: high-level summary of where the workflow is in its lifecycle
-        progress:
-          type: string
-          description: progress to completion
-        message:
-          type: string
-          description: a  human readable message indicating details about why the workflow is in this condition
-        estimatedDuration:
-          type: integer
-          description: estimatedDuration in seconds
-        nodes:
-          type: array
-          description: status of Run nodes
-          items:
-            $ref: '#/components/schemas/RunStatusNode'
-        state:
-          $ref: '#/components/schemas/RunState'
-    RunEditInfo:
-      type: object
-      properties:
-        timestamp:
-          description: The timestamp of the modification in millisecond
-          type: integer
-          format: int64
-        userId:
-          description: The id of the user who did the modification
-          type: string
+        requests:
+          $ref: '#/components/schemas/ContainerResourceSizeInfo'
+        limits:
+          $ref: '#/components/schemas/ContainerResourceSizeInfo'
       required:
-      - timestamp
-      - userId
+      - requests
+      - limits
     Run:
       type: object
       x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
@@ -660,6 +476,188 @@ components:
             $ref: '#/components/schemas/RunContainer'
       required:
       - createInfo
+    RunState:
+      type: string
+      readOnly: true
+      description: the Run end-to-end state
+      enum:
+      - Running
+      - Successful
+      - Failed
+      - Unknown
+      - NotStarted
+  examples:
+    BreweryRun:
+      summary: Brewery Run example
+      description: Brewery Run example
+      value:
+        id: run-bDMr5lM9Vp
+        state: Running
+        organizationId: o-gZVQqV8B4pR7
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        workflowId: workflow-a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        csmSimulationRun: sim-a2b3c4d5-e6f7-8901-bcde-f12345678901
+        generateName: workflow-brewery-
+        workflowName: workflow-brewery-lsczk
+        workspaceId: w-OGNQqJ7wP0
+        workspaceKey: Brewery
+        runnerId: r-EEYpWeM0kW
+        solutionId: sol-w4Kn79JXKz
+        runTemplateId: hundred
+        computeSize: basic
+        datasetList:
+        - d-1AbCdEfGhIj
+        - d-2XyZaBcDeFg
+        parametersValues:
+        - parameterId: stock
+          varType: int
+          value: '100'
+        - parameterId: restock
+          varType: int
+          value: '50'
+        nodeLabel: basicpool
+    BreweryRunLogs:
+      summary: Brewery Run logs example
+      description: Brewery Run logs with plain text example
+      value: '[2021-05-18T16:15:29Z] INFO: Starting run execution
+
+        [2021-05-18T16:15:30Z] INFO: Fetching datasets...
+
+        [2021-05-18T16:15:43Z] INFO: Datasets fetched successfully
+
+        [2021-05-18T16:15:43Z] INFO: Applying parameters...
+
+        [2021-05-18T16:15:53Z] INFO: Parameters applied successfully
+
+        [2021-05-18T16:15:53Z] INFO: Validating data...
+
+        [2021-05-18T16:16:03Z] INFO: Data validated successfully
+
+        [2021-05-18T16:16:03Z] INFO: Starting pre-run container...
+
+        [2021-05-18T16:16:25Z] INFO: Pre-run completed
+
+        [2021-05-18T16:16:25Z] INFO: Starting main simulation...
+
+        [2021-05-18T16:16:42Z] INFO: Simulation completed
+
+        [2021-05-18T16:16:42Z] INFO: Starting post-run container...
+
+        [2021-05-18T16:16:57Z] INFO: Post-run completed
+
+        [2021-05-18T16:16:57Z] INFO: Run completed successfully
+
+        '
+    OneRun:
+      summary: Brewery Run list example
+      description: Brewery Run list example
+      value:
+      - id: run-dEfGhIjKlMn
+        state: Successful
+        organizationId: o-gZVQqV8B4pR7
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        workflowId: c3d4e5f6-a7b8-9012-cdef-a34567890123
+        csmSimulationRun: c4d5e6f7-b8a9-0123-defg-b45678901234
+        generateName: workflow-list-
+        workflowName: workflow-list-xyz789
+        workspaceId: w-OGNQqJ7wP0
+        workspaceKey: Brewery
+        runnerId: r-EEYpWeM0kW
+        solutionId: sol-w4Kn79JXKz
+        runTemplateId: hundred
+        computeSize: basic
+        datasetList:
+        - d-1AbCdEfGhIj
+        parametersValues:
+        - parameterId: stock
+          varType: int
+          value: '100'
+        nodeLabel: basicpool
+    BreweryRunStatus:
+      summary: Brewery status example
+      description: Brewery Runner Run status example
+      value:
+        id: run-bDMr5lM9Vp
+        organizationId: o-gZVQqV8B4pR7
+        workspaceId: w-OGNQqJ7wP0
+        runnerId: r-EEYpWeM0kW
+        workflowId: workflow-a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        workflowName: workflow-brewery-lsczk
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        startTime: '2021-05-18T16:15:29.000Z'
+        endTime: '2021-05-18T16:17:07.000Z'
+        phase: Succeeded
+        progress: 5/5
+        message: null
+        estimatedDuration: 98
+        state: Successful
+        nodes:
+        - id: node-main-1
+          name: workflow-brewery-lsczk
+          containerName: main
+          estimatedDuration: 98
+          hostNodeName: null
+          message: null
+          phase: Succeeded
+          progress: 5/5
+          startTime: '2021-05-18T16:15:29.000Z'
+          endTime: '2021-05-18T16:17:07.000Z'
+        - id: node-apply-params-1
+          name: workflow-brewery-lsczk.applyParametersContainer
+          containerName: applyParametersContainer
+          estimatedDuration: 14
+          hostNodeName: worker-node-1
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:15:29.000Z'
+          endTime: '2021-05-18T16:15:43.000Z'
+        - id: node-validate-data-1
+          name: workflow-brewery-lsczk.validateDataContainer
+          containerName: validateDataContainer
+          estimatedDuration: 10
+          hostNodeName: worker-node-1
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:15:53.000Z'
+          endTime: '2021-05-18T16:16:03.000Z'
+        - id: node-prerun-1
+          name: workflow-brewery-lsczk.preRunContainer
+          containerName: preRunContainer
+          estimatedDuration: 12
+          hostNodeName: worker-node-1
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:16:13.000Z'
+          endTime: '2021-05-18T16:16:25.000Z'
+        - id: node-run-1
+          name: workflow-brewery-lsczk.runContainer
+          containerName: runContainer
+          estimatedDuration: 7
+          hostNodeName: worker-node-2
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:16:35.000Z'
+          endTime: '2021-05-18T16:16:42.000Z'
+        - id: node-postrun-1
+          name: workflow-brewery-lsczk.postRunContainer
+          containerName: postRunContainer
+          estimatedDuration: 12
+          hostNodeName: worker-node-1
+          message: null
+          phase: Succeeded
+          progress: 1/1
+          startTime: '2021-05-18T16:16:45.000Z'
+          endTime: '2021-05-18T16:16:57.000Z'
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2

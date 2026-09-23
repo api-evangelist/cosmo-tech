@@ -1,21 +1,19 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Cosmo Tech Manager dataset meta API
-  description: Cosmo Tech Dataset Manager API
-  version: 1.0.0-SNAPSHOT
-servers:
-- url: http://localhost:8080
+  title: Cosmo Tech Meta API
+  version: ''
+  description: Meta Management
 security:
 - oAuth2AuthCode: []
 tags:
-- name: meta
+- name: Meta
   description: Meta Management
 paths:
   /about:
     get:
       operationId: about
       tags:
-      - meta
+      - Meta
       description: Retrieve API version information and build details.
       summary: Get various information about the API
       responses:
@@ -39,31 +37,6 @@ paths:
                 DirtySnapshotAboutInfo:
                   $ref: '#/components/examples/DirtySnapshotAboutInfo'
 components:
-  examples:
-    DirtySnapshotAboutInfo:
-      summary: Dirty state snapshot version
-      description: Version details for an in development snapshot version
-      value:
-        version:
-          full: 4.2.0-SNAPSHOT-a6bdbc29
-          release: 4.2.0
-          major: 4
-          minor: 2
-          patch: 0
-          label: SNAPSHOT
-          build: a6bdbc29
-    ReleaseAboutInfo:
-      summary: Released version
-      description: Version details for a clean released version
-      value:
-        version:
-          full: 4.2.0-a6bdbc29
-          release: 4.2.0
-          major: 4
-          minor: 2
-          patch: 0
-          label: ''
-          build: a6bdbc29
   schemas:
     AboutInfoVersion:
       type: object
@@ -106,6 +79,31 @@ components:
       properties:
         version:
           $ref: '#/components/schemas/AboutInfoVersion'
+  examples:
+    DirtySnapshotAboutInfo:
+      summary: Dirty state snapshot version
+      description: Version details for an in development snapshot version
+      value:
+        version:
+          full: 4.2.0-SNAPSHOT-a6bdbc29
+          release: 4.2.0
+          major: 4
+          minor: 2
+          patch: 0
+          label: SNAPSHOT
+          build: a6bdbc29
+    ReleaseAboutInfo:
+      summary: Released version
+      description: Version details for a clean released version
+      value:
+        version:
+          full: 4.2.0-a6bdbc29
+          release: 4.2.0
+          major: 4
+          minor: 2
+          patch: 0
+          label: ''
+          build: a6bdbc29
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2
