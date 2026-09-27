@@ -37,7 +37,40 @@ paths:
                 DirtySnapshotAboutInfo:
                   $ref: '#/components/examples/DirtySnapshotAboutInfo'
 components:
+  examples:
+    ReleaseAboutInfo:
+      summary: Released version
+      description: Version details for a clean released version
+      value:
+        version:
+          full: 4.2.0-a6bdbc29
+          release: 4.2.0
+          major: 4
+          minor: 2
+          patch: 0
+          label: ''
+          build: a6bdbc29
+    DirtySnapshotAboutInfo:
+      summary: Dirty state snapshot version
+      description: Version details for an in development snapshot version
+      value:
+        version:
+          full: 4.2.0-SNAPSHOT-a6bdbc29
+          release: 4.2.0
+          major: 4
+          minor: 2
+          patch: 0
+          label: SNAPSHOT
+          build: a6bdbc29
   schemas:
+    AboutInfo:
+      type: object
+      description: Misc information about the api
+      required:
+      - version
+      properties:
+        version:
+          $ref: '#/components/schemas/AboutInfoVersion'
     AboutInfoVersion:
       type: object
       description: API version details
@@ -71,39 +104,6 @@ components:
         build:
           type: string
           description: Build VCS id
-    AboutInfo:
-      type: object
-      description: Misc information about the api
-      required:
-      - version
-      properties:
-        version:
-          $ref: '#/components/schemas/AboutInfoVersion'
-  examples:
-    DirtySnapshotAboutInfo:
-      summary: Dirty state snapshot version
-      description: Version details for an in development snapshot version
-      value:
-        version:
-          full: 4.2.0-SNAPSHOT-a6bdbc29
-          release: 4.2.0
-          major: 4
-          minor: 2
-          patch: 0
-          label: SNAPSHOT
-          build: a6bdbc29
-    ReleaseAboutInfo:
-      summary: Released version
-      description: Version details for a clean released version
-      value:
-        version:
-          full: 4.2.0-a6bdbc29
-          release: 4.2.0
-          major: 4
-          minor: 2
-          patch: 0
-          label: ''
-          build: a6bdbc29
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2

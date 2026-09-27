@@ -58,7 +58,7 @@ maintainers:
   email: info@apis.io
 apis:
 - aid: cosmo-tech:cosmo-tech-dataset-api
-  name: Cosmo Tech dataset API
+  name: Cosmo Tech Dataset API
   description: Dataset Management
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
@@ -70,7 +70,7 @@ apis:
   - type: OpenAPI
     url: openapi/cosmo-tech-dataset-api-openapi.yml
 - aid: cosmo-tech:cosmo-tech-meta-api
-  name: Cosmo Tech meta API
+  name: Cosmo Tech Meta API
   description: Meta Management
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
@@ -82,7 +82,7 @@ apis:
   - type: OpenAPI
     url: openapi/cosmo-tech-meta-api-openapi.yml
 - aid: cosmo-tech:cosmo-tech-organization-api
-  name: Cosmo Tech organization API
+  name: Cosmo Tech Organization API
   description: Organization Management
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
@@ -94,7 +94,7 @@ apis:
   - type: OpenAPI
     url: openapi/cosmo-tech-organization-api-openapi.yml
 - aid: cosmo-tech:cosmo-tech-run-api
-  name: Cosmo Tech run API
+  name: Cosmo Tech Run API
   description: Run Management
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
@@ -106,7 +106,7 @@ apis:
   - type: OpenAPI
     url: openapi/cosmo-tech-run-api-openapi.yml
 - aid: cosmo-tech:cosmo-tech-runner-api
-  name: Cosmo Tech runner API
+  name: Cosmo Tech Runner API
   description: Runner Management
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
@@ -116,7 +116,7 @@ apis:
   - type: OpenAPI
     url: openapi/cosmo-tech-runner-api-openapi.yml
 - aid: cosmo-tech:cosmo-tech-solution-api
-  name: Cosmo Tech solution API
+  name: Cosmo Tech Solution API
   description: Solution Management
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
@@ -128,7 +128,7 @@ apis:
   - type: OpenAPI
     url: openapi/cosmo-tech-solution-api-openapi.yml
 - aid: cosmo-tech:cosmo-tech-workspace-api
-  name: Cosmo Tech workspace API
+  name: Cosmo Tech Workspace API
   description: Workspace Management
   humanURL: https://github.com/Cosmo-Tech/cosmotech-api
   baseURL: https://dev.api.cosmotech.com
