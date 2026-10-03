@@ -439,19 +439,43 @@ paths:
           description: The Organization specified is unknown or you don't have access to it
 components:
   examples:
-    OrganizationRolePermissions:
-      summary: List of permissions for a role
-      description: Example of permissions for a given role
+    NewOrganizationIn:
+      summary: Create a new organization
+      description: Create a new organization with security settings
       value:
-      - read
-      - read_security
-      - create_children
-    OrganizationAccess:
-      summary: Organization access control example
-      description: Example of adding a new access control
+        name: Digital Twin Solutions
+        security:
+          default: viewer
+          accessControlList:
+          - id: admin@cosmotech.com
+            role: admin
+          - id: editor@cosmotech.com
+            role: editor
+    OrganizationAccessControl:
+      summary: Organization access control response
+      description: Example of access control response
       value:
-        id: new.user@cosmotech.com
+        id: user@cosmotech.com
         role: editor
+    CosmoOrganization:
+      summary: Organization response example
+      description: Example of an organization response with full details
+      value:
+        id: o-gZVQqV8B4pR7
+        name: Digital Twin Solutions
+        createInfo:
+          timestamp: 1713096000000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1713096000000
+          userId: john.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList:
+          - id: admin@cosmotech.com
+            role: admin
+          - id: editor@cosmotech.com
+            role: editor
     Permissions:
       summary: Component permissions
       description: Example of component role permissions
@@ -513,38 +537,27 @@ components:
           - validate
           - write_security
           - delete
-    OrganizationSecurity:
-      summary: Organization security example
-      description: Example of organization security settings
-      value:
-        default: viewer
-        accessControlList:
-        - id: admin@cosmotech.com
-          role: admin
-        - id: editor@cosmotech.com
-          role: editor
-    NewOrganizationIn:
-      summary: Create a new organization
-      description: Create a new organization with security settings
-      value:
-        name: Digital Twin Solutions
-        security:
-          default: viewer
-          accessControlList:
-          - id: admin@cosmotech.com
-            role: admin
-          - id: editor@cosmotech.com
-            role: editor
-    UpdateRole:
-      summary: Update user role
-      description: Example of updating a user's role
-      value:
-        role: editor
     DefaultRole:
       summary: Update default role
       description: Example of updating the default role
       value:
         role: viewer
+    ChangeOrganizationName:
+      summary: Change Name of Organization
+      description: Change the name of an organization
+      value:
+        name: Digital Twin Solutions
+    OrganizationAccess:
+      summary: Organization access control example
+      description: Example of adding a new access control
+      value:
+        id: new.user@cosmotech.com
+        role: editor
+    UpdateRole:
+      summary: Update user role
+      description: Example of updating a user's role
+      value:
+        role: editor
     UpdatedOrganization:
       summary: Updated organization example
       description: Example of an organization after update
@@ -570,41 +583,13 @@ components:
       value:
         id: user@cosmotech.com
         role: editor
-    UpdatedSecurity:
-      summary: Updated security settings
-      description: Example of updated security settings
+    OrganizationRolePermissions:
+      summary: List of permissions for a role
+      description: Example of permissions for a given role
       value:
-        default: viewer
-        accessControlList:
-        - id: admin@cosmotech.com
-          role: admin
-        - id: editor@cosmotech.com
-          role: editor
-    CosmoOrganization:
-      summary: Organization response example
-      description: Example of an organization response with full details
-      value:
-        id: o-gZVQqV8B4pR7
-        name: Digital Twin Solutions
-        createInfo:
-          timestamp: 1713096000000
-          userId: john.doe@cosmotech.com
-        updateInfo:
-          timestamp: 1713096000000
-          userId: john.doe@cosmotech.com
-        security:
-          default: viewer
-          accessControlList:
-          - id: admin@cosmotech.com
-            role: admin
-          - id: editor@cosmotech.com
-            role: editor
-    OrganizationAccessControl:
-      summary: Organization access control response
-      description: Example of access control response
-      value:
-        id: user@cosmotech.com
-        role: editor
+      - read
+      - read_security
+      - create_children
     TwoOrganizations:
       summary: Multiple organizations example
       description: Example of multiple organizations in a list
@@ -635,49 +620,27 @@ components:
           accessControlList:
           - id: admin@cosmotech.com
             role: admin
-    ChangeOrganizationName:
-      summary: Change Name of Organization
-      description: Change the name of an organization
+    OrganizationSecurity:
+      summary: Organization security example
+      description: Example of organization security settings
       value:
-        name: Digital Twin Solutions
-  parameters:
-    size:
-      name: size
-      in: query
-      description: Amount of result by page
-      required: false
-      schema:
-        type: integer
-    organizationId:
-      name: organization_id
-      in: path
-      description: The Organization identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^o-\w{10,20}
-    page:
-      name: page
-      in: query
-      description: Page number to query (first page is at index 0)
-      required: false
-      schema:
-        type: integer
+        default: viewer
+        accessControlList:
+        - id: admin@cosmotech.com
+          role: admin
+        - id: editor@cosmotech.com
+          role: editor
+    UpdatedSecurity:
+      summary: Updated security settings
+      description: Example of updated security settings
+      value:
+        default: viewer
+        accessControlList:
+        - id: admin@cosmotech.com
+          role: admin
+        - id: editor@cosmotech.com
+          role: editor
   schemas:
-    OrganizationCreateRequest:
-      type: object
-      description: Request object for creating a new organization
-      properties:
-        name:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Searchable'
-          description: The Organization name
-          minLength: 1
-          x-size-message: cannot be empty
-        security:
-          $ref: '#/components/schemas/OrganizationSecurity'
-      required:
-      - name
     OrganizationUpdateRequest:
       type: object
       description: Request object for updating an organization
@@ -687,14 +650,52 @@ components:
           description: The Organization name
           minLength: 1
           x-size-message: cannot be empty
-    OrganizationRole:
+    ComponentRolePermissions:
       type: object
-      description: The Organization Role
+      description: A RBAC by component
       properties:
+        component:
+          type: string
+        roles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+      required:
+      - component
+      - roles
+    OrganizationSecurity:
+      type: object
+      description: Response object for organization security information
+      properties:
+        default:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The role by default
+        accessControlList:
+          type: array
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The list which can access this Organization with detailed access control information
+          items:
+            $ref: '#/components/schemas/OrganizationAccessControl'
+      required:
+      - default
+      - accessControlList
+    OrganizationAccessControl:
+      type: object
+      description: Response object for organization access control
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The identity id
         role:
           type: string
-          description: The Organization Role
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: A role
       required:
+      - id
       - role
     Organization:
       type: object
@@ -728,38 +729,20 @@ components:
       - createInfo
       - updateInfo
       - security
-    OrganizationSecurity:
+    OrganizationCreateRequest:
       type: object
-      description: Response object for organization security information
+      description: Request object for creating a new organization
       properties:
-        default:
+        name:
           type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The role by default
-        accessControlList:
-          type: array
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The list which can access this Organization with detailed access control information
-          items:
-            $ref: '#/components/schemas/OrganizationAccessControl'
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Searchable'
+          description: The Organization name
+          minLength: 1
+          x-size-message: cannot be empty
+        security:
+          $ref: '#/components/schemas/OrganizationSecurity'
       required:
-      - default
-      - accessControlList
-    OrganizationAccessControl:
-      type: object
-      description: Response object for organization access control
-      properties:
-        id:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The identity id
-        role:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: A role
-      required:
-      - id
-      - role
+      - name
     OrganizationEditInfo:
       type: object
       properties:
@@ -773,21 +756,38 @@ components:
       required:
       - timestamp
       - userId
-    ComponentRolePermissions:
+    OrganizationRole:
       type: object
-      description: A RBAC by component
+      description: The Organization Role
       properties:
-        component:
+        role:
           type: string
-        roles:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
+          description: The Organization Role
       required:
-      - component
-      - roles
+      - role
+  parameters:
+    size:
+      name: size
+      in: query
+      description: Amount of result by page
+      required: false
+      schema:
+        type: integer
+    page:
+      name: page
+      in: query
+      description: Page number to query (first page is at index 0)
+      required: false
+      schema:
+        type: integer
+    organizationId:
+      name: organization_id
+      in: path
+      description: The Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^o-\w{10,20}
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2

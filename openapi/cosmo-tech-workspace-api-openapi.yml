@@ -570,40 +570,10 @@ paths:
           description: The Workspace or the User specified is unknown or you don't have access to them
 components:
   examples:
-    BreweryWorkspaceSecurity:
-      summary: Brewery Workspace security
-      description: Brewery Workspace security example
+    BreweryWorkspaceCreate:
+      summary: Brewery Workspace Create input parameters example
+      description: Example of required parameters for creating a workspace
       value:
-        default: viewer
-        accessControlList:
-        - id: alice.doe@cosmotech.com
-          role: editor
-    BreweryWorkspaceUpdate:
-      summary: Update the Brewery Workspace
-      description: Update the Brewery Workspace by changing its name
-      value:
-        name: Brewery Analysis 2021
-    BreweryDefaultSecurityRoleWriter:
-      summary: Brewery Workspace Writer default security
-      description: Brewery Workspace example with updated default security
-      value:
-        default: editor
-        accessControlList:
-        - id: alice.doe@cosmotech.com
-          role: admin
-    WorkspaceFileList:
-      summary: Workspace files example
-      description: Workspace files example
-      value:
-      - fileName: myData.csv
-      - fileName: myData2.csv
-      - fileName: myData3.csv
-    BreweryWorkspace:
-      summary: Brewery Workspace
-      description: Brewery Workspace example
-      value:
-        id: w-1AbCdEfGhIj
-        organizationId: o-gZVQqV8B4pR7
         key: brewery
         name: Brewery Analysis
         description: Brewery analysis for stock, production, transport and customer satisfaction
@@ -612,17 +582,43 @@ components:
         - Brewery
         solution:
           solutionId: sol-feo16eua48o
-        createInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        updateInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
         security:
           default: viewer
           accessControlList:
           - id: alice.doe@cosmotech.com
             role: admin
+    BreweryWorkspaceAccessControl:
+      summary: Set an access control.
+      description: Set an access control for a user to a workspace.
+      value:
+        id: bob.doe@cosmotech.com
+        role: editor
+    WorkspaceFileList:
+      summary: Workspace files example
+      description: Workspace files example
+      value:
+      - fileName: myData.csv
+      - fileName: myData2.csv
+      - fileName: myData3.csv
+    WorkspaceFile:
+      summary: Workspace file example
+      description: Workspace file uploaded return example
+      value:
+        fileName: myData.csv
+    BreweryWorkspaceRole:
+      summary: Set a Workspace Role.
+      description: Set a Role for a user to a workspace.
+      value:
+        role: editor
+    WorkspacePermissions:
+      summary: Workspace permissions example
+      description: Example of workspace role permissions
+      value:
+      - read
+      - read_security
+      - create_children
+      - write
+      - delete
     BreweryWorkspaceUpdated:
       summary: Updated Brewery Workspace
       description: Example of updated workspace with required fields
@@ -648,48 +644,6 @@ components:
           accessControlList:
           - id: alice.doe@cosmotech.com
             role: admin
-    BreweryWorkspaceCreate:
-      summary: Brewery Workspace Create input parameters example
-      description: Example of required parameters for creating a workspace
-      value:
-        key: brewery
-        name: Brewery Analysis
-        description: Brewery analysis for stock, production, transport and customer satisfaction
-        version: 1.0.0
-        tags:
-        - Brewery
-        solution:
-          solutionId: sol-feo16eua48o
-        security:
-          default: viewer
-          accessControlList:
-          - id: alice.doe@cosmotech.com
-            role: admin
-    WorkspaceFile:
-      summary: Workspace file example
-      description: Workspace file uploaded return example
-      value:
-        fileName: myData.csv
-    WorkspacePermissions:
-      summary: Workspace permissions example
-      description: Example of workspace role permissions
-      value:
-      - read
-      - read_security
-      - create_children
-      - write
-      - delete
-    BreweryWorkspaceRole:
-      summary: Set a Workspace Role.
-      description: Set a Role for a user to a workspace.
-      value:
-        role: editor
-    BreweryWorkspaceAccessControl:
-      summary: Set an access control.
-      description: Set an access control for a user to a workspace.
-      value:
-        id: bob.doe@cosmotech.com
-        role: editor
     WorkspaceUsers:
       summary: Workspace users list example
       description: Example of users with access to the workspace
@@ -743,89 +697,53 @@ components:
           accessControlList:
           - id: bob.doe@cosmotech.com
             role: admin
-  parameters:
-    size:
-      name: size
-      in: query
-      description: Amount of result by page
-      required: false
-      schema:
-        type: integer
-    organizationId:
-      name: organization_id
-      in: path
-      description: The Organization identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^o-\w{10,20}
-    page:
-      name: page
-      in: query
-      description: Page number to query (first page is at index 0)
-      required: false
-      schema:
-        type: integer
-    workspaceId:
-      name: workspace_id
-      in: path
-      description: The Workspace identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^w-\w{10,20}
-  schemas:
-    WorkspaceUpdateRequest:
-      type: object
-      description: Request object for updating a workspace
-      properties:
-        key:
-          type: string
-          description: Technical key for resource name convention and version grouping. Must be unique
-          minLength: 1
-          x-size-message: cannot be empty
-        name:
-          type: string
-          description: Workspace name
-          minLength: 1
-          x-size-message: cannot be empty
-        description:
-          type: string
-          description: The Workspace description
+    BreweryWorkspace:
+      summary: Brewery Workspace
+      description: Brewery Workspace example
+      value:
+        id: w-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery
+        name: Brewery Analysis
+        description: Brewery analysis for stock, production, transport and customer satisfaction
+        version: 1.0.0
         tags:
-          type: array
-          description: The list of tags
-          items:
-            type: string
+        - Brewery
         solution:
-          $ref: '#/components/schemas/WorkspaceSolution'
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-    WorkspaceSolution:
-      type: object
-      description: The Workspace Solution configuration
-      properties:
-        solutionId:
-          type: string
-          description: The Solution Id attached to this workspace
-          pattern: ^sol-\w{10,20}
-        datasetId:
-          type: string
-          description: 'The Dataset Id attached to this workspace.
-
-            This dataset will be used to store default values for Solution parameters with file''s varType.
-
-            '
-          pattern: ^d-\w{10,20}
-        defaultParameterValues:
-          type: object
-          description: A map of parameterId/value to set default values for Solution parameters with simple varType (int, string, ...)
-          additionalProperties:
-            type: string
-      required:
-      - solutionId
+          solutionId: sol-feo16eua48o
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList:
+          - id: alice.doe@cosmotech.com
+            role: admin
+    BreweryWorkspaceSecurity:
+      summary: Brewery Workspace security
+      description: Brewery Workspace security example
+      value:
+        default: viewer
+        accessControlList:
+        - id: alice.doe@cosmotech.com
+          role: editor
+    BreweryWorkspaceUpdate:
+      summary: Update the Brewery Workspace
+      description: Update the Brewery Workspace by changing its name
+      value:
+        name: Brewery Analysis 2021
+    BreweryDefaultSecurityRoleWriter:
+      summary: Brewery Workspace Writer default security
+      description: Brewery Workspace example with updated default security
+      value:
+        default: editor
+        accessControlList:
+        - id: alice.doe@cosmotech.com
+          role: admin
+  schemas:
     Workspace:
       type: object
       x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
@@ -897,60 +815,14 @@ components:
       - updateInfo
       - solution
       - security
-    WorkspacePermissionsList:
+    WorkspaceUsersList:
       type: array
-      description: List of permissions for a workspace role
+      description: List of users with access to the workspace
       items:
         type: string
       example:
-      - read
-      - read_security
-      - create_children
-    WorkspaceSecurity:
-      type: object
-      description: The workspace security information
-      properties:
-        default:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The role by default
-        accessControlList:
-          type: array
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The list which can access this Workspace with detailed access control information
-          items:
-            $ref: '#/components/schemas/WorkspaceAccessControl'
-      required:
-      - default
-      - accessControlList
-    WorkspaceEditInfo:
-      type: object
-      properties:
-        timestamp:
-          description: The timestamp of the modification in millisecond
-          type: integer
-          format: int64
-        userId:
-          description: The id of the user who did the modification
-          type: string
-      required:
-      - timestamp
-      - userId
-    WorkspaceAccessControl:
-      type: object
-      description: A Workspace access control item
-      properties:
-        id:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The identity id
-        role:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: A role
-      required:
-      - id
-      - role
+      - alice@mycompany.com
+      - bob@mycompany.com
     WorkspaceCreateRequest:
       type: object
       description: Request object for creating a new workspace
@@ -990,6 +862,15 @@ components:
       - key
       - name
       - solution
+    WorkspacePermissionsList:
+      type: array
+      description: List of permissions for a workspace role
+      items:
+        type: string
+      example:
+      - read
+      - read_security
+      - create_children
     WorkspaceFile:
       type: object
       description: A Workspace File resource
@@ -999,23 +880,6 @@ components:
           description: The Workspace File name
       required:
       - fileName
-    WorkspaceRole:
-      type: object
-      description: The Workspace Role
-      properties:
-        role:
-          type: string
-          description: The Workspace Role
-      required:
-      - role
-    WorkspaceUsersList:
-      type: array
-      description: List of users with access to the workspace
-      items:
-        type: string
-      example:
-      - alice@mycompany.com
-      - bob@mycompany.com
     WorkspaceFileUpload:
       type: object
       description: Request object for uploading a file to a workspace
@@ -1040,6 +904,142 @@ components:
           description: The file to upload
       required:
       - file
+    WorkspaceEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+      - timestamp
+      - userId
+    WorkspaceUpdateRequest:
+      type: object
+      description: Request object for updating a workspace
+      properties:
+        key:
+          type: string
+          description: Technical key for resource name convention and version grouping. Must be unique
+          minLength: 1
+          x-size-message: cannot be empty
+        name:
+          type: string
+          description: Workspace name
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+          description: The Workspace description
+        tags:
+          type: array
+          description: The list of tags
+          items:
+            type: string
+        solution:
+          $ref: '#/components/schemas/WorkspaceSolution'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+    WorkspaceRole:
+      type: object
+      description: The Workspace Role
+      properties:
+        role:
+          type: string
+          description: The Workspace Role
+      required:
+      - role
+    WorkspaceSecurity:
+      type: object
+      description: The workspace security information
+      properties:
+        default:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The role by default
+        accessControlList:
+          type: array
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The list which can access this Workspace with detailed access control information
+          items:
+            $ref: '#/components/schemas/WorkspaceAccessControl'
+      required:
+      - default
+      - accessControlList
+    WorkspaceSolution:
+      type: object
+      description: The Workspace Solution configuration
+      properties:
+        solutionId:
+          type: string
+          description: The Solution Id attached to this workspace
+          pattern: ^sol-\w{10,20}
+        datasetId:
+          type: string
+          description: 'The Dataset Id attached to this workspace.
+
+            This dataset will be used to store default values for Solution parameters with file''s varType.
+
+            '
+          pattern: ^d-\w{10,20}
+        defaultParameterValues:
+          type: object
+          description: A map of parameterId/value to set default values for Solution parameters with simple varType (int, string, ...)
+          additionalProperties:
+            type: string
+      required:
+      - solutionId
+    WorkspaceAccessControl:
+      type: object
+      description: A Workspace access control item
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The identity id
+        role:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: A role
+      required:
+      - id
+      - role
+  parameters:
+    workspaceId:
+      name: workspace_id
+      in: path
+      description: The Workspace identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^w-\w{10,20}
+    size:
+      name: size
+      in: query
+      description: Amount of result by page
+      required: false
+      schema:
+        type: integer
+    page:
+      name: page
+      in: query
+      description: Page number to query (first page is at index 0)
+      required: false
+      schema:
+        type: integer
+    organizationId:
+      name: organization_id
+      in: path
+      description: The Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^o-\w{10,20}
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2
