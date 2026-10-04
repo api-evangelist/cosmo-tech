@@ -147,27 +147,6 @@ paths:
                   $ref: '#/components/examples/OneRun'
 components:
   schemas:
-    ContainerResourceSizing:
-      type: object
-      description: a description object for resource requests and limits (default same configuration as basic sizing)
-      properties:
-        requests:
-          $ref: '#/components/schemas/ContainerResourceSizeInfo'
-        limits:
-          $ref: '#/components/schemas/ContainerResourceSizeInfo'
-      required:
-      - requests
-      - limits
-    RunState:
-      type: string
-      readOnly: true
-      description: the Run end-to-end state
-      enum:
-      - Running
-      - Successful
-      - Failed
-      - Unknown
-      - NotStarted
     Run:
       type: object
       x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
@@ -256,6 +235,85 @@ components:
             $ref: '#/components/schemas/RunContainer'
       required:
       - createInfo
+    RunTemplateParameterValue:
+      type: object
+      description: the value of Analysis parameter for a Runner for this Run
+      properties:
+        parameterId:
+          type: string
+          description: the parameter Id
+        varType:
+          type: string
+          readOnly: true
+          description: the parameter value type
+        value:
+          type: string
+          description: the parameter value
+      required:
+      - parameterId
+      - value
+    RunEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+      - timestamp
+      - userId
+    RunContainer:
+      type: object
+      description: a Run container description
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: the container Id
+        name:
+          type: string
+          description: the container name
+        labels:
+          type: object
+          description: the metadata labels
+          additionalProperties:
+            type: string
+        envVars:
+          type: object
+          description: environment variable map
+          additionalProperties:
+            type: string
+        image:
+          type: string
+          description: the container image URI
+        entrypoint:
+          type: string
+          description: the container entry point
+        runArgs:
+          type: array
+          description: the list of run arguments for the container
+          items:
+            type: string
+        dependencies:
+          type: array
+          description: the list of dependencies container name to run this container
+          items:
+            type: string
+        solutionContainer:
+          type: boolean
+          readOnly: true
+          description: whether or not this container is a Cosmo Tech solution container
+        nodeLabel:
+          type: string
+          description: the node label request
+        runSizing:
+          $ref: '#/components/schemas/ContainerResourceSizing'
+      required:
+      - name
+      - image
     RunStatus:
       type: object
       description: a Run status
@@ -307,19 +365,52 @@ components:
             $ref: '#/components/schemas/RunStatusNode'
         state:
           $ref: '#/components/schemas/RunState'
-    RunEditInfo:
+    RunState:
+      type: string
+      readOnly: true
+      description: the Run end-to-end state
+      enum:
+      - Running
+      - Successful
+      - Failed
+      - Unknown
+      - NotStarted
+    ContainerResourceSizeInfo:
       type: object
+      description: Define cpus and memory needs
       properties:
-        timestamp:
-          description: The timestamp of the modification in millisecond
+        cpu:
+          type: string
+          description: Define cpu needs
+        memory:
+          type: string
+          description: Define memory needs
+      required:
+      - cpu
+      - memory
+    RunResourceRequested:
+      type: object
+      description: the memory and CPU requested by the pod
+      properties:
+        cpu:
           type: integer
           format: int64
-        userId:
-          description: The id of the user who did the modification
-          type: string
+          description: Define cpu needs
+        memory:
+          type: integer
+          format: int64
+          description: Define memory needs
+    ContainerResourceSizing:
+      type: object
+      description: a description object for resource requests and limits (default same configuration as basic sizing)
+      properties:
+        requests:
+          $ref: '#/components/schemas/ContainerResourceSizeInfo'
+        limits:
+          $ref: '#/components/schemas/ContainerResourceSizeInfo'
       required:
-      - timestamp
-      - userId
+      - requests
+      - limits
     RunStatusNode:
       type: object
       description: status of a Run Node
@@ -362,130 +453,40 @@ components:
         endTime:
           type: string
           description: the node end time
-    RunTemplateParameterValue:
-      type: object
-      description: the value of Analysis parameter for a Runner for this Run
-      properties:
-        parameterId:
-          type: string
-          description: the parameter Id
-        varType:
-          type: string
-          readOnly: true
-          description: the parameter value type
-        value:
-          type: string
-          description: the parameter value
-      required:
-      - parameterId
-      - value
-    ContainerResourceSizeInfo:
-      type: object
-      description: Define cpus and memory needs
-      properties:
-        cpu:
-          type: string
-          description: Define cpu needs
-        memory:
-          type: string
-          description: Define memory needs
-      required:
-      - cpu
-      - memory
-    RunResourceRequested:
-      type: object
-      description: the memory and CPU requested by the pod
-      properties:
-        cpu:
-          type: integer
-          format: int64
-          description: Define cpu needs
-        memory:
-          type: integer
-          format: int64
-          description: Define memory needs
-    RunContainer:
-      type: object
-      description: a Run container description
-      properties:
-        id:
-          type: string
-          readOnly: true
-          description: the container Id
-        name:
-          type: string
-          description: the container name
-        labels:
-          type: object
-          description: the metadata labels
-          additionalProperties:
-            type: string
-        envVars:
-          type: object
-          description: environment variable map
-          additionalProperties:
-            type: string
-        image:
-          type: string
-          description: the container image URI
-        entrypoint:
-          type: string
-          description: the container entry point
-        runArgs:
-          type: array
-          description: the list of run arguments for the container
-          items:
-            type: string
-        dependencies:
-          type: array
-          description: the list of dependencies container name to run this container
-          items:
-            type: string
-        solutionContainer:
-          type: boolean
-          readOnly: true
-          description: whether or not this container is a Cosmo Tech solution container
-        nodeLabel:
-          type: string
-          description: the node label request
-        runSizing:
-          $ref: '#/components/schemas/ContainerResourceSizing'
-      required:
-      - name
-      - image
+  parameters:
+    runId:
+      name: run_id
+      in: path
+      description: The Run identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^(run|sr)-\w{10,20}
+    organizationId:
+      name: organization_id
+      in: path
+      description: The Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^o-\w{10,20}
+    runnerId:
+      name: runner_id
+      in: path
+      description: The Runner identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^(r|s)-\w{10,20}
+    workspaceId:
+      name: workspace_id
+      in: path
+      description: The Workspace identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^w-\w{10,20}
   examples:
-    BreweryRunLogs:
-      summary: Brewery Run logs example
-      description: Brewery Run logs with plain text example
-      value: '[2021-05-18T16:15:29Z] INFO: Starting run execution
-
-        [2021-05-18T16:15:30Z] INFO: Fetching datasets...
-
-        [2021-05-18T16:15:43Z] INFO: Datasets fetched successfully
-
-        [2021-05-18T16:15:43Z] INFO: Applying parameters...
-
-        [2021-05-18T16:15:53Z] INFO: Parameters applied successfully
-
-        [2021-05-18T16:15:53Z] INFO: Validating data...
-
-        [2021-05-18T16:16:03Z] INFO: Data validated successfully
-
-        [2021-05-18T16:16:03Z] INFO: Starting pre-run container...
-
-        [2021-05-18T16:16:25Z] INFO: Pre-run completed
-
-        [2021-05-18T16:16:25Z] INFO: Starting main simulation...
-
-        [2021-05-18T16:16:42Z] INFO: Simulation completed
-
-        [2021-05-18T16:16:42Z] INFO: Starting post-run container...
-
-        [2021-05-18T16:16:57Z] INFO: Post-run completed
-
-        [2021-05-18T16:16:57Z] INFO: Run completed successfully
-
-        '
     BreweryRun:
       summary: Brewery Run example
       description: Brewery Run example
@@ -625,39 +626,38 @@ components:
           varType: int
           value: '100'
         nodeLabel: basicpool
-  parameters:
-    runId:
-      name: run_id
-      in: path
-      description: The Run identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^(run|sr)-\w{10,20}
-    workspaceId:
-      name: workspace_id
-      in: path
-      description: The Workspace identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^w-\w{10,20}
-    organizationId:
-      name: organization_id
-      in: path
-      description: The Organization identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^o-\w{10,20}
-    runnerId:
-      name: runner_id
-      in: path
-      description: The Runner identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^(r|s)-\w{10,20}
+    BreweryRunLogs:
+      summary: Brewery Run logs example
+      description: Brewery Run logs with plain text example
+      value: '[2021-05-18T16:15:29Z] INFO: Starting run execution
+
+        [2021-05-18T16:15:30Z] INFO: Fetching datasets...
+
+        [2021-05-18T16:15:43Z] INFO: Datasets fetched successfully
+
+        [2021-05-18T16:15:43Z] INFO: Applying parameters...
+
+        [2021-05-18T16:15:53Z] INFO: Parameters applied successfully
+
+        [2021-05-18T16:15:53Z] INFO: Validating data...
+
+        [2021-05-18T16:16:03Z] INFO: Data validated successfully
+
+        [2021-05-18T16:16:03Z] INFO: Starting pre-run container...
+
+        [2021-05-18T16:16:25Z] INFO: Pre-run completed
+
+        [2021-05-18T16:16:25Z] INFO: Starting main simulation...
+
+        [2021-05-18T16:16:42Z] INFO: Simulation completed
+
+        [2021-05-18T16:16:42Z] INFO: Starting post-run container...
+
+        [2021-05-18T16:16:57Z] INFO: Post-run completed
+
+        [2021-05-18T16:16:57Z] INFO: Run completed successfully
+
+        '
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2

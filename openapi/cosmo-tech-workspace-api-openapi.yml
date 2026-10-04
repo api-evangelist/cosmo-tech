@@ -569,180 +569,6 @@ paths:
         '404':
           description: The Workspace or the User specified is unknown or you don't have access to them
 components:
-  examples:
-    BreweryWorkspaceCreate:
-      summary: Brewery Workspace Create input parameters example
-      description: Example of required parameters for creating a workspace
-      value:
-        key: brewery
-        name: Brewery Analysis
-        description: Brewery analysis for stock, production, transport and customer satisfaction
-        version: 1.0.0
-        tags:
-        - Brewery
-        solution:
-          solutionId: sol-feo16eua48o
-        security:
-          default: viewer
-          accessControlList:
-          - id: alice.doe@cosmotech.com
-            role: admin
-    BreweryWorkspaceAccessControl:
-      summary: Set an access control.
-      description: Set an access control for a user to a workspace.
-      value:
-        id: bob.doe@cosmotech.com
-        role: editor
-    WorkspaceFileList:
-      summary: Workspace files example
-      description: Workspace files example
-      value:
-      - fileName: myData.csv
-      - fileName: myData2.csv
-      - fileName: myData3.csv
-    WorkspaceFile:
-      summary: Workspace file example
-      description: Workspace file uploaded return example
-      value:
-        fileName: myData.csv
-    BreweryWorkspaceRole:
-      summary: Set a Workspace Role.
-      description: Set a Role for a user to a workspace.
-      value:
-        role: editor
-    WorkspacePermissions:
-      summary: Workspace permissions example
-      description: Example of workspace role permissions
-      value:
-      - read
-      - read_security
-      - create_children
-      - write
-      - delete
-    BreweryWorkspaceUpdated:
-      summary: Updated Brewery Workspace
-      description: Example of updated workspace with required fields
-      value:
-        id: w-1AbCdEfGhIj
-        organizationId: o-gZVQqV8B4pR7
-        key: brewery
-        name: Brewery Analysis 2021
-        description: Brewery analysis for stock, production, transport and customer satisfaction
-        version: 1.0.0
-        tags:
-        - Brewery
-        solution:
-          solutionId: sol-feo16eua48o
-        createInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        updateInfo:
-          timestamp: 1621440000000
-          userId: john.doe@cosmotech.com
-        security:
-          default: viewer
-          accessControlList:
-          - id: alice.doe@cosmotech.com
-            role: admin
-    WorkspaceUsers:
-      summary: Workspace users list example
-      description: Example of users with access to the workspace
-      value:
-      - alice.doe@cosmotech.com
-      - bob.doe@cosmotech.com
-      - charlie.smith@cosmotech.com
-    WorkspaceList:
-      summary: Workspace list
-      description: Example list of workspaces with required fields
-      value:
-      - id: w-1AbCdEfGhIj
-        organizationId: o-gZVQqV8B4pR7
-        key: brewery
-        name: Brewery Analysis
-        description: Brewery analysis for stock, production, transport and customer satisfaction
-        version: 1.0.0
-        tags:
-        - Brewery
-        solution:
-          solutionId: sol-feo16eua48o
-        createInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        updateInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        security:
-          default: viewer
-          accessControlList:
-          - id: alice.doe@cosmotech.com
-            role: admin
-      - id: w-2XyZaBcDeFg
-        organizationId: o-gZVQqV8B4pR7
-        key: breweryPlus
-        name: Brewery Analysis Plus
-        description: Brewery analysis for stock, production, transport and customer satisfaction with a plus
-        version: 1.0.0
-        tags:
-        - Brewery
-        solution:
-          solutionId: sol-ojd96oz14pz
-        createInfo:
-          timestamp: 1621353329000
-          userId: bob.doe@cosmotech.com
-        updateInfo:
-          timestamp: 1621353329000
-          userId: bob.doe@cosmotech.com
-        security:
-          default: viewer
-          accessControlList:
-          - id: bob.doe@cosmotech.com
-            role: admin
-    BreweryWorkspace:
-      summary: Brewery Workspace
-      description: Brewery Workspace example
-      value:
-        id: w-1AbCdEfGhIj
-        organizationId: o-gZVQqV8B4pR7
-        key: brewery
-        name: Brewery Analysis
-        description: Brewery analysis for stock, production, transport and customer satisfaction
-        version: 1.0.0
-        tags:
-        - Brewery
-        solution:
-          solutionId: sol-feo16eua48o
-        createInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        updateInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        security:
-          default: viewer
-          accessControlList:
-          - id: alice.doe@cosmotech.com
-            role: admin
-    BreweryWorkspaceSecurity:
-      summary: Brewery Workspace security
-      description: Brewery Workspace security example
-      value:
-        default: viewer
-        accessControlList:
-        - id: alice.doe@cosmotech.com
-          role: editor
-    BreweryWorkspaceUpdate:
-      summary: Update the Brewery Workspace
-      description: Update the Brewery Workspace by changing its name
-      value:
-        name: Brewery Analysis 2021
-    BreweryDefaultSecurityRoleWriter:
-      summary: Brewery Workspace Writer default security
-      description: Brewery Workspace example with updated default security
-      value:
-        default: editor
-        accessControlList:
-        - id: alice.doe@cosmotech.com
-          role: admin
   schemas:
     Workspace:
       type: object
@@ -815,14 +641,34 @@ components:
       - updateInfo
       - solution
       - security
-    WorkspaceUsersList:
-      type: array
-      description: List of users with access to the workspace
-      items:
-        type: string
-      example:
-      - alice@mycompany.com
-      - bob@mycompany.com
+    WorkspaceAccessControl:
+      type: object
+      description: A Workspace access control item
+      properties:
+        id:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The identity id
+        role:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: A role
+      required:
+      - id
+      - role
+    WorkspaceEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+      - timestamp
+      - userId
     WorkspaceCreateRequest:
       type: object
       description: Request object for creating a new workspace
@@ -862,15 +708,38 @@ components:
       - key
       - name
       - solution
-    WorkspacePermissionsList:
-      type: array
-      description: List of permissions for a workspace role
-      items:
-        type: string
-      example:
-      - read
-      - read_security
-      - create_children
+    WorkspaceSolution:
+      type: object
+      description: The Workspace Solution configuration
+      properties:
+        solutionId:
+          type: string
+          description: The Solution Id attached to this workspace
+          pattern: ^sol-\w{10,20}
+        datasetId:
+          type: string
+          description: 'The Dataset Id attached to this workspace.
+
+            This dataset will be used to store default values for Solution parameters with file''s varType.
+
+            '
+          pattern: ^d-\w{10,20}
+        defaultParameterValues:
+          type: object
+          description: A map of parameterId/value to set default values for Solution parameters with simple varType (int, string, ...)
+          additionalProperties:
+            type: string
+      required:
+      - solutionId
+    WorkspaceRole:
+      type: object
+      description: The Workspace Role
+      properties:
+        role:
+          type: string
+          description: The Workspace Role
+      required:
+      - role
     WorkspaceFile:
       type: object
       description: A Workspace File resource
@@ -880,43 +749,6 @@ components:
           description: The Workspace File name
       required:
       - fileName
-    WorkspaceFileUpload:
-      type: object
-      description: Request object for uploading a file to a workspace
-      properties:
-        overwrite:
-          type: boolean
-          default: false
-          description: Whether to overwrite an existing file
-        destination:
-          type: string
-          description: 'Destination path. Must end with a ''/'' if specifying a folder.
-
-            Note that paths may or may not start with a ''/'', but they are always treated
-
-            as relative to the Workspace root location.
-
-            '
-          example: path/to/a/directory/
-        file:
-          type: string
-          format: binary
-          description: The file to upload
-      required:
-      - file
-    WorkspaceEditInfo:
-      type: object
-      properties:
-        timestamp:
-          description: The timestamp of the modification in millisecond
-          type: integer
-          format: int64
-        userId:
-          description: The id of the user who did the modification
-          type: string
-      required:
-      - timestamp
-      - userId
     WorkspaceUpdateRequest:
       type: object
       description: Request object for updating a workspace
@@ -945,15 +777,14 @@ components:
           type: object
           description: Free form additional data
           additionalProperties: true
-    WorkspaceRole:
-      type: object
-      description: The Workspace Role
-      properties:
-        role:
-          type: string
-          description: The Workspace Role
-      required:
-      - role
+    WorkspaceUsersList:
+      type: array
+      description: List of users with access to the workspace
+      items:
+        type: string
+      example:
+      - alice@mycompany.com
+      - bob@mycompany.com
     WorkspaceSecurity:
       type: object
       description: The workspace security information
@@ -971,67 +802,214 @@ components:
       required:
       - default
       - accessControlList
-    WorkspaceSolution:
+    WorkspaceFileUpload:
       type: object
-      description: The Workspace Solution configuration
+      description: Request object for uploading a file to a workspace
       properties:
-        solutionId:
+        overwrite:
+          type: boolean
+          default: false
+          description: Whether to overwrite an existing file
+        destination:
           type: string
-          description: The Solution Id attached to this workspace
-          pattern: ^sol-\w{10,20}
-        datasetId:
-          type: string
-          description: 'The Dataset Id attached to this workspace.
+          description: 'Destination path. Must end with a ''/'' if specifying a folder.
 
-            This dataset will be used to store default values for Solution parameters with file''s varType.
+            Note that paths may or may not start with a ''/'', but they are always treated
+
+            as relative to the Workspace root location.
 
             '
-          pattern: ^d-\w{10,20}
-        defaultParameterValues:
-          type: object
-          description: A map of parameterId/value to set default values for Solution parameters with simple varType (int, string, ...)
-          additionalProperties:
-            type: string
-      required:
-      - solutionId
-    WorkspaceAccessControl:
-      type: object
-      description: A Workspace access control item
-      properties:
-        id:
+          example: path/to/a/directory/
+        file:
           type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The identity id
-        role:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: A role
+          format: binary
+          description: The file to upload
       required:
-      - id
-      - role
-  parameters:
-    workspaceId:
-      name: workspace_id
-      in: path
-      description: The Workspace identifier
-      required: true
-      schema:
+      - file
+    WorkspacePermissionsList:
+      type: array
+      description: List of permissions for a workspace role
+      items:
         type: string
-        pattern: ^w-\w{10,20}
-    size:
-      name: size
-      in: query
-      description: Amount of result by page
-      required: false
-      schema:
-        type: integer
-    page:
-      name: page
-      in: query
-      description: Page number to query (first page is at index 0)
-      required: false
-      schema:
-        type: integer
+      example:
+      - read
+      - read_security
+      - create_children
+  examples:
+    BreweryWorkspaceUpdated:
+      summary: Updated Brewery Workspace
+      description: Example of updated workspace with required fields
+      value:
+        id: w-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery
+        name: Brewery Analysis 2021
+        description: Brewery analysis for stock, production, transport and customer satisfaction
+        version: 1.0.0
+        tags:
+        - Brewery
+        solution:
+          solutionId: sol-feo16eua48o
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621440000000
+          userId: john.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList:
+          - id: alice.doe@cosmotech.com
+            role: admin
+    WorkspacePermissions:
+      summary: Workspace permissions example
+      description: Example of workspace role permissions
+      value:
+      - read
+      - read_security
+      - create_children
+      - write
+      - delete
+    BreweryWorkspace:
+      summary: Brewery Workspace
+      description: Brewery Workspace example
+      value:
+        id: w-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery
+        name: Brewery Analysis
+        description: Brewery analysis for stock, production, transport and customer satisfaction
+        version: 1.0.0
+        tags:
+        - Brewery
+        solution:
+          solutionId: sol-feo16eua48o
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList:
+          - id: alice.doe@cosmotech.com
+            role: admin
+    BreweryDefaultSecurityRoleWriter:
+      summary: Brewery Workspace Writer default security
+      description: Brewery Workspace example with updated default security
+      value:
+        default: editor
+        accessControlList:
+        - id: alice.doe@cosmotech.com
+          role: admin
+    WorkspaceFile:
+      summary: Workspace file example
+      description: Workspace file uploaded return example
+      value:
+        fileName: myData.csv
+    WorkspaceUsers:
+      summary: Workspace users list example
+      description: Example of users with access to the workspace
+      value:
+      - alice.doe@cosmotech.com
+      - bob.doe@cosmotech.com
+      - charlie.smith@cosmotech.com
+    BreweryWorkspaceAccessControl:
+      summary: Set an access control.
+      description: Set an access control for a user to a workspace.
+      value:
+        id: bob.doe@cosmotech.com
+        role: editor
+    BreweryWorkspaceCreate:
+      summary: Brewery Workspace Create input parameters example
+      description: Example of required parameters for creating a workspace
+      value:
+        key: brewery
+        name: Brewery Analysis
+        description: Brewery analysis for stock, production, transport and customer satisfaction
+        version: 1.0.0
+        tags:
+        - Brewery
+        solution:
+          solutionId: sol-feo16eua48o
+        security:
+          default: viewer
+          accessControlList:
+          - id: alice.doe@cosmotech.com
+            role: admin
+    BreweryWorkspaceSecurity:
+      summary: Brewery Workspace security
+      description: Brewery Workspace security example
+      value:
+        default: viewer
+        accessControlList:
+        - id: alice.doe@cosmotech.com
+          role: editor
+    BreweryWorkspaceUpdate:
+      summary: Update the Brewery Workspace
+      description: Update the Brewery Workspace by changing its name
+      value:
+        name: Brewery Analysis 2021
+    BreweryWorkspaceRole:
+      summary: Set a Workspace Role.
+      description: Set a Role for a user to a workspace.
+      value:
+        role: editor
+    WorkspaceFileList:
+      summary: Workspace files example
+      description: Workspace files example
+      value:
+      - fileName: myData.csv
+      - fileName: myData2.csv
+      - fileName: myData3.csv
+    WorkspaceList:
+      summary: Workspace list
+      description: Example list of workspaces with required fields
+      value:
+      - id: w-1AbCdEfGhIj
+        organizationId: o-gZVQqV8B4pR7
+        key: brewery
+        name: Brewery Analysis
+        description: Brewery analysis for stock, production, transport and customer satisfaction
+        version: 1.0.0
+        tags:
+        - Brewery
+        solution:
+          solutionId: sol-feo16eua48o
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList:
+          - id: alice.doe@cosmotech.com
+            role: admin
+      - id: w-2XyZaBcDeFg
+        organizationId: o-gZVQqV8B4pR7
+        key: breweryPlus
+        name: Brewery Analysis Plus
+        description: Brewery analysis for stock, production, transport and customer satisfaction with a plus
+        version: 1.0.0
+        tags:
+        - Brewery
+        solution:
+          solutionId: sol-ojd96oz14pz
+        createInfo:
+          timestamp: 1621353329000
+          userId: bob.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353329000
+          userId: bob.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList:
+          - id: bob.doe@cosmotech.com
+            role: admin
+  parameters:
     organizationId:
       name: organization_id
       in: path
@@ -1040,6 +1018,28 @@ components:
       schema:
         type: string
         pattern: ^o-\w{10,20}
+    page:
+      name: page
+      in: query
+      description: Page number to query (first page is at index 0)
+      required: false
+      schema:
+        type: integer
+    size:
+      name: size
+      in: query
+      description: Amount of result by page
+      required: false
+      schema:
+        type: integer
+    workspaceId:
+      name: workspace_id
+      in: path
+      description: The Workspace identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^w-\w{10,20}
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2

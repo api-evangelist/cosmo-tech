@@ -845,63 +845,44 @@ paths:
         '404':
           description: Solution or user not found or insufficient access rights
 components:
-  parameters:
-    solutionId:
-      name: solution_id
-      in: path
-      description: the Solution identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^sol-\w{10,20}
-    parameterId:
-      name: parameter_id
-      in: path
-      description: The solution parameter identifier
-      required: true
-      schema:
-        type: string
-    size:
-      name: size
-      in: query
-      description: Amount of result by page
-      required: false
-      schema:
-        type: integer
-    runTemplateId:
-      name: run_template_id
-      in: path
-      description: The Run Template identifier
-      required: true
-      schema:
-        type: string
-    parameterGroupId:
-      name: parameter_group_id
-      in: path
-      description: The parameter group identifier
-      required: true
-      schema:
-        type: string
-        x-size-message: cannot be empty
-    page:
-      name: page
-      in: query
-      description: Page number to query (first page is at index 0)
-      required: false
-      schema:
-        type: integer
-    organizationId:
-      name: organization_id
-      in: path
-      description: the Organization identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^o-\w{10,20}
   schemas:
-    SolutionUpdateRequest:
+    TranslatedLabels:
       type: object
-      description: Request object for updating a solution
+      description: A translated label with key as ISO 639-1 code
+      additionalProperties:
+        type: string
+    RunTemplateResourceSizing:
+      type: object
+      description: "A description object for resource requests and limits\nValues must follow the Kubernetes resource requirements/limits syntax: \nSee https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes\n"
+      properties:
+        requests:
+          $ref: '#/components/schemas/ResourceSizeInfo'
+        limits:
+          $ref: '#/components/schemas/ResourceSizeInfo'
+      required:
+      - requests
+      - limits
+    SolutionSecurity:
+      type: object
+      description: The Solution security information
+      properties:
+        default:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The role by default
+          example: none
+        accessControlList:
+          type: array
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The list which can access this Solution with detailed access control information
+          items:
+            $ref: '#/components/schemas/SolutionAccessControl'
+      required:
+      - default
+      - accessControlList
+    SolutionCreateRequest:
+      type: object
+      description: Request object for creating a new solution
       properties:
         key:
           type: string
@@ -911,7 +892,7 @@ components:
           example: brewery-solution
         name:
           type: string
-          description: The Solution name
+          description: Solution name. This name is displayed in the sample webApp
           minLength: 1
           x-size-message: cannot be empty
           example: Brewery Solution
@@ -925,19 +906,16 @@ components:
           minLength: 1
           x-size-message: cannot be empty
           example: cosmotech/brewery_solution
-        alwaysPull:
-          type: boolean
-          description: Set to true if the runtemplate wants to always pull the image
         version:
           type: string
-          description: The Solution version MAJOR.MINOR.PATCH. Must be aligned with an existing repository tag
+          description: The Solution version MAJOR.MINOR.PATCH
           minLength: 1
           x-size-message: cannot be empty
           example: 1.0.0
-        url:
-          type: string
-          description: An optional URL link to solution page
-          example: https://github.com/Cosmo-Tech/brewery-solution
+        alwaysPull:
+          type: boolean
+          description: Set to true if the runtemplate wants to always pull the image
+          default: false
         tags:
           type: array
           description: The list of tags
@@ -949,72 +927,32 @@ components:
         parameters:
           type: array
           description: The list of Run Template Parameters
+          default: []
           items:
             $ref: '#/components/schemas/RunTemplateParameterCreateRequest'
         parameterGroups:
           type: array
           description: The list of parameters groups for the Run Templates
+          default: []
           items:
             $ref: '#/components/schemas/RunTemplateParameterGroupCreateRequest'
         runTemplates:
           type: array
+          default: []
           description: List of Run Templates
           items:
             $ref: '#/components/schemas/RunTemplateCreateRequest'
-    TranslatedLabels:
-      type: object
-      description: A translated label with key as ISO 639-1 code
-      additionalProperties:
-        type: string
-    SolutionAccessControl:
-      type: object
-      description: A Solution access control item
-      properties:
-        id:
+        url:
           type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The identity id
-          example: user@company.com
-        role:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The assigned role
-          example: editor
+          description: An optional URL link to solution page
+          example: https://github.com/Cosmo-Tech/brewery-solution
+        security:
+          $ref: '#/components/schemas/SolutionSecurity'
       required:
-      - id
-      - role
-    ResourceSizeInfo:
-      type: object
-      description: "Define CPUs and memory needs.\nValues must follow the Kubernetes resource requirements/limits syntax: \nSee https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes\n"
-      properties:
-        cpu:
-          type: string
-          description: Define cpu needs
-        memory:
-          type: string
-          description: Define memory needs
-      required:
-      - cpu
-      - memory
-    RunTemplateParameterGroupUpdateRequest:
-      type: object
-      description: A Parameter Group Update Request for a Run Template
-      properties:
-        description:
-          type: string
-          description: A description of the parameter group
-        labels:
-          $ref: '#/components/schemas/TranslatedLabels'
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-        parameters:
-          type: array
-          description: An ordered list of Run Template Parameters
-          items:
-            type: string
-            description: A Run Template Parameter id
+      - key
+      - name
+      - repository
+      - version
     RunTemplate:
       type: object
       description: A Solution Run Template
@@ -1057,153 +995,6 @@ components:
       required:
       - id
       - parameterGroups
-    SolutionRole:
-      type: object
-      description: The Solution Role
-      properties:
-        role:
-          type: string
-          description: The Solution Role
-          example: editor
-      required:
-      - role
-    RunTemplateParameterCreateRequest:
-      type: object
-      description: A Run Template Parameter for creation
-      properties:
-        id:
-          type: string
-          description: The Parameter id
-          minLength: 1
-          x-size-message: cannot be empty
-        description:
-          type: string
-          description: The parameter description
-        labels:
-          $ref: '#/components/schemas/TranslatedLabels'
-        varType:
-          type: string
-          description: The variable type for the parameter. Basic types or special type %DATASETID%
-          minLength: 1
-          x-size-message: cannot be empty
-        defaultValue:
-          type: string
-          description: The default value for this parameter
-        minValue:
-          type: string
-          description: The minimum value for this parameter
-        maxValue:
-          type: string
-          description: The maximum value for this parameter
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-      required:
-      - id
-      - varType
-    RunTemplateParameterGroup:
-      type: object
-      description: A Parameter Group for a Run Template
-      properties:
-        id:
-          type: string
-          description: The Parameter Group id
-          minLength: 1
-          x-size-message: cannot be empty
-        description:
-          type: string
-          description: A description of the parameter group
-        labels:
-          $ref: '#/components/schemas/TranslatedLabels'
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-        parameters:
-          type: array
-          description: An ordered list of Run Template Parameters
-          items:
-            type: string
-            description: A Run Template Parameter id
-      required:
-      - id
-      - parameters
-    SolutionEditInfo:
-      type: object
-      properties:
-        timestamp:
-          description: The timestamp of the modification in millisecond
-          type: integer
-          format: int64
-        userId:
-          description: The id of the user who did the modification
-          type: string
-      required:
-      - timestamp
-      - userId
-    RunTemplateParameter:
-      type: object
-      description: A Run Template Parameter
-      properties:
-        id:
-          type: string
-          description: The Parameter id
-          minLength: 1
-          x-size-message: cannot be empty
-        description:
-          type: string
-          description: The parameter description
-        labels:
-          $ref: '#/components/schemas/TranslatedLabels'
-        varType:
-          type: string
-          description: The variable type for the parameter. Basic types or special type %DATASETID%
-          minLength: 1
-          x-size-message: cannot be empty
-        defaultValue:
-          type: string
-          description: The default value for this parameter
-        minValue:
-          type: string
-          description: The minimum value for this parameter
-        maxValue:
-          type: string
-          description: The maximum value for this parameter
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-      required:
-      - id
-      - varType
-    RunTemplateParameterUpdateRequest:
-      type: object
-      description: A Run Template Parameter for update parameter
-      properties:
-        description:
-          type: string
-          description: The parameter description
-        labels:
-          $ref: '#/components/schemas/TranslatedLabels'
-        varType:
-          type: string
-          description: The variable type for the parameter. Basic types or special type %DATASETID%
-          minLength: 1
-          x-size-message: cannot be empty
-        defaultValue:
-          type: string
-          description: The default value for this parameter
-        minValue:
-          type: string
-          description: The minimum value for this parameter
-        maxValue:
-          type: string
-          description: The maximum value for this parameter
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
     RunTemplateParameterGroupCreateRequest:
       type: object
       description: A Parameter Group Create Request for a Run Template
@@ -1231,6 +1022,46 @@ components:
             description: A Run Template Parameter id
       required:
       - id
+    SolutionEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+      - timestamp
+      - userId
+    RunTemplateParameterGroup:
+      type: object
+      description: A Parameter Group for a Run Template
+      properties:
+        id:
+          type: string
+          description: The Parameter Group id
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+          description: A description of the parameter group
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        parameters:
+          type: array
+          description: An ordered list of Run Template Parameters
+          items:
+            type: string
+            description: A Run Template Parameter id
+      required:
+      - id
+      - parameters
     Solution:
       type: object
       x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
@@ -1338,6 +1169,19 @@ components:
       - parameterGroups
       - runTemplates
       - security
+    ResourceSizeInfo:
+      type: object
+      description: "Define CPUs and memory needs.\nValues must follow the Kubernetes resource requirements/limits syntax: \nSee https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes\n"
+      properties:
+        cpu:
+          type: string
+          description: Define cpu needs
+        memory:
+          type: string
+          description: Define memory needs
+      required:
+      - cpu
+      - memory
     RunTemplateUpdateRequest:
       type: object
       description: A Solution Run Template Create Request
@@ -1371,24 +1215,194 @@ components:
         executionTimeout:
           type: integer
           description: An optional duration in seconds in which a workflow is allowed to run
-    SolutionSecurity:
+    RunTemplateParameterGroupUpdateRequest:
       type: object
-      description: The Solution security information
+      description: A Parameter Group Update Request for a Run Template
       properties:
-        default:
+        description:
           type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The role by default
-          example: none
-        accessControlList:
+          description: A description of the parameter group
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        parameters:
           type: array
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          description: The list which can access this Solution with detailed access control information
+          description: An ordered list of Run Template Parameters
           items:
-            $ref: '#/components/schemas/SolutionAccessControl'
+            type: string
+            description: A Run Template Parameter id
+    RunTemplateParameterUpdateRequest:
+      type: object
+      description: A Run Template Parameter for update parameter
+      properties:
+        description:
+          type: string
+          description: The parameter description
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        varType:
+          type: string
+          description: The variable type for the parameter. Basic types or special type %DATASETID%
+          minLength: 1
+          x-size-message: cannot be empty
+        defaultValue:
+          type: string
+          description: The default value for this parameter
+        minValue:
+          type: string
+          description: The minimum value for this parameter
+        maxValue:
+          type: string
+          description: The maximum value for this parameter
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+    SolutionRole:
+      type: object
+      description: The Solution Role
+      properties:
+        role:
+          type: string
+          description: The Solution Role
+          example: editor
       required:
-      - default
-      - accessControlList
+      - role
+    RunTemplateParameterCreateRequest:
+      type: object
+      description: A Run Template Parameter for creation
+      properties:
+        id:
+          type: string
+          description: The Parameter id
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+          description: The parameter description
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        varType:
+          type: string
+          description: The variable type for the parameter. Basic types or special type %DATASETID%
+          minLength: 1
+          x-size-message: cannot be empty
+        defaultValue:
+          type: string
+          description: The default value for this parameter
+        minValue:
+          type: string
+          description: The minimum value for this parameter
+        maxValue:
+          type: string
+          description: The maximum value for this parameter
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+      required:
+      - id
+      - varType
+    SolutionUpdateRequest:
+      type: object
+      description: Request object for updating a solution
+      properties:
+        key:
+          type: string
+          description: Technical key for resource name convention and version grouping. Must be unique
+          minLength: 1
+          x-size-message: cannot be empty
+          example: brewery-solution
+        name:
+          type: string
+          description: The Solution name
+          minLength: 1
+          x-size-message: cannot be empty
+          example: Brewery Solution
+        description:
+          type: string
+          description: The Solution description
+          example: A solution for brewery management and optimization
+        repository:
+          type: string
+          description: The registry repository containing the image
+          minLength: 1
+          x-size-message: cannot be empty
+          example: cosmotech/brewery_solution
+        alwaysPull:
+          type: boolean
+          description: Set to true if the runtemplate wants to always pull the image
+        version:
+          type: string
+          description: The Solution version MAJOR.MINOR.PATCH. Must be aligned with an existing repository tag
+          minLength: 1
+          x-size-message: cannot be empty
+          example: 1.0.0
+        url:
+          type: string
+          description: An optional URL link to solution page
+          example: https://github.com/Cosmo-Tech/brewery-solution
+        tags:
+          type: array
+          description: The list of tags
+          items:
+            type: string
+          example:
+          - brewery
+          - optimization
+        parameters:
+          type: array
+          description: The list of Run Template Parameters
+          items:
+            $ref: '#/components/schemas/RunTemplateParameterCreateRequest'
+        parameterGroups:
+          type: array
+          description: The list of parameters groups for the Run Templates
+          items:
+            $ref: '#/components/schemas/RunTemplateParameterGroupCreateRequest'
+        runTemplates:
+          type: array
+          description: List of Run Templates
+          items:
+            $ref: '#/components/schemas/RunTemplateCreateRequest'
+    RunTemplateParameter:
+      type: object
+      description: A Run Template Parameter
+      properties:
+        id:
+          type: string
+          description: The Parameter id
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+          description: The parameter description
+        labels:
+          $ref: '#/components/schemas/TranslatedLabels'
+        varType:
+          type: string
+          description: The variable type for the parameter. Basic types or special type %DATASETID%
+          minLength: 1
+          x-size-message: cannot be empty
+        defaultValue:
+          type: string
+          description: The default value for this parameter
+        minValue:
+          type: string
+          description: The minimum value for this parameter
+        maxValue:
+          type: string
+          description: The maximum value for this parameter
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+      required:
+      - id
+      - varType
     RunTemplateCreateRequest:
       type: object
       description: A Solution Run Template Create Request
@@ -1431,124 +1445,45 @@ components:
           description: An optional duration in seconds in which a workflow is allowed to run
       required:
       - id
-    SolutionCreateRequest:
+    SolutionAccessControl:
       type: object
-      description: Request object for creating a new solution
+      description: A Solution access control item
       properties:
-        key:
+        id:
           type: string
-          description: Technical key for resource name convention and version grouping. Must be unique
-          minLength: 1
-          x-size-message: cannot be empty
-          example: brewery-solution
-        name:
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The identity id
+          example: user@company.com
+        role:
           type: string
-          description: Solution name. This name is displayed in the sample webApp
-          minLength: 1
-          x-size-message: cannot be empty
-          example: Brewery Solution
-        description:
-          type: string
-          description: The Solution description
-          example: A solution for brewery management and optimization
-        repository:
-          type: string
-          description: The registry repository containing the image
-          minLength: 1
-          x-size-message: cannot be empty
-          example: cosmotech/brewery_solution
-        version:
-          type: string
-          description: The Solution version MAJOR.MINOR.PATCH
-          minLength: 1
-          x-size-message: cannot be empty
-          example: 1.0.0
-        alwaysPull:
-          type: boolean
-          description: Set to true if the runtemplate wants to always pull the image
-          default: false
-        tags:
-          type: array
-          description: The list of tags
-          items:
-            type: string
-          example:
-          - brewery
-          - optimization
-        parameters:
-          type: array
-          description: The list of Run Template Parameters
-          default: []
-          items:
-            $ref: '#/components/schemas/RunTemplateParameterCreateRequest'
-        parameterGroups:
-          type: array
-          description: The list of parameters groups for the Run Templates
-          default: []
-          items:
-            $ref: '#/components/schemas/RunTemplateParameterGroupCreateRequest'
-        runTemplates:
-          type: array
-          default: []
-          description: List of Run Templates
-          items:
-            $ref: '#/components/schemas/RunTemplateCreateRequest'
-        url:
-          type: string
-          description: An optional URL link to solution page
-          example: https://github.com/Cosmo-Tech/brewery-solution
-        security:
-          $ref: '#/components/schemas/SolutionSecurity'
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          description: The assigned role
+          example: editor
       required:
-      - key
-      - name
-      - repository
-      - version
-    RunTemplateResourceSizing:
-      type: object
-      description: "A description object for resource requests and limits\nValues must follow the Kubernetes resource requirements/limits syntax: \nSee https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes\n"
-      properties:
-        requests:
-          $ref: '#/components/schemas/ResourceSizeInfo'
-        limits:
-          $ref: '#/components/schemas/ResourceSizeInfo'
-      required:
-      - requests
-      - limits
+      - id
+      - role
   examples:
-    RunTemplateCreate:
-      summary: Run template create example
-      description: Example of creating a run template
+    ParameterGroupList:
+      summary: Parameter group list example
+      description: Example of parameter groups
       value:
-        id: standard
-        name: Standard Simulation
-        description: Run the standard simulation
-        tags:
-        - standard
-        - simulation
-        computeSize: medium
-        parameterGroups:
-        - inventory
-    ParameterGroupUpdate:
-      summary: Parameter group update example
-      description: Example of updating a parameter group
-      value:
-        description: Updated inventory parameters
+      - id: group1
+        description: First parameter group
+        labels:
+          en: Group 1
+          fr: Groupe 1
         parameters:
-        - stock_level
-        - reorder_point
-    BrewerySolutionAccessControl:
-      summary: Set an access control.
-      description: Set an access control for a user to a solution.
+        - param1
+    SolutionSecurity:
+      summary: Solution security example
+      description: Example of solution security configuration
       value:
-        id: bob.doe@cosmotech.com
-        role: editor
-    BreweryUpdate:
-      summary: Brewery Solution update
-      description: Brewery Solution update example
-      value:
-        name: Brewery Solution 2024
-        description: Updated brewery solution with enhanced features
+        default: none
+        accessControlList:
+        - id: jane.doe@cosmotech.com
+          role: admin
+        - id: john.doe@cosmotech.com
+          role: viewer
     RunTemplateList:
       summary: Run template list example
       description: Example of run templates
@@ -1561,83 +1496,11 @@ components:
         computeSize: small
         parameterGroups:
         - group1
-    ParameterGroupCreate:
-      summary: Parameter group create example
-      description: Example of creating a parameter group
+    SolutionList:
+      summary: Solution list example
+      description: Example of a solution list
       value:
-        id: inventory
-        description: Inventory parameters
-        labels:
-          en: Inventory
-          fr: Inventaire
-        parameters:
-        - stock_level
-    BreweryCreate:
-      summary: Brewery Solution creation request
-      description: Request example for creating a brewery solution
-      value:
-        key: brewery-solution
-        name: Brewery Solution
-        description: A Brewery Supplier Solution Model which simulate stock, production, transport and customer satisfaction
-        repository: cosmotech/brewery_solution
-        alwaysPull: false
-        version: 1.0.0
-        url: https://github.com/Cosmo-Tech/brewery_sample_solution
-        tags:
-        - brewery
-        - optimization
-        parameters:
-        - id: prefix
-          labels:
-            fr: Prefix des noms
-            en: Names prefix
-          varType: string
-        parameterGroups:
-        - id: consumers
-          labels:
-            fr: Consommateurs
-            en: Consumers
-          parameters:
-          - prefix
-        runTemplates:
-        - id: hundred
-          name: Full simulation 100 steps
-          description: Run a full simulation with 100 steps
-          tags:
-          - full
-          - supply
-          computeSize: highcpu
-          parameterGroups:
-          - consumers
-        security:
-          default: none
-          accessControlList:
-          - id: jane.doe@cosmotech.com
-            role: admin
-    RunTemplate:
-      summary: Run template example
-      description: Single run template example
-      value:
-        id: template1
-        name: Template 1
-        description: Example template
-        tags:
-        - example
-        computeSize: small
-        parameterGroups:
-        - group1
-    ParameterUpdate:
-      summary: Parameter update example
-      description: Example of updating a run template parameter
-      value:
-        description: Updated stock level parameter
-        defaultValue: '150'
-        maxValue: '2000'
-    Brewery:
-      summary: Brewery Solution
-      description: Brewery Solution example
-      value:
-        id: sol-1AbCdEfGhIj
+      - id: sol-1AbCdEfGhIj
         organizationId: o-gZVQqV8B4pR7
         key: brewery-solution
         name: Brewery Solution
@@ -1684,8 +1547,67 @@ components:
           accessControlList:
           - id: jane.doe@cosmotech.com
             role: admin
-          - id: john.doe@cosmotech.com
-            role: viewer
+    BrewerySolutionRole:
+      summary: Set a Solution Role.
+      description: Set a Role for a user to a solution.
+      value:
+        role: editor
+    RunTemplateCreate:
+      summary: Run template create example
+      description: Example of creating a run template
+      value:
+        id: standard
+        name: Standard Simulation
+        description: Run the standard simulation
+        tags:
+        - standard
+        - simulation
+        computeSize: medium
+        parameterGroups:
+        - inventory
+    ParameterGroupUpdate:
+      summary: Parameter group update example
+      description: Example of updating a parameter group
+      value:
+        description: Updated inventory parameters
+        parameters:
+        - stock_level
+        - reorder_point
+    ParameterList:
+      summary: Parameter list example
+      description: Example of run template parameters
+      value:
+      - id: prefix
+        description: Names prefix parameter
+        labels:
+          en: Parameter 1
+          fr: Paramètre 1
+        varType: string
+        defaultValue: default
+    ParameterGroupCreate:
+      summary: Parameter group create example
+      description: Example of creating a parameter group
+      value:
+        id: inventory
+        description: Inventory parameters
+        labels:
+          en: Inventory
+          fr: Inventaire
+        parameters:
+        - stock_level
+    RunTemplateUpdate:
+      summary: Run template update example
+      description: Example of updating a run template
+      value:
+        name: Updated Standard Simulation
+        description: Run the updated standard simulation
+        computeSize: large
+    BrewerySolutionAccessControl:
+      summary: Set an access control.
+      description: Set an access control for a user to a solution.
+      value:
+        id: bob.doe@cosmotech.com
+        role: editor
     ParameterCreate:
       summary: Parameter create example
       description: Example of creating a run template parameter
@@ -1699,34 +1621,6 @@ components:
         defaultValue: '100'
         minValue: '0'
         maxValue: '1000'
-    SolutionSecurity:
-      summary: Solution security example
-      description: Example of solution security configuration
-      value:
-        default: none
-        accessControlList:
-        - id: jane.doe@cosmotech.com
-          role: admin
-        - id: john.doe@cosmotech.com
-          role: viewer
-    RunTemplateUpdate:
-      summary: Run template update example
-      description: Example of updating a run template
-      value:
-        name: Updated Standard Simulation
-        description: Run the updated standard simulation
-        computeSize: large
-    ParameterGroupList:
-      summary: Parameter group list example
-      description: Example of parameter groups
-      value:
-      - id: group1
-        description: First parameter group
-        labels:
-          en: Group 1
-          fr: Groupe 1
-        parameters:
-        - param1
     BreweryUpdated:
       summary: Updated Brewery Solution
       description: Brewery Solution after update
@@ -1780,27 +1674,78 @@ components:
             role: admin
           - id: john.doe@cosmotech.com
             role: viewer
-    BrewerySolutionRole:
-      summary: Set a Solution Role.
-      description: Set a Role for a user to a solution.
+    RunTemplate:
+      summary: Run template example
+      description: Single run template example
       value:
-        role: editor
-    ParameterList:
-      summary: Parameter list example
-      description: Example of run template parameters
+        id: template1
+        name: Template 1
+        description: Example template
+        tags:
+        - example
+        computeSize: small
+        parameterGroups:
+        - group1
+    ParameterUpdate:
+      summary: Parameter update example
+      description: Example of updating a run template parameter
       value:
-      - id: prefix
-        description: Names prefix parameter
-        labels:
-          en: Parameter 1
-          fr: Paramètre 1
-        varType: string
-        defaultValue: default
-    SolutionList:
-      summary: Solution list example
-      description: Example of a solution list
+        description: Updated stock level parameter
+        defaultValue: '150'
+        maxValue: '2000'
+    BreweryCreate:
+      summary: Brewery Solution creation request
+      description: Request example for creating a brewery solution
       value:
-      - id: sol-1AbCdEfGhIj
+        key: brewery-solution
+        name: Brewery Solution
+        description: A Brewery Supplier Solution Model which simulate stock, production, transport and customer satisfaction
+        repository: cosmotech/brewery_solution
+        alwaysPull: false
+        version: 1.0.0
+        url: https://github.com/Cosmo-Tech/brewery_sample_solution
+        tags:
+        - brewery
+        - optimization
+        parameters:
+        - id: prefix
+          labels:
+            fr: Prefix des noms
+            en: Names prefix
+          varType: string
+        parameterGroups:
+        - id: consumers
+          labels:
+            fr: Consommateurs
+            en: Consumers
+          parameters:
+          - prefix
+        runTemplates:
+        - id: hundred
+          name: Full simulation 100 steps
+          description: Run a full simulation with 100 steps
+          tags:
+          - full
+          - supply
+          computeSize: highcpu
+          parameterGroups:
+          - consumers
+        security:
+          default: none
+          accessControlList:
+          - id: jane.doe@cosmotech.com
+            role: admin
+    BreweryUpdate:
+      summary: Brewery Solution update
+      description: Brewery Solution update example
+      value:
+        name: Brewery Solution 2024
+        description: Updated brewery solution with enhanced features
+    Brewery:
+      summary: Brewery Solution
+      description: Brewery Solution example
+      value:
+        id: sol-1AbCdEfGhIj
         organizationId: o-gZVQqV8B4pR7
         key: brewery-solution
         name: Brewery Solution
@@ -1847,6 +1792,61 @@ components:
           accessControlList:
           - id: jane.doe@cosmotech.com
             role: admin
+          - id: john.doe@cosmotech.com
+            role: viewer
+  parameters:
+    solutionId:
+      name: solution_id
+      in: path
+      description: the Solution identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^sol-\w{10,20}
+    parameterGroupId:
+      name: parameter_group_id
+      in: path
+      description: The parameter group identifier
+      required: true
+      schema:
+        type: string
+        x-size-message: cannot be empty
+    organizationId:
+      name: organization_id
+      in: path
+      description: the Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^o-\w{10,20}
+    parameterId:
+      name: parameter_id
+      in: path
+      description: The solution parameter identifier
+      required: true
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      description: Page number to query (first page is at index 0)
+      required: false
+      schema:
+        type: integer
+    runTemplateId:
+      name: run_template_id
+      in: path
+      description: The Run Template identifier
+      required: true
+      schema:
+        type: string
+    size:
+      name: size
+      in: query
+      description: Amount of result by page
+      required: false
+      schema:
+        type: integer
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2
