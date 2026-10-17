@@ -859,7 +859,88 @@ paths:
         '404':
           description: Dataset specified is not found or you don't have access to it
 components:
+  parameters:
+    size:
+      name: size
+      in: query
+      description: Amount of result by page
+      required: false
+      schema:
+        type: integer
+    workspaceId:
+      name: workspace_id
+      in: path
+      description: the Workspace identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^w-\w{10,20}
+    datasetId:
+      name: dataset_id
+      in: path
+      description: the Dataset identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^d-\w{10,20}
+    datasetPartId:
+      name: dataset_part_id
+      in: path
+      description: the Dataset part identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^dp-\w{10,20}
+    organizationId:
+      name: organization_id
+      in: path
+      description: the Organization identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^o-\w{10,20}
+    page:
+      name: page
+      in: query
+      description: Page number to query (first page is at index 0)
+      required: false
+      schema:
+        type: integer
   examples:
+    DatasetCreateExample:
+      summary: Dataset creation example
+      description: Example of creating a new dataset
+      value:
+        name: Customer Database
+        description: Customer information and purchase history
+        tags:
+        - customers
+        - database
+        additionalData:
+          source: CRM
+          version: '2.0'
+        parts:
+        - name: Customer Info
+          sourceName: customers.csv
+          description: Basic customer information
+          tags:
+          - customer-info
+          additionalData:
+            format: CSV
+          type: File
+        - name: Purchase History
+          sourceName: purchases.csv
+          description: Historical purchase data
+          tags:
+          - purchases
+          additionalData:
+            format: CSV
+          type: DB
+        security:
+          default: none
+          accessControlList:
+          - id: john.doe@cosmotech.com
+            role: admin
     DatasetPartListExample:
       summary: Dataset part list example
       description: Example of multiple dataset parts
@@ -898,66 +979,50 @@ components:
         updateInfo:
           timestamp: 1621360000000
           userId: john.doe@cosmotech.com
-    DatasetCreateExample:
-      summary: Dataset creation example
-      description: Example of creating a new dataset
+    DatasetListExample:
+      summary: Dataset list example
+      description: Example of multiple datasets
       value:
-        name: Customer Database
-        description: Customer information and purchase history
+      - id: d-1AbCdEfGhIj
+        name: Sales Data 2024
+        description: Annual sales data
+        organizationId: o-gZVQqV8B4pR7
+        workspaceId: w-OGNQqJ7wP0
         tags:
-        - customers
-        - database
-        additionalData:
-          source: CRM
-          version: '2.0'
-        parts:
-        - name: Customer Info
-          sourceName: customers.csv
-          description: Basic customer information
-          tags:
-          - customer-info
-          additionalData:
-            format: CSV
-          type: File
-        - name: Purchase History
-          sourceName: purchases.csv
-          description: Historical purchase data
-          tags:
-          - purchases
-          additionalData:
-            format: CSV
-          type: DB
+        - sales
+        - 2024
+        additionalData: {}
+        parts: []
+        createInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353329000
+          userId: john.doe@cosmotech.com
+        security:
+          default: viewer
+          accessControlList: []
+      - id: d-2XyZaBcDeFg
+        name: Inventory Data
+        description: Current inventory levels
+        organizationId: o-gZVQqV8B4pR7
+        workspaceId: w-OGNQqJ7wP0
+        tags:
+        - inventory
+        - stock
+        additionalData: {}
+        parts: []
+        createInfo:
+          timestamp: 1621353400000
+          userId: john.doe@cosmotech.com
+        updateInfo:
+          timestamp: 1621353400000
+          userId: john.doe@cosmotech.com
         security:
           default: none
           accessControlList:
           - id: john.doe@cosmotech.com
             role: admin
-    DatasetTagsSearchExample:
-      summary: Dataset tags search example
-      description: Example of searching datasets by tags
-      value:
-      - sales
-      - 2024
-    DatasetAccessControlExample:
-      summary: Dataset access control example
-      description: Example of adding access control
-      value:
-        id: john.doe@cosmotech.com
-        role: editor
-    DatasetPartCreateExample:
-      summary: Dataset part creation example
-      description: Example of creating a dataset part
-      value:
-        name: Q3 Sales
-        sourceName: q3-sales-2024.csv
-        description: Third quarter sales data
-        tags:
-        - Q3
-        - sales
-        additionalData:
-          quarter: 3
-          year: 2024
-        type: File
     DatasetPartUpdateExample:
       summary: Dataset part update example
       description: Example of updating a dataset part
@@ -972,6 +1037,17 @@ components:
           quarter: 3
           year: 2024
           version: '1.1'
+    DatasetTagsSearchExample:
+      summary: Dataset tags search example
+      description: Example of searching datasets by tags
+      value:
+      - sales
+      - 2024
+    DatasetRoleExample:
+      summary: Dataset role example
+      description: Example of updating a role
+      value:
+        role: admin
     DatasetPartExample:
       summary: Dataset part example
       description: Example of a dataset part
@@ -996,6 +1072,31 @@ components:
         updateInfo:
           timestamp: 1621353329000
           userId: john.doe@cosmotech.com
+    DatasetUpdateExample:
+      summary: Dataset update example
+      description: Example of updating dataset information
+      value:
+        name: Customer Database - Updated
+        description: Updated customer information and purchase history
+        tags:
+        - customers
+        - database
+        - updated
+        additionalData:
+          source: CRM
+          version: '2.1'
+    DatasetSecurityExample:
+      summary: Dataset security example
+      description: Example of dataset security configuration
+      value:
+        default: viewer
+        accessControlList:
+        - id: john.doe@cosmotech.com
+          role: admin
+        - id: john.doe@cosmotech.com
+          role: editor
+        - id: john.doe@cosmotech.com
+          role: viewer
     DatasetExample:
       summary: Dataset example
       description: Complete dataset example with parts
@@ -1046,90 +1147,101 @@ components:
             role: admin
           - id: john.doe@cosmotech.com
             role: viewer
-    DatasetRoleExample:
-      summary: Dataset role example
-      description: Example of updating a role
+    DatasetPartCreateExample:
+      summary: Dataset part creation example
+      description: Example of creating a dataset part
       value:
-        role: admin
-    DatasetUpdateExample:
-      summary: Dataset update example
-      description: Example of updating dataset information
-      value:
-        name: Customer Database - Updated
-        description: Updated customer information and purchase history
+        name: Q3 Sales
+        sourceName: q3-sales-2024.csv
+        description: Third quarter sales data
         tags:
-        - customers
-        - database
-        - updated
-        additionalData:
-          source: CRM
-          version: '2.1'
-    DatasetSecurityExample:
-      summary: Dataset security example
-      description: Example of dataset security configuration
-      value:
-        default: viewer
-        accessControlList:
-        - id: john.doe@cosmotech.com
-          role: admin
-        - id: john.doe@cosmotech.com
-          role: editor
-        - id: john.doe@cosmotech.com
-          role: viewer
-    DatasetListExample:
-      summary: Dataset list example
-      description: Example of multiple datasets
-      value:
-      - id: d-1AbCdEfGhIj
-        name: Sales Data 2024
-        description: Annual sales data
-        organizationId: o-gZVQqV8B4pR7
-        workspaceId: w-OGNQqJ7wP0
-        tags:
+        - Q3
         - sales
-        - 2024
-        additionalData: {}
-        parts: []
-        createInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        updateInfo:
-          timestamp: 1621353329000
-          userId: john.doe@cosmotech.com
-        security:
-          default: viewer
-          accessControlList: []
-      - id: d-2XyZaBcDeFg
-        name: Inventory Data
-        description: Current inventory levels
-        organizationId: o-gZVQqV8B4pR7
-        workspaceId: w-OGNQqJ7wP0
-        tags:
-        - inventory
-        - stock
-        additionalData: {}
-        parts: []
-        createInfo:
-          timestamp: 1621353400000
-          userId: john.doe@cosmotech.com
-        updateInfo:
-          timestamp: 1621353400000
-          userId: john.doe@cosmotech.com
-        security:
-          default: none
-          accessControlList:
-          - id: john.doe@cosmotech.com
-            role: admin
+        additionalData:
+          quarter: 3
+          year: 2024
+        type: File
+    DatasetAccessControlExample:
+      summary: Dataset access control example
+      description: Example of adding access control
+      value:
+        id: john.doe@cosmotech.com
+        role: editor
   schemas:
-    DatasetRole:
+    DatasetCreateRequest:
       type: object
-      description: the Dataset Role
+      description: Dataset creation request
       properties:
-        role:
+        name:
           type: string
-          description: the Dataset Role
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+          default: []
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetPartCreateRequest'
+          default: []
+        security:
+          $ref: '#/components/schemas/DatasetSecurity'
       required:
-      - role
+      - name
+    DatasetUpdateRequest:
+      type: object
+      description: Dataset creation request
+      properties:
+        name:
+          type: string
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetPartCreateRequest'
+    DatasetPartFile:
+      type: string
+      description: Data file to upload
+      format: binary
+    DatasetPartFiles:
+      type:
+      - array
+      - 'null'
+      description: "Notes:\n  - Each parts defined in dataset should have a file defined in this list\n  - Please ensure that upload files order match with data parts list defined\n    - First file uploaded will match with first dataset parts and so on\n"
+      items:
+        $ref: '#/components/schemas/DatasetPartFile'
+    DatasetEditInfo:
+      type: object
+      properties:
+        timestamp:
+          description: The timestamp of the modification in millisecond
+          type: integer
+          format: int64
+        userId:
+          description: The id of the user who did the modification
+          type: string
+      required:
+      - timestamp
+      - userId
     DatasetAccessControl:
       type: object
       description: a Dataset access control item
@@ -1145,6 +1257,125 @@ components:
       required:
       - id
       - role
+    DatasetPartUpdateRequest:
+      type: object
+      description: Dataset part update request object
+      properties:
+        sourceName:
+          description: the source data name (e.g. filename associated to the dataset part)
+          type: string
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+    Dataset:
+      type: object
+      x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
+      description: Dataset object
+      properties:
+        id:
+          x-field-extra-annotation: '@org.springframework.data.annotation.Id'
+          type: string
+          pattern: ^d-\w{10,20}
+        name:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Searchable'
+          x-size-message: cannot be empty
+          minLength: 1
+        description:
+          type: string
+        organizationId:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          readOnly: true
+          description: the associated Organization Id
+        workspaceId:
+          type: string
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          readOnly: true
+          description: the associated Workspace Id
+        tags:
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          type: array
+          description: the list of tags
+          items:
+            type: string
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetPart'
+        createInfo:
+          description: The details of the Dataset creation
+          allOf:
+          - $ref: '#/components/schemas/DatasetEditInfo'
+        updateInfo:
+          description: The details of the Dataset last update
+          allOf:
+          - $ref: '#/components/schemas/DatasetEditInfo'
+        security:
+          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
+          allOf:
+          - $ref: '#/components/schemas/DatasetSecurity'
+      required:
+      - id
+      - name
+      - tags
+      - parts
+      - organizationId
+      - workspaceId
+      - createInfo
+      - updateInfo
+      - security
+    DatasetRole:
+      type: object
+      description: the Dataset Role
+      properties:
+        role:
+          type: string
+          description: the Dataset Role
+      required:
+      - role
+    DatasetPartCreateRequest:
+      type: object
+      description: Dataset part create request object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          x-size-message: cannot be empty
+        sourceName:
+          description: the source data name (e.g. filename associated to the dataset part)
+          type: string
+          minLength: 1
+          x-size-message: cannot be empty
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+          default: []
+        additionalData:
+          type: object
+          description: Free form additional data
+          additionalProperties: true
+        type:
+          $ref: '#/components/schemas/DatasetPartTypeEnum'
+      required:
+      - name
+      - sourceName
     DatasetPart:
       type: object
       x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
@@ -1211,168 +1442,6 @@ components:
       - datasetId
       - createInfo
       - updateInfo
-    DatasetPartFiles:
-      type:
-      - array
-      - 'null'
-      description: "Notes:\n  - Each parts defined in dataset should have a file defined in this list\n  - Please ensure that upload files order match with data parts list defined\n    - First file uploaded will match with first dataset parts and so on\n"
-      items:
-        $ref: '#/components/schemas/DatasetPartFile'
-    DatasetEditInfo:
-      type: object
-      properties:
-        timestamp:
-          description: The timestamp of the modification in millisecond
-          type: integer
-          format: int64
-        userId:
-          description: The id of the user who did the modification
-          type: string
-      required:
-      - timestamp
-      - userId
-    DatasetCreateRequest:
-      type: object
-      description: Dataset creation request
-      properties:
-        name:
-          type: string
-          minLength: 1
-          x-size-message: cannot be empty
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-          default: []
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-        parts:
-          type: array
-          items:
-            $ref: '#/components/schemas/DatasetPartCreateRequest'
-          default: []
-        security:
-          $ref: '#/components/schemas/DatasetSecurity'
-      required:
-      - name
-    DatasetPartFile:
-      type: string
-      description: Data file to upload
-      format: binary
-    DatasetPartUpdateRequest:
-      type: object
-      description: Dataset part update request object
-      properties:
-        sourceName:
-          description: the source data name (e.g. filename associated to the dataset part)
-          type: string
-          minLength: 1
-          x-size-message: cannot be empty
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-    DatasetPartCreateRequest:
-      type: object
-      description: Dataset part create request object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          x-size-message: cannot be empty
-        sourceName:
-          description: the source data name (e.g. filename associated to the dataset part)
-          type: string
-          minLength: 1
-          x-size-message: cannot be empty
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-          default: []
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-        type:
-          $ref: '#/components/schemas/DatasetPartTypeEnum'
-      required:
-      - name
-      - sourceName
-    Dataset:
-      type: object
-      x-class-extra-annotation: '@com.redis.om.spring.annotations.Document'
-      description: Dataset object
-      properties:
-        id:
-          x-field-extra-annotation: '@org.springframework.data.annotation.Id'
-          type: string
-          pattern: ^d-\w{10,20}
-        name:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Searchable'
-          x-size-message: cannot be empty
-          minLength: 1
-        description:
-          type: string
-        organizationId:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          readOnly: true
-          description: the associated Organization Id
-        workspaceId:
-          type: string
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          readOnly: true
-          description: the associated Workspace Id
-        tags:
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          type: array
-          description: the list of tags
-          items:
-            type: string
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-        parts:
-          type: array
-          items:
-            $ref: '#/components/schemas/DatasetPart'
-        createInfo:
-          description: The details of the Dataset creation
-          allOf:
-          - $ref: '#/components/schemas/DatasetEditInfo'
-        updateInfo:
-          description: The details of the Dataset last update
-          allOf:
-          - $ref: '#/components/schemas/DatasetEditInfo'
-        security:
-          x-field-extra-annotation: '@com.redis.om.spring.annotations.Indexed'
-          allOf:
-          - $ref: '#/components/schemas/DatasetSecurity'
-      required:
-      - id
-      - name
-      - tags
-      - parts
-      - organizationId
-      - workspaceId
-      - createInfo
-      - updateInfo
-      - security
     DatasetSecurity:
       type: object
       description: the dataset security information
@@ -1390,28 +1459,6 @@ components:
       required:
       - default
       - accessControlList
-    DatasetUpdateRequest:
-      type: object
-      description: Dataset creation request
-      properties:
-        name:
-          type: string
-          minLength: 1
-          x-size-message: cannot be empty
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-        additionalData:
-          type: object
-          description: Free form additional data
-          additionalProperties: true
-        parts:
-          type: array
-          items:
-            $ref: '#/components/schemas/DatasetPartCreateRequest'
     DatasetPartTypeEnum:
       type: string
       description: The dataset part Type
@@ -1419,53 +1466,6 @@ components:
       - File
       - DB
       default: File
-  parameters:
-    organizationId:
-      name: organization_id
-      in: path
-      description: the Organization identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^o-\w{10,20}
-    datasetPartId:
-      name: dataset_part_id
-      in: path
-      description: the Dataset part identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^dp-\w{10,20}
-    page:
-      name: page
-      in: query
-      description: Page number to query (first page is at index 0)
-      required: false
-      schema:
-        type: integer
-    size:
-      name: size
-      in: query
-      description: Amount of result by page
-      required: false
-      schema:
-        type: integer
-    workspaceId:
-      name: workspace_id
-      in: path
-      description: the Workspace identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^w-\w{10,20}
-    datasetId:
-      name: dataset_id
-      in: path
-      description: the Dataset identifier
-      required: true
-      schema:
-        type: string
-        pattern: ^d-\w{10,20}
   securitySchemes:
     oAuth2AuthCode:
       type: oauth2
